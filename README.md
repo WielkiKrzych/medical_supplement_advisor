@@ -1,167 +1,410 @@
-# Medical Supplement Advisor
+# 🧪 Medical Supplement Advisor
 
-Application for generating supplement recommendations based on blood test results.
+> Intelligent supplement recommendations based on your blood test results
 
-## Installation
+[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
+[![CI/CD](https://github.com/WielkiKrzych/medical_supplement_advisor/workflows/CI/badge.svg)](https://github.com/WielkiKrzych/medical_supplement_advisor/actions)
+[![Code Quality: Pylint](https://img.shields.io/badge/code%20quality-pylint%20%3E%3D9.0-brightgreen)](https://www.pylint.org/)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Coverage](https://img.shields.io/badge/coverage-comprehensive-brightgreen)](https://github.com/WielkiKrzych/medical_supplement_advisor)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Transform your blood test results into personalized supplement recommendations with a modern, intuitive interface.
+
+---
+
+## 📋 Table of Contents
+
+- [🚀 Quick Start](#-quick-start)
+- [✨ Features](#-features)
+- [📸 Screenshots](#-screenshots)
+- [📦 Installation](#-installation)
+- [🎯 Usage](#-usage)
+- [🏗️ Project Structure](#️-project-structure)
+- [🧪 Testing](#-testing)
+- [🛠️ Development](#️-development)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+
+---
+
+## 🚀 Quick Start
+
+Get up and running in under 5 minutes:
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/WielkiKrzych/medical_supplement_advisor.git
+cd medical_supplement-advisor
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run the application
+python src/main.py
+```
+
+That's it! 🎉 The GUI will launch and you can start analyzing your blood tests.
+
+**Expected Output**:
+- Interactive GUI with patient data input
+- Blood test result upload/parsing
+- Personalized supplement recommendations
+- PDF report generation
+
+---
+
+## ✨ Features
+
+### 🔬 Intelligent Analysis
+- **Automated Blood Test Analysis**: Compare your results against medical reference ranges
+- **Rule-Based Recommendations**: Advanced engine matches supplements to specific deficiencies
+- **Priority-Based Suggestions**: Supplements ordered by importance for your health
+
+### 📊 Comprehensive Data Management
+- **Multiple Input Formats**: Support for JSON, DOCX, and manual entry
+- **Flexible Patient Profiles**: Age, conditions, and health considerations
+- **Rich Reference Data**: Extensive supplement database with dosages and timing rules
+
+### 🎨 User-Friendly Interface
+- **Modern GUI**: Built with PyQt5 for a smooth desktop experience
+- **CLI Alternative**: Command-line interface for power users and automation
+- **PDF Reports**: Generate professional, printable supplement reports
+
+### 🛡️ Quality & Reliability
+- **Type-Safe Code**: 100% type annotated with Pydantic models
+- **Comprehensive Testing**: Extensive test coverage for core business logic
+- **CI/CD Pipeline**: Automated testing on every push and pull request
+- **Code Quality**: Enforced with Pylint, Black, and Isort
+
+### 🚀 Developer Experience
+- **Clean Architecture**: Well-organized, modular codebase
+- **Extensible Design**: Easy to add new rules, supplements, or input formats
+- **Documentation**: Inline docstrings and type hints throughout
+- **Build System**: PyInstaller configuration for standalone executables
+
+---
+
+## 📸 Screenshots
+
+> *Note: Screenshots will be added as the project evolves. For now, here's what you can expect:*
+
+### Main Application Window
+- Patient information entry
+- Blood test data input
+- Real-time validation
+
+### Recommendation Results
+- Supplement suggestions with priorities
+- Dosage and timing information
+- One-click PDF export
+
+### PDF Report Preview
+- Professional medical report
+- Supplement schedule
+- Visual deficiency indicators
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+- Python 3.11 or higher
+- pip package manager
+
+### Standard Installation
+
+```bash
+git clone https://github.com/WielkiKrzych/medical_supplement_advisor.git
 cd medical-supplement-advisor
 pip install -r requirements.txt
 ```
 
-## Usage
+### Development Installation
+
+For contributors who want to work on the codebase:
+
+```bash
+# Install development dependencies
+pip install -r requirements.txt
+pip install -e .
+
+# Verify installation
+pytest --version
+black --version
+```
+
+### Building Standalone Executable
+
+Create a portable executable:
+
+```bash
+python build_app.py
+```
+
+The executable will be generated in the `dist/` directory.
+
+---
+
+## 🎯 Usage
+
+### GUI Application
+
+Launch the graphical interface:
 
 ```bash
 python src/main.py
 ```
 
-## Project Structure
+**Workflow**:
+1. Enter patient information (name, age, medical conditions)
+2. Input blood test results (test name, value, unit)
+3. Click "Analyze" to process results
+4. Review supplement recommendations
+5. Export PDF report (optional)
+
+### CLI Application
+
+Use the command-line interface:
+
+```bash
+python src/main.py --input examples/sample_blood_tests.json --output recommendations.pdf
+```
+
+**Command Options**:
+- `--input`: Path to input file (JSON or DOCX)
+- `--output`: Path for output PDF report
+- `--format`: Input format (`json` or `docx`)
+
+### Input Format
+
+**JSON Example**:
+```json
+{
+  "patient": {
+    "name": "John",
+    "surname": "Doe",
+    "age": 45,
+    "medical_conditions": ["vitamin_d_deficiency"]
+  },
+  "blood_tests": [
+    {
+      "name": "Vitamin D",
+      "value": 15,
+      "unit": "ng/mL"
+    }
+  ]
+}
+```
+
+### Output Format
+
+The application generates a professional PDF report containing:
+- Patient information
+- Blood test analysis
+- Supplement recommendations (name, dosage, timing, priority)
+- Health notes and recommendations
+
+---
+
+## 🏗️ Project Structure
 
 ```
 medical-supplement-advisor/
-├── data/                          # Reference data (JSON)
-│   ├── reference_ranges.json      # Blood test reference ranges
-│   ├── supplements.json            # Supplement list with dosages
-│   ├── timing_rules.json           # Timing rules
-│   └── dosage_rules.json           # Dosage rules for conditions
-├── src/
-│   ├── models/                     # Data models
-│   ├── core/                       # Business logic
-│   │   ├── analyzer.py              # Blood test analysis
-│   │   ├── rule_engine.py          # Rule matching engine
-│   │   └── recommendation_engine.py # Recommendation generation
-│   ├── utils/                      # Utilities
-│   │   ├── exceptions.py            # Custom exception classes
-│   │   ├── validator.py            # Data validation
-│   │   ├── data_loader.py         # JSON data loading
-│   │   ├── formatter.py            # PDF report generation
-│   │   └── json_parser.py          # JSON input parsing
-│   └── main.py                     # Entry point
-├── tests/                          # Unit tests
-│   ├── test_analyzer.py          # Analyzer tests
-│   ├── test_rule_engine.py       # Rule engine tests
-│   └── test_recommendation_engine.py # Recommendation engine tests
-└── examples/                       # Sample data
+├── 📂 data/                    # Reference data
+│   ├── reference_ranges.json   # Blood test reference ranges
+│   ├── supplements.json        # Supplement database
+│   ├── timing_rules.json      # When to take supplements
+│   └── dosage_rules.json      # Dosage recommendations
+├── 📂 src/
+│   ├── 📂 models/            # Pydantic data models
+│   ├── 📂 core/              # Business logic
+│   │   ├── analyzer.py       # Blood test analysis
+│   │   ├── rule_engine.py    # Rule matching
+│   │   └── recommendation_engine.py  # Recommendations
+│   ├── 📂 utils/            # Helper utilities
+│   │   ├── exceptions.py     # Custom exceptions
+│   │   ├── validator.py      # Data validation
+│   │   ├── data_loader.py    # JSON loading
+│   │   ├── formatter.py     # PDF generation
+│   │   └── json_parser.py   # JSON parsing
+│   ├── 📂 gui/              # PyQt5 GUI
+│   │   ├── app.py           # Application entry
+│   │   └── main_window.py   # Main window
+│   └── main.py              # CLI entry point
+├── 📂 tests/                # Unit tests
+├── 📂 examples/              # Sample data
+├── 📂 .github/workflows/     # CI/CD pipelines
+├── 📄 config.py            # Configuration
+├── 📄 pyproject.toml       # Project metadata & tool config
+├── 📄 requirements.txt      # Dependencies
+└── 📄 README.md            # This file
 ```
 
-## Input
+---
 
-Blood test results with patient information:
-- Patient data: name, surname, age, medical conditions
-- Blood tests: test name, value, unit
+## 🧪 Testing
 
-## Output
-
-PDF report with:
-- Supplement recommendations
-- Dosage for each supplement
-- Timing (when to take)
-- Priority level
-
-## Quality & Development Tools
-
-The project uses modern Python development tools to maintain code quality:
-
-### Code Quality
-- **Pylint**: Static code analysis and error detection
-  - Configured in `.pylintrc`
-  - Runs in CI/CD pipeline
-  - Score threshold: 9.0
-- **Black**: Code formatter (PEP 8 compliant)
-  - Configured in `pyproject.toml`
-  - 100 character line length
-  - Runs in CI/CD pipeline
-- **Isort**: Import organizer
-  - Configured in `pyproject.toml`
-  - Compatible with Black formatting
-  - Runs in CI/CD pipeline
-
-### Testing
-- **Pytest**: Testing framework
-  - Parametrized test cases
-  - Fixture-based test setup
-  - Coverage reporting with `pytest-cov`
-  - HTML coverage reports
-
-### Continuous Integration
-- **GitHub Actions**: Automated CI/CD pipeline
-  - Runs on push and pull requests
-  - Multi-version Python testing (3.11, 3.12, 3.13)
-  - Automated linting and formatting checks
-  - Coverage uploads to Codecov
-
-### Documentation
-- **Docstrings**: Public API methods documented
-- **Type Hints**: Full type annotation coverage
-- **PEP 8**: Code style compliance
-
-## Testing
-
-### Running Tests
+### Run All Tests
 
 ```bash
-# Run all tests with coverage
+# Full test suite with coverage
 pytest --cov=src --cov-report=html:htmlcov --cov-report=term-missing tests/
 
-# Run specific test modules
+# View coverage report
+open htmlcov/index.html  # macOS
+xdg-open htmlcov/index.html  # Linux
+```
+
+### Run Specific Tests
+
+```bash
+# Analyzer tests
 pytest tests/test_analyzer.py -v
+
+# Rule engine tests
 pytest tests/test_rule_engine.py -v
+
+# Recommendation engine tests
 pytest tests/test_recommendation_engine.py -v
 ```
 
 ### Test Coverage
 
-The project has comprehensive test coverage for core business logic:
+The project maintains comprehensive test coverage:
 
-- **Analyzer** (`src/core/analyzer.py`): Tests blood test status determination
-- **RuleEngine** (`src/core/rule_engine.py`): Tests rule matching and application
-- **RecommendationEngine** (`src/core/recommendation_engine.py`): Tests recommendation generation
-- **Models** (`tests/test_analyzer.py`): Tests Pydantic data models
+| Module | Description | Tests |
+|--------|-------------|-------|
+| **Analyzer** | Blood test status determination | ✓ |
+| **RuleEngine** | Pattern matching for supplements | ✓ |
+| **RecommendationEngine** | Recommendation generation | ✓ |
+| **Models** | Pydantic data model validation | ✓ |
 
-Coverage reports are generated in `htmlcov/` directory and uploaded to CI.
+Coverage reports are automatically uploaded to CI.
 
-## Code Quality Improvements
+---
 
-Recent improvements to codebase:
+## 🛠️ Development
 
-1. **Custom Exception Classes**: Added dedicated exception types for better error handling
-   - `ValidationError`: Data structure validation errors
-   - `DataLoaderError`: JSON file loading errors
-   - `RuleEngineError`: Rule engine errors
-   - `AnalysisError`: Blood test analysis errors
+### Code Quality Tools
 
-2. **Enhanced Validation**: Refactored Validator to raise exceptions instead of returning booleans
-   - Proper error propagation to callers
-   - Clear error messages with context
+The project uses modern Python development tools:
 
-3. **Code Duplication Eliminated**: Single source of truth for priority ordering
-   - Added `PRIORITY_ORDER` to `config.py`
-   - Imported in both `RuleEngine` and `RecommendationEngine`
-   - Eliminated duplicate dictionary definitions
+| Tool | Purpose | Configuration |
+|------|---------|---------------|
+| **Black** | Code formatter | `pyproject.toml` (100 char line length) |
+| **Isort** | Import organizer | `pyproject.toml` (Black-compatible) |
+| **Pylint** | Static analysis | `.pylintrc` (Score ≥ 9.0) |
+| **Pytest** | Testing framework | `pyproject.toml` |
+| **MyPy** | Type checking | Configured in `pyproject.toml` |
 
-4. **Type Safety**: Optional parameters properly typed
-   - Exception fields use `str | None` union types
-   - Better IDE support and type checking
+### Development Workflow
 
-## Architecture
+```bash
+# 1. Make changes to code
+# 2. Run tests locally
+pytest
 
-The application follows a clean layered architecture:
+# 3. Check code quality
+pylint src/
+black --check src/
+isort --check-only src/
 
-- **Models**: Pydantic data models with automatic validation
-- **Core**: Business logic separated into specialized engines
-  - Analyzer: Blood test status determination
-  - RuleEngine: Pattern matching for supplements
-  - RecommendationEngine: Coordinated recommendation generation
-- **Utils**: Helper functions for I/O, validation, formatting
-- **Entry Points**: CLI (`src/main.py`) and GUI (`src/gui/app.py`)
+# 4. Commit changes
+git add .
+git commit -m "feat: add new feature"
 
-## Development Workflow
+# 5. Push to trigger CI/CD
+git push
+```
 
-1. Make changes to code
-2. Run local tests: `pytest`
-3. Check linting: `pylint src/`
-4. Check formatting: `black --check src/` && `isort --check-only src/`
-5. Commit changes with descriptive message
-6. Push to trigger CI/CD pipeline
+### Recent Improvements
 
-All quality checks run automatically in GitHub Actions.
+✨ **Custom Exception Classes**
+- `ValidationError`: Data structure validation
+- `DataLoaderError`: JSON file loading
+- `RuleEngineError`: Rule engine errors
+- `AnalysisError`: Blood test analysis
+
+✨ **Enhanced Validation**
+- Exception-based error handling
+- Clear error messages with context
+- Proper error propagation
+
+✨ **Code Quality**
+- Eliminated code duplication
+- Single source of truth for priority ordering
+- Full type safety with `str | None` unions
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+### How to Contribute
+
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Make your changes**
+   - Follow existing code style
+   - Add tests for new functionality
+   - Update documentation as needed
+4. **Run tests and quality checks**
+   ```bash
+   pytest
+   pylint src/
+   black --check src/
+   isort --check-only src/
+   ```
+5. **Commit your changes**
+   ```bash
+   git commit -m "feat: add your feature description"
+   ```
+6. **Push to your fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+7. **Create a Pull Request**
+
+### Contribution Guidelines
+
+- **Code Style**: Follow PEP 8, enforced by Black and Isort
+- **Type Hints**: Add type annotations to all new code
+- **Documentation**: Update docstrings for public APIs
+- **Tests**: Maintain test coverage above 80%
+- **Commits**: Use conventional commit messages (`feat:`, `fix:`, `docs:`, etc.)
+
+### Getting Help
+
+- Open an issue for bugs or feature requests
+- Join discussions for questions and ideas
+- Check existing issues before creating new ones
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Links
+
+- [GitHub Repository](https://github.com/WielkiKrzych/medical_supplement_advisor)
+- [Issues](https://github.com/WielkiKrzych/medical_supplement_advisor/issues)
+- [Pull Requests](https://github.com/WielkiKrzych/medical_supplement_advisor/pulls)
+- [Actions](https://github.com/WielkiKrzych/medical_supplement_advisor/actions)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for better health through intelligent supplement recommendations**
+
+[⬆ Back to Top](#-medical-supplement-advisor)
+
+</div>
