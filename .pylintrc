@@ -1,0 +1,44 @@
+[MASTER]
+py-version = 3.13
+max-line-length = 100
+max-args = 7
+ignore-paths = [
+    ".venv",
+    ".git",
+    "build",
+    "dist",
+]
+jobs = 10
+persistent = false
+suggestion-mode = "similarity"
+
+[MESSAGES CONTROL]
+disable = [
+    "C0111",  # Missing docstring for __init__
+    "C0103",  # Missing docstring for class
+    "C0114",  # Missing docstring for module
+    "C0115",  # Missing docstring for method
+    "C0116",  # Missing docstring for function
+    "R0903",  # Too few public methods
+    "R0913",  # Too many arguments
+]
+
+[FORMAT]
+max-line-length = 100
+
+[DESIGN]
+max-args = 7
+max-locals = 15
+max-returns = 6
+max-branches = 15
+max-statements = 50
+
+[BASIC]
+good-names = ["i", "j", "k", "ex", "hd", "n", "t", "v", "w", "x", "y", "z"]
+bad-names = ["foo", "bar", "baz", "toto", "tutu", "tata"]
+
+[IMPORTS]
+deprecated-modules = ["optparse", "tkinter"]
+
+[CLASSES]
+def-style-suffixes = ["_cb", "_cf", "_ef", "_if", "_lf", "_nf", "_sf", "_wb"]

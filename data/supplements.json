@@ -1,0 +1,74 @@
+{
+  "supplements": [
+    {
+      "id": "vit_d3",
+      "name": "Witamina D3 (cholekalcyferol)",
+      "condition": "vitamin_d_deficiency"
+    },
+    {
+      "id": "vit_b12",
+      "name": "Witamina B12 (cyjanokobalamina)",
+      "condition": "vitamin_b12_deficiency"
+    },
+    {
+      "id": "vit_b9",
+      "name": "Kwas foliowy (Witamina B9)",
+      "condition": "folate_deficiency"
+    },
+    {
+      "id": "iron",
+      "name": "Żelazo (bisały gluconian)",
+      "condition": "iron_deficiency"
+    },
+    {
+      "id": "vit_c",
+      "name": "Witamina C (kwas askorbinowy)",
+      "condition": "vitamin_c_deficiency"
+    },
+    {
+      "id": "calcium",
+      "name": "Wapń (węglan wapnia)",
+      "condition": "calcium_deficiency"
+    },
+    {
+      "id": "magnesium",
+      "name": "Magnez (cytrynian magnezu)",
+      "condition": "magnesium_deficiency"
+    },
+    {
+      "id": "zinc",
+      "name": "Cynk (pikolinian cynku)",
+      "condition": "zinc_deficiency"
+    },
+    {
+      "id": "selenium",
+      "name": "Selen (selenometionina)",
+      "condition": "selenium_deficiency"
+    },
+    {
+      "id": "vit_a",
+      "name": "Witamina A (retinol)",
+      "condition": "vitamin_a_deficiency"
+    },
+    {
+      "id": "vit_e",
+      "name": "Witamina E (d-alfa-tokoferol)",
+      "condition": "vitamin_e_deficiency"
+    },
+    {
+      "id": "iodine",
+      "name": "Jod (jodek potasu)",
+      "condition": "iodine_deficiency"
+    },
+    {
+      "id": "potassium",
+      "name": "Potas (cytrynian potasu)",
+      "condition": "potassium_deficiency"
+    },
+    {
+      "id": "omega_3",
+      "name": "Kwasy Omega-3 (EPA/DHA)",
+      "condition": "inflammation"
+    }
+  ]
+}

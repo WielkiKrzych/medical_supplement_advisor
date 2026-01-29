@@ -1,0 +1,347 @@
+{
+  "dosage_rules": [
+    {
+      "id": "vit_d_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina D (25-OH)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "2000 IU dziennie",
+          "priority": "critical",
+          "reason": "Niedobór witaminy D (poniżej 30 ng/mL)"
+        }
+      ]
+    },
+    {
+      "id": "vit_d_very_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina D (25-OH)",
+      "test_value_range": { "max": 20 },
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "5000 IU dziennie przez 8 tygodni, potem 2000 IU",
+          "priority": "critical",
+          "reason": "Poważny niedobór witaminy D (poniżej 20 ng/mL)"
+        }
+      ]
+    },
+    {
+      "id": "b12_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina B12",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_b12",
+          "dosage": "1000 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy B12"
+        }
+      ]
+    },
+    {
+      "id": "b9_low",
+      "condition_type": "single_test",
+      "test_name": "Kwas foliowy (Witamina B9)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_b9",
+          "dosage": "400 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór kwasu foliowego"
+        }
+      ]
+    },
+    {
+      "id": "iron_low",
+      "condition_type": "single_test",
+      "test_name": "Żelazo",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "14-18 mg dziennie",
+          "priority": "critical",
+          "reason": "Niedobór żelaza"
+        }
+      ]
+    },
+    {
+      "id": "iron_very_low",
+      "condition_type": "single_test",
+      "test_name": "Żelazo",
+      "test_value_range": { "max": 50 },
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "50-65 mg dziennie",
+          "priority": "critical",
+          "reason": "Poważny niedobór żelaza (anemia)"
+        }
+      ]
+    },
+    {
+      "id": "ferritin_low",
+      "condition_type": "single_test",
+      "test_name": "Ferrytyna",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "14-18 mg dziennie",
+          "priority": "critical",
+          "reason": "Niski poziom ferrytyny (magazyn żelaza)"
+        }
+      ]
+    },
+    {
+      "id": "vit_c_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina C",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_c",
+          "dosage": "500-1000 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy C"
+        }
+      ]
+    },
+    {
+      "id": "calcium_low",
+      "condition_type": "single_test",
+      "test_name": "Wapń (Ca)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "calcium",
+          "dosage": "500-600 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór wapnia"
+        }
+      ]
+    },
+    {
+      "id": "magnesium_low",
+      "condition_type": "single_test",
+      "test_name": "Magnez (Mg)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "magnesium",
+          "dosage": "200-400 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór magnezu"
+        }
+      ]
+    },
+    {
+      "id": "zinc_low",
+      "condition_type": "single_test",
+      "test_name": "Cynk",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "zinc",
+          "dosage": "15-25 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór cynku"
+        }
+      ]
+    },
+    {
+      "id": "selenium_low",
+      "condition_type": "single_test",
+      "test_name": "Selen",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "selenium",
+          "dosage": "100-200 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór selenu"
+        }
+      ]
+    },
+    {
+      "id": "vit_a_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina A",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_a",
+          "dosage": "2500-5000 IU dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy A"
+        }
+      ]
+    },
+    {
+      "id": "vit_e_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina E",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_e",
+          "dosage": "15-30 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy E"
+        }
+      ]
+    },
+    {
+      "id": "iodine_low",
+      "condition_type": "single_test",
+      "test_name": "Jod",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "iodine",
+          "dosage": "150-300 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór jodu"
+        }
+      ]
+    },
+    {
+      "id": "potassium_low",
+      "condition_type": "single_test",
+      "test_name": "Potas (K)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "potassium",
+          "dosage": "100-200 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór potasu"
+        }
+      ]
+    },
+    {
+      "id": "anemia_pattern",
+      "condition_type": "combination",
+      "tests": [
+        { "name": "Żelazo", "status": "low" },
+        { "name": "Ferrytyna", "status": "low" }
+      ],
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "50-65 mg dziennie",
+          "priority": "critical",
+          "reason": "Wzorzec anemii z niedoboru żelaza"
+        },
+        {
+          "supplement_id": "vit_c",
+          "dosage": "500 mg dziennie",
+          "priority": "high",
+          "reason": "Witamina C poprawia wchłanianie żelaza"
+        }
+      ]
+    },
+    {
+      "id": "bone_health_pattern",
+      "condition_type": "combination",
+      "tests": [
+        { "name": "Witamina D (25-OH)", "status": "low" },
+        { "name": "Wapń (Ca)", "status": "low" }
+      ],
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "2000-5000 IU dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie zdrowia kości - niedobór witaminy D i wapnia"
+        },
+        {
+          "supplement_id": "calcium",
+          "dosage": "500-600 mg dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie zdrowia kości"
+        },
+        {
+          "supplement_id": "magnesium",
+          "dosage": "200-400 mg dziennie",
+          "priority": "high",
+          "reason": "Magnez wspomaga wchłanianie wapnia"
+        }
+      ]
+    },
+    {
+      "id": "thyroid_support",
+      "condition_type": "patient_condition",
+      "condition": "hypothyroidism",
+      "supplements": [
+        {
+          "supplement_id": "iodine",
+          "dosage": "150 mcg dziennie",
+          "priority": "high",
+          "reason": "Wsparcie tarczycy - niedoczynność"
+        },
+        {
+          "supplement_id": "selenium",
+          "dosage": "200 mcg dziennie",
+          "priority": "high",
+          "reason": "Selen wspomaga konwersję hormonów tarczycy"
+        }
+      ]
+    },
+    {
+      "id": "inflammation_support",
+      "condition_type": "patient_condition",
+      "condition": "inflammation",
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "1000-2000 mg dziennie (EPA/DHA)",
+          "priority": "medium",
+          "reason": "Wsparcie przy stanach zapalnych"
+        },
+        {
+          "supplement_id": "vit_c",
+          "dosage": "500 mg dziennie",
+          "priority": "medium",
+          "reason": "Witamina C - przeciwutleniacz"
+        }
+      ]
+    },
+    {
+      "id": "bone_density_support",
+      "condition_type": "patient_condition",
+      "condition": "osteoporosis",
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "4000 IU dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie gęstości kości - osteoporoza"
+        },
+        {
+          "supplement_id": "calcium",
+          "dosage": "600-800 mg dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie gęstości kości"
+        },
+        {
+          "supplement_id": "magnesium",
+          "dosage": "400 mg dziennie",
+          "priority": "high",
+          "reason": "Magnez dla zdrowia kości"
+        },
+        {
+          "supplement_id": "vit_k2",
+          "dosage": "45-180 mcg dziennie",
+          "priority": "high",
+          "reason": "Witamina K2 wspomaga wchłanianie wapnia do kości"
+        }
+      ]
+    }
+  ]
+}

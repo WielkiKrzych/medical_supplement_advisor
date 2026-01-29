@@ -1,0 +1,100 @@
+{
+  "reference_ranges": [
+    {
+      "name": "Witamina D (25-OH)",
+      "min": 30.0,
+      "max": 100.0,
+      "unit": "ng/mL"
+    },
+    {
+      "name": "Witamina B12",
+      "min": 197.0,
+      "max": 866.0,
+      "unit": "pg/mL"
+    },
+    {
+      "name": "Kwas foliowy (Witamina B9)",
+      "min": 3.0,
+      "max": 17.0,
+      "unit": "ng/mL"
+    },
+    {
+      "name": "Żelazo",
+      "min": 60.0,
+      "max": 170.0,
+      "unit": "ug/dL"
+    },
+    {
+      "name": "Ferrytyna",
+      "min": 30.0,
+      "max": 300.0,
+      "unit": "ng/mL"
+    },
+    {
+      "name": "Transferryna",
+      "min": 200.0,
+      "max": 360.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Witamina C",
+      "min": 0.4,
+      "max": 2.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Wapń (Ca)",
+      "min": 8.5,
+      "max": 10.2,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Magnez (Mg)",
+      "min": 1.7,
+      "max": 2.2,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Cynk",
+      "min": 70.0,
+      "max": 120.0,
+      "unit": "ug/dL"
+    },
+    {
+      "name": "Selen",
+      "min": 70.0,
+      "max": 150.0,
+      "unit": "ug/L"
+    },
+    {
+      "name": "Witamina A",
+      "min": 30.0,
+      "max": 80.0,
+      "unit": "ug/dL"
+    },
+    {
+      "name": "Witamina E",
+      "min": 5.5,
+      "max": 18.0,
+      "unit": "mg/L"
+    },
+    {
+      "name": "Jod",
+      "min": 40.0,
+      "max": 92.0,
+      "unit": "ug/L"
+    },
+    {
+      "name": "Potas (K)",
+      "min": 3.5,
+      "max": 5.1,
+      "unit": "mmol/L"
+    },
+    {
+      "name": "Sód (Na)",
+      "min": 135.0,
+      "max": 145.0,
+      "unit": "mmol/L"
+    }
+  ]
+}
