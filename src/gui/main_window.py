@@ -25,6 +25,7 @@ from src.utils.validator import Validator
 from src.core.recommendation_engine import RecommendationEngine
 from src.utils.formatter import PDFFormatter
 from src.utils.data_loader import DataLoader
+from src.utils.document_parser import DocumentParser
 from config import DATA_DIR, OUTPUT_DIR
 
 
@@ -34,7 +35,9 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Medical Supplement Advisor")
         self.setMinimumSize(700, 500)
         self.json_parser = JSONParser()
+        self.document_parser = DocumentParser()
         self.selected_json_file = None
+        self.selected_document_file = None
         self.output_pdf_path = None
 
         self.init_ui()
@@ -55,8 +58,9 @@ class MainWindow(QMainWindow):
         layout.addWidget(title_label)
 
         description_label = QLabel(
-            "Wybierz plik JSON z danymi pacjenta i wynikami badań krwi "
-            "aby wygenerować rekomendację suplementacji."
+            "Wybierz plik z wynikami badań (JSON, PDF lub DOCX) "
+            "aby wygenerować rekomendację suplementacji.\n"
+            "Dokumenty PDF i DOCX zostaną automatycznie przetworzone."
         )
         description_label.setWordWrap(True)
         description_label.setAlignment(Qt.AlignCenter)
@@ -68,7 +72,7 @@ class MainWindow(QMainWindow):
 
         file_selector_layout = QHBoxLayout()
         self.file_path_edit = QLineEdit()
-        self.file_path_edit.setPlaceholderText("Wybierz plik JSON...")
+        self.file_path_edit.setPlaceholderText("Wybierz plik (JSON, PDF lub DOCX)...")
         self.file_path_edit.setReadOnly(True)
         file_selector_layout.addWidget(self.file_path_edit)
 
@@ -112,24 +116,57 @@ class MainWindow(QMainWindow):
 
     def browse_json_file(self):
         file_path, _ = QFileDialog.getOpenFileName(
-            self, "Wybierz plik JSON", "", "Pliki JSON (*.json);;Wszystkie pliki (*)"
+            self,
+            "Wybierz plik z wynikami badań",
+            "",
+            "Wszystkie obsługiwane formaty (*.json *.pdf *.docx);;Pliki JSON (*.json);;Dokumenty PDF (*.pdf);;Dokumenty Word (*.docx);;Wszystkie pliki (*)",
         )
         if file_path:
-            self.selected_json_file = Path(file_path)
+            file_path_obj = Path(file_path)
+            file_ext = file_path_obj.suffix.lower()
+
+            if file_ext == ".json":
+                self.selected_json_file = file_path_obj
+                self.selected_document_file = None
+            elif file_ext in [".pdf", ".docx"]:
+                self.selected_document_file = file_path_obj
+                self.selected_json_file = None
+            else:
+                self.status_text.clear()
+                self.status_text.append(f"Nieobsługiwany format pliku: {file_ext}")
+                return
+
             self.file_path_edit.setText(file_path)
             self.generate_button.setEnabled(True)
             self.status_text.clear()
-            self.status_text.append(f"Wybrano plik: {self.selected_json_file.name}")
+            self.status_text.append(f"Wybrano plik: {file_path_obj.name}")
+
+            # Show file type info
+            if file_ext in [".pdf", ".docx"]:
+                self.status_text.append(
+                    "Format: Dokument - zostanie automatycznie przekonwertowany"
+                )
+            else:
+                self.status_text.append("Format: JSON")
 
     def generate_pdf(self):
-        if not self.selected_json_file:
+        if not self.selected_json_file and not self.selected_document_file:
             return
 
         self.generate_button.setEnabled(False)
         self.status_text.append("Ładowanie danych...")
 
         try:
-            parsed_data = self.json_parser.parse_document(self.selected_json_file)
+            # Parse based on file type
+            if self.selected_document_file:
+                self.status_text.append("Przetwarzanie dokumentu (PDF/DOCX)...")
+                parsed_data = self.document_parser.parse_document(
+                    self.selected_document_file
+                )
+            else:
+                self.status_text.append("Przetwarzanie pliku JSON...")
+                parsed_data = self.json_parser.parse_document(self.selected_json_file)
+
             patient_data = parsed_data.get("patient")
             blood_tests_data = parsed_data.get("blood_tests")
 
