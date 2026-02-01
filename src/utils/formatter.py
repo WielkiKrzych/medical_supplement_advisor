@@ -90,17 +90,17 @@ class PDFFormatter:
             )
             elements.append(Spacer(1, 0.5 * cm))
 
-            # Create cell style for text wrapping
+            # Create cell style for text wrapping - LTR wraps only at word boundaries
             cell_style = ParagraphStyle(
                 "TableCell",
                 parent=self.styles["Normal"],
                 fontName=self.font_name,
                 fontSize=9,
                 leading=12,
-                wordWrap="CJK",
+                wordWrap="LTR",
             )
 
-            # Header style
+            # Header style - no word wrapping, keep on single line
             header_style = ParagraphStyle(
                 "TableHeader",
                 parent=self.styles["Normal"],
@@ -108,7 +108,7 @@ class PDFFormatter:
                 fontSize=9,
                 leading=12,
                 textColor=colors.whitesmoke,
-                wordWrap="CJK",
+                wordWrap="LTR",
             )
 
             table_data = [
@@ -135,14 +135,15 @@ class PDFFormatter:
                 table_data.append(row)
 
             # Calculate column widths based on page width
-            page_width = A4[0] - 5 * cm  # A4 width minus margins
+            # Ensure headers fit on single line
+            page_width = A4[0] - 5 * cm
             col_widths = [
-                0.6 * cm,
+                0.8 * cm,
                 3.0 * cm,
-                2.5 * cm,
-                2.5 * cm,
-                1.8 * cm,
-                page_width - 10.4 * cm,
+                2.8 * cm,
+                3.0 * cm,
+                2.0 * cm,
+                page_width - 11.6 * cm,
             ]
 
             table = Table(
