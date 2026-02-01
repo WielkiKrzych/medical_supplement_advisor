@@ -473,16 +473,44 @@ class DocumentParser:
             Tuple of (PatientData, List[BloodTest])
         """
         # Extract patient information using regex
-        name_match = re.search(r"[Ii]mi[ęe][:\s]+([A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+)", text)
-        surname_match = re.search(
-            r"[Nn]azwisko[:\s]+([A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+)", text
+        # Try "Pacjent: SURNAME NAME" format first (common in Polish lab reports)
+        # Format: "Pacjent BARWIŃSKI MARCIN" or "Pacjent: BARWIŃSKI MARCIN"
+        patient_match = re.search(
+            r"Pacjent[:\s]+(\S+)\s+(\S+)",
+            text,
         )
-        age_match = re.search(r"[Ww]iek[:\s]+(\d+)", text)
+
+        if patient_match:
+            surname = patient_match.group(1).strip()
+            name = patient_match.group(2).strip()
+        else:
+            # Fallback to "Imię:/Nazwisko:" format
+            name_match = re.search(
+                r"[Ii]mi[ęe][:\s]+([A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+)", text
+            )
+            surname_match = re.search(
+                r"[Nn]azwisko[:\s]+([A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+)", text
+            )
+            name = name_match.group(1) if name_match else ""
+            surname = surname_match.group(1) if surname_match else ""
+
+        # Try to extract age from birth date
+        birth_date_match = re.search(
+            r"Data\s+urodzenia[:\s]+(\d{4})-(\d{2})-(\d{2})", text
+        )
+        if birth_date_match:
+            from datetime import datetime
+
+            birth_year = int(birth_date_match.group(1))
+            age = datetime.now().year - birth_year
+        else:
+            age_match = re.search(r"[Ww]iek[:\s]+(\d+)", text)
+            age = int(age_match.group(1)) if age_match else 0
 
         patient_data = PatientData(
-            name=name_match.group(1) if name_match else "",
-            surname=surname_match.group(1) if surname_match else "",
-            age=int(age_match.group(1)) if age_match else 0,
+            name=name,
+            surname=surname,
+            age=age,
             conditions=[],
         )
 
@@ -513,11 +541,19 @@ class DocumentParser:
             r"triglicerydy",
         ]
 
-        # Pattern 1: "Test Name: Value Unit" (with colon)
-        test_pattern_1 = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż\s\.\-()]+?)[:\s]+([\d.,]+)\s*([a-zA-Z/%\*\^\s]*)"
+        # Pattern 1: "Test Name (ICD-9: XXX) value unit" format (common in Diagnostyka reports)
+        test_pattern_icd = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż\s\.\-\(\)]+?)(?:\s*\(ICD-9:[^\)]+\))?\s+([\d.,]+)\s*([a-zA-Ząćęłńóśźż/%\*\^\s]*)"
 
-        # Pattern 2: Table-like format with rows
-        test_pattern_2 = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż\s\.\-()]+?)\s+([\d.,]+)\s+([a-zA-Z/%\*\^]+)"
+        # Pattern 2: "Test Name: Value Unit" (with colon)
+        test_pattern_1 = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż\s\.\-\(\)]+?)[:\s]+([\d.,]+)\s*([a-zA-Ząćęłńóśźż/%\*\^\s]*)"
+
+        # Pattern 3: Table-like format with rows
+        test_pattern_2 = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż\s\.\-\(\)]+?)\s+([\d.,]+)\s+([a-zA-Ząćęłńóśźż/%\*\^]+)"
+
+        # Try ICD pattern first (most specific for lab reports)
+        for match in re.finditer(test_pattern_icd, text):
+            if self._add_blood_test_from_match(match, blood_tests, valid_keywords):
+                continue
 
         for match in re.finditer(test_pattern_1, text):
             if self._add_blood_test_from_match(match, blood_tests, valid_keywords):
