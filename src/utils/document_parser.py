@@ -41,6 +41,7 @@ except ImportError:
     OCR_AVAILABLE = False
 
 from src.utils.exceptions import DataLoaderError
+from config import DEFAULT_PATIENT_NAME, DEFAULT_PATIENT_SURNAME, DEFAULT_PATIENT_AGE
 
 
 @dataclass
@@ -133,14 +134,14 @@ class DocumentParser:
             )
 
         if not result["patient"]["name"] and not result["patient"]["surname"]:
-            result["patient"]["name"] = "Pacjent"
-            result["patient"]["surname"] = "Z pliku PDF"
+            result["patient"]["name"] = DEFAULT_PATIENT_NAME
+            result["patient"]["surname"] = DEFAULT_PATIENT_SURNAME
 
         if not result["patient"]["surname"]:
-            result["patient"]["surname"] = " "
+            result["patient"]["surname"] = DEFAULT_PATIENT_SURNAME
 
         if result["patient"]["age"] == 0:
-            result["patient"]["age"] = 35
+            result["patient"]["age"] = DEFAULT_PATIENT_AGE
 
         return result
 
@@ -330,15 +331,6 @@ class DocumentParser:
             raise DataLoaderError(f"Failed to extract blood tests: {str(e)}")
 
     def _parse_blood_test_row(self, cells: List[str]) -> Optional[BloodTest]:
-        """
-        Parse a single blood test row.
-
-        Args:
-            cells: List of cell values [name, value, unit]
-
-        Returns:
-            BloodTest object or None if parsing fails
-        """
         try:
             name = cells[0].strip()
             value_str = cells[1].strip()
@@ -347,71 +339,42 @@ class DocumentParser:
             if not name or not value_str:
                 return None
 
-            # Clean up value string and convert to float
-            value_str = re.sub(r"[^\d.,-]", "", value_str)
-            value_str = value_str.replace(",", ".")  # Handle European format
-            value = float(value_str)
+            value = self._parse_numeric_value(value_str)
+            if value is None:
+                return None
 
             return BloodTest(name=name, value=value, unit=unit)
 
         except (ValueError, IndexError):
-            # Skip rows that cannot be parsed
+            return None
+
+    def _parse_numeric_value(self, value_str: str) -> Optional[float]:
+        """Parse numeric value from string with validation."""
+        cleaned = re.sub(r"[^\d.,\-]", "", value_str)
+
+        if not cleaned:
+            return None
+
+        decimal_points = cleaned.count(".") + cleaned.count(",")
+        if decimal_points > 1:
+            return None
+
+        minus_count = cleaned.count("-")
+        if minus_count > 1 or (minus_count == 1 and not cleaned.startswith("-")):
+            return None
+
+        cleaned = cleaned.replace(",", ".")
+
+        try:
+            return float(cleaned)
+        except ValueError:
             return None
 
     def _extract_from_text(self, pdf) -> tuple:
-        """
-        Fallback method: Extract data from PDF text content.
-
-        This uses regex patterns to find patient data and blood test results
-        in plain text format.
-
-        Args:
-            pdf: pdfplumber PDF object
-
-        Returns:
-            Tuple of (PatientData, List[BloodTest])
-        """
-        # Extract all text from PDF
         full_text = ""
         for page in pdf.pages:
             full_text += page.extract_text() + "\n"
-
-        # Extract patient information using regex
-        # Pattern: "Imię: Jan Nazwisko: Nowak Wiek: 42"
-        name_match = re.search(
-            r"[Ii]mi[ęe][:\s]+([A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+)", full_text
-        )
-        surname_match = re.search(
-            r"[Nn]azwisko[:\s]+([A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+)", full_text
-        )
-        age_match = re.search(r"[Ww]iek[:\s]+(\d+)", full_text)
-
-        patient_data = PatientData(
-            name=name_match.group(1) if name_match else "",
-            surname=surname_match.group(1) if surname_match else "",
-            age=int(age_match.group(1)) if age_match else 0,
-            conditions=[],
-        )
-
-        # Extract blood tests using regex
-        # Pattern: "Vitamina D: 22 ng/mL"
-        blood_tests = []
-        test_pattern = (
-            r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż\s()]+?)[:\s]+([\d.,]+)\s*([a-zA-Z/%\s]+)"
-        )
-
-        for match in re.finditer(test_pattern, full_text):
-            try:
-                name = match.group(1).strip()
-                value_str = match.group(2).replace(",", ".")
-                value = float(value_str)
-                unit = match.group(3).strip()
-
-                blood_tests.append(BloodTest(name=name, value=value, unit=unit))
-            except (ValueError, IndexError):
-                continue
-
-        return patient_data, blood_tests
+        return self._parse_text_content(full_text)
 
     def _is_text_garbled(self, text: str) -> bool:
         """
@@ -465,24 +428,21 @@ class DocumentParser:
             )
 
         try:
-            doc = fitz.open(str(file_path))
+            with fitz.open(str(file_path)) as doc:
+                # Extract text from all pages using OCR
+                full_text = ""
+                for page_num, page in enumerate(doc):
+                    # Convert page to image
+                    mat = fitz.Matrix(2.0, 2.0)
+                    pix = page.get_pixmap(matrix=mat)
+                    img_data = pix.tobytes("png")
+                    img = Image.open(io.BytesIO(img_data))
 
-            # Extract text from all pages using OCR
-            full_text = ""
-            for page_num, page in enumerate(doc):
-                # Convert page to image
-                mat = fitz.Matrix(2.0, 2.0)  # 2x zoom for better OCR
-                pix = page.get_pixmap(matrix=mat)
-                img_data = pix.tobytes("png")
-                img = Image.open(io.BytesIO(img_data))
-
-                # Perform OCR with Polish language
-                page_text = pytesseract.image_to_string(
-                    img, lang="pol", config="--psm 6"
-                )
-                full_text += page_text + "\n"
-
-            doc.close()
+                    # Perform OCR with Polish language
+                    page_text = pytesseract.image_to_string(
+                        img, lang="pol", config="--psm 6"
+                    )
+                    full_text += page_text + "\n"
 
             # Check if OCR produced usable text
             if not full_text.strip():
@@ -642,4 +602,3 @@ class DocumentParser:
             pass
 
         return False
-
