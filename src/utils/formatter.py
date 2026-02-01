@@ -90,32 +90,64 @@ class PDFFormatter:
             )
             elements.append(Spacer(1, 0.5 * cm))
 
+            # Create cell style for text wrapping
+            cell_style = ParagraphStyle(
+                "TableCell",
+                parent=self.styles["Normal"],
+                fontName=self.font_name,
+                fontSize=9,
+                leading=12,
+                wordWrap="CJK",
+            )
+
+            # Header style
+            header_style = ParagraphStyle(
+                "TableHeader",
+                parent=self.styles["Normal"],
+                fontName=self.font_name_bold,
+                fontSize=9,
+                leading=12,
+                textColor=colors.whitesmoke,
+                wordWrap="CJK",
+            )
+
             table_data = [
                 [
-                    "Lp.",
-                    "Suplement",
-                    "Dawkowanie",
-                    "Pora przyjmowania",
-                    "Priorytet",
-                    "Powód",
+                    Paragraph("Lp.", header_style),
+                    Paragraph("Suplement", header_style),
+                    Paragraph("Dawkowanie", header_style),
+                    Paragraph("Pora przyjmowania", header_style),
+                    Paragraph("Priorytet", header_style),
+                    Paragraph("Powód", header_style),
                 ]
             ]
 
             for idx, supplement in enumerate(recommendation.supplements, 1):
                 priority_display = self._get_priority_display(supplement.priority)
                 row = [
-                    str(idx),
-                    supplement.name,
-                    supplement.dosage,
-                    supplement.timing,
-                    priority_display,
-                    supplement.reason,
+                    Paragraph(str(idx), cell_style),
+                    Paragraph(supplement.name, cell_style),
+                    Paragraph(supplement.dosage, cell_style),
+                    Paragraph(supplement.timing, cell_style),
+                    Paragraph(priority_display, cell_style),
+                    Paragraph(supplement.reason, cell_style),
                 ]
                 table_data.append(row)
 
+            # Calculate column widths based on page width
+            page_width = A4[0] - 5 * cm  # A4 width minus margins
+            col_widths = [
+                0.6 * cm,
+                3.0 * cm,
+                2.5 * cm,
+                2.5 * cm,
+                1.8 * cm,
+                page_width - 10.4 * cm,
+            ]
+
             table = Table(
                 table_data,
-                colWidths=[0.8 * cm, 3.5 * cm, 3.2 * cm, 3.2 * cm, 2 * cm, 5.5 * cm],
+                colWidths=col_widths,
                 repeatRows=1,
                 hAlign="LEFT",
             )
@@ -125,15 +157,19 @@ class PDFFormatter:
                         ("BACKGROUND", (0, 0), (-1, 0), colors.grey),
                         ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
                         ("ALIGN", (0, 0), (-1, -1), "LEFT"),
-                        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
                         ("FONTNAME", (0, 0), (-1, 0), self.font_name_bold),
                         ("FONTNAME", (0, 1), (-1, -1), self.font_name),
-                        ("FONTSIZE", (0, 0), (-1, 0), 10),
-                        ("BOTTOMPADDING", (0, 0), (-1, 0), 12),
-                        ("TOPPADDING", (0, 0), (-1, -1), 8),
+                        ("FONTSIZE", (0, 0), (-1, 0), 9),
+                        ("FONTSIZE", (0, 1), (-1, -1), 9),
+                        ("BOTTOMPADDING", (0, 0), (-1, 0), 8),
+                        ("TOPPADDING", (0, 0), (-1, 0), 8),
+                        ("BOTTOMPADDING", (0, 1), (-1, -1), 6),
+                        ("TOPPADDING", (0, 1), (-1, -1), 6),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 4),
+                        ("RIGHTPADDING", (0, 0), (-1, -1), 4),
                         ("BACKGROUND", (0, 1), (-1, -1), colors.beige),
-                        ("GRID", (0, 0), (-1, -1), 1, colors.black),
-                        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                        ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
                     ]
                 )
             )
