@@ -225,7 +225,45 @@ class MainWindow(QMainWindow):
             self.generate_button.setEnabled(True)
 
     def open_pdf(self):
-        if self.output_pdf_path and self.output_pdf_path.exists():
-            import subprocess
+        """Open the generated PDF file with the default system application."""
+        if not self.output_pdf_path or not self.output_pdf_path.exists():
+            QMessageBox.warning(self, "Ostrzeżenie", "Plik PDF nie istnieje.")
+            return
 
-            subprocess.run(["open", str(self.output_pdf_path)])
+        # Validate that the path is within the expected output directory
+        try:
+            from config import OUTPUT_DIR
+
+            resolved_path = self.output_pdf_path.resolve()
+            resolved_output_dir = OUTPUT_DIR.resolve()
+            if not str(resolved_path).startswith(str(resolved_output_dir)):
+                QMessageBox.critical(
+                    self,
+                    "Błąd bezpieczeństwa",
+                    "Ścieżka pliku jest poza dozwolonym katalogiem.",
+                )
+                return
+        except Exception:
+            # If validation fails, don't proceed
+            QMessageBox.critical(self, "Błąd", "Nie można zweryfikować ścieżki pliku.")
+            return
+
+        import subprocess
+        import platform
+
+        try:
+            system = platform.system()
+            if system == "Darwin":  # macOS
+                subprocess.run(["open", str(self.output_pdf_path)], check=True)
+            elif system == "Windows":
+                subprocess.run(
+                    ["start", "", str(self.output_pdf_path)], shell=True, check=True
+                )
+            else:  # Linux and other Unix-like
+                subprocess.run(["xdg-open", str(self.output_pdf_path)], check=True)
+        except subprocess.CalledProcessError as e:
+            QMessageBox.critical(self, "Błąd", f"Nie można otworzyć pliku PDF: {e}")
+        except Exception as e:
+            QMessageBox.critical(
+                self, "Błąd", f"Wystąpił błąd podczas otwierania pliku: {e}"
+            )
