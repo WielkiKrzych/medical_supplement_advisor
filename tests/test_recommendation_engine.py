@@ -23,25 +23,6 @@ def reference_ranges():
     }
 
 
-@pytest.fixture
-def supplements():
-    return {
-        "supplements": [
-            {"id": "vit_d3", "name": "Witamina D3"},
-            {"id": "vit_b12", "name": "Witamina B12"},
-            {"id": "iron", "name": "Żelazo"},
-        ]
-    }
-
-
-@pytest.fixture
-def timing_rules():
-    return {
-        "timing_rules": {"vit_d3": "with_meal", "vit_b12": "with_meal"},
-        "timing_display": {"with_meal": "Z posiłkiem", "empty": "Dowolnie"},
-    }
-
-
 from typing import Any, Dict, cast
 
 
@@ -58,6 +39,11 @@ def supplements():
                 "id": "vit_b12",
                 "name": "Witamina B12",
                 "condition": "niedobór witaminy B12",
+            },
+            {
+                "id": "iron",
+                "name": "Żelazo",
+                "condition": "niedobór żelaza",
             },
         ]
     }
@@ -94,12 +80,22 @@ def rules_data():
 
 
 @pytest.fixture
-def recommendation_engine(full_data):
+def full_data(reference_ranges, supplements, timing_rules, rules_data):
+    return {
+        "reference_ranges": reference_ranges,
+        "supplements": supplements,
+        "timing_rules": timing_rules,
+        "dosage_rules": rules_data,
+    }
+
+
+@pytest.fixture
+def recommendation_engine(reference_ranges, supplements, timing_rules, rules_data):
     return RecommendationEngine(
-        full_data["reference_ranges"],
-        full_data["supplements"],
-        full_data["timing_rules"],
-        full_data["dosage_rules"],
+        reference_ranges,
+        supplements,
+        timing_rules,
+        rules_data,
     )
 
 
@@ -213,31 +209,54 @@ def test_recommendation_engine_no_recommendations_for_normal_tests(
     assert len(recommendation.supplements) == 0
 
 
-def test_recommendation_engine_merges_duplicate_supplements(recommendation_engine):
+def test_recommendation_engine_merges_duplicate_supplements(sample_patient):
     """Test that duplicate supplements are properly handled."""
-    rules = [
-        {
-            "id": "rule1",
-            "condition_type": "single_test",
-            "test_name": "Test",
-            "test_status": "low",
-            "supplements": [
-                {"supplement_id": "s1", "dosage": "10mg", "priority": "low"}
-            ],
-        },
-        {
-            "id": "rule2",
-            "condition_type": "single_test",
-            "test_name": "Test",
-            "test_status": "low",
-            "supplements": [
-                {"supplement_id": "s1", "dosage": "20mg", "priority": "high"}
-            ],
-        },
-    ]
+    dosage_rules = {
+        "dosage_rules": [
+            {
+                "id": "rule1",
+                "condition_type": "single_test",
+                "test_name": "Test",
+                "test_status": "low",
+                "supplements": [
+                    {
+                        "supplement_id": "s1",
+                        "dosage": "10mg",
+                        "priority": "low",
+                        "reason": "Test",
+                    }
+                ],
+            },
+            {
+                "id": "rule2",
+                "condition_type": "single_test",
+                "test_name": "Test",
+                "test_status": "low",
+                "supplements": [
+                    {
+                        "supplement_id": "s1",
+                        "dosage": "20mg",
+                        "priority": "high",
+                        "reason": "Test",
+                    }
+                ],
+            },
+        ]
+    }
+    supplements = {
+        "supplements": [{"id": "s1", "name": "Test Supplement", "condition": "test"}]
+    }
+    timing_rules = {
+        "timing_rules": {"s1": "with_meal"},
+        "timing_display": {"with_meal": "Z posiłkiem"},
+    }
+    reference_ranges = {"reference_ranges": []}
+
     tests = [BloodTest(name="Test", value=10.0, unit="unit", status="low")]
 
-    engine = RecommendationEngine({}, {}, rules, {})
+    engine = RecommendationEngine(
+        reference_ranges, supplements, timing_rules, dosage_rules
+    )
     recommendation = engine.generate_recommendation(sample_patient, tests)
 
     # Higher priority should override lower priority
