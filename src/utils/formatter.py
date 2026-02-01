@@ -6,12 +6,56 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib import colors
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+import os
+
+
+def register_polish_fonts():
+    """Register fonts with Polish character support."""
+    # Try to find a font with Polish character support
+    font_paths = [
+        # Linux paths
+        (
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        ),
+        (
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        ),
+        # macOS paths
+        ("/System/Library/Fonts/Helvetica.ttc", "/System/Library/Fonts/Helvetica.ttc"),
+        ("/System/Library/Fonts/ArialHB.ttc", "/System/Library/Fonts/ArialHB.ttc"),
+        # Windows paths
+        ("C:/Windows/Fonts/arial.ttf", "C:/Windows/Fonts/arialbd.ttf"),
+        ("C:/Windows/Fonts/tahoma.ttf", "C:/Windows/Fonts/tahomabd.ttf"),
+    ]
+
+    for regular_path, bold_path in font_paths:
+        try:
+            pdfmetrics.registerFont(TTFont("CustomFont", regular_path))
+            pdfmetrics.registerFont(TTFont("CustomFont-Bold", bold_path))
+            return "CustomFont", "CustomFont-Bold"
+        except:
+            continue
+
+    # Fallback to standard fonts (may not support Polish characters)
+    return "Helvetica", "Helvetica-Bold"
 
 
 class PDFFormatter:
     def __init__(self, output_dir: Path):
         self.output_dir = output_dir
         self.styles = getSampleStyleSheet()
+        self.font_name, self.font_name_bold = register_polish_fonts()
+        self._configure_styles()
+
+    def _configure_styles(self):
+        """Configure styles with Polish font support."""
+        for style_name in ["Normal", "Title", "Heading2"]:
+            if style_name in self.styles:
+                self.styles[style_name].fontName = self.font_name
 
     def generate_pdf(self, recommendation: Recommendation) -> Path:
         filename = f"{recommendation.patient_name}_{recommendation.patient_surname}_supplements.pdf"
@@ -82,7 +126,8 @@ class PDFFormatter:
                         ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
                         ("ALIGN", (0, 0), (-1, -1), "LEFT"),
                         ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                        ("FONTNAME", (0, 0), (-1, 0), self.font_name_bold),
+                        ("FONTNAME", (0, 1), (-1, -1), self.font_name),
                         ("FONTSIZE", (0, 0), (-1, 0), 10),
                         ("BOTTOMPADDING", (0, 0), (-1, 0), 12),
                         ("TOPPADDING", (0, 0), (-1, -1), 8),
