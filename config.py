@@ -17,6 +17,10 @@ SAMPLE_BLOOD_TESTS_FILE = EXAMPLES_DIR / "sample_blood_tests.json"
 
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+DEFAULT_PATIENT_NAME = "Unknown"
+DEFAULT_PATIENT_SURNAME = "Patient"
+DEFAULT_PATIENT_AGE = 35
+
 PRIORITY_CRITICAL = "critical"
 PRIORITY_HIGH = "high"
 PRIORITY_MEDIUM = "medium"
