@@ -5,12 +5,14 @@ from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 block_cipher = None
 
 a = Analysis(
-    ['src/gui/app.py'],
+    ['src/main.py'],
     pathex=[],
     binaries=[],
     datas=[
         ('config.py', '.'),
         ('data', 'data'),
+        ('examples', 'examples'),
+        ('output', 'output'),
     ],
     hiddenimports=[
         'PyQt5',
@@ -21,7 +23,16 @@ a = Analysis(
         'pydantic',
         'pandas',
         'pdfplumber',
-        'python-docx',
+        'docx',
+        'docx.opcconstants',
+        'docx.oxml',
+        'docx.oxml.table',
+        'docx.oxml.ns',
+        'docx.oxml.xmlchar',
+        'fitz',
+        'pytesseract',
+        'PIL',
+        'PIL.Image',
     ],
     hookspath=[],
     hooksconfig={},
@@ -32,42 +43,36 @@ a = Analysis(
     cipher=block_cipher,
     noarchive=False,
 )
+
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
-exe = EXE(
+# For macOS .app, use COLLECT + BUNDLE (not EXE)
+coll = COLLECT(
     pyz,
     a.scripts,
     a.binaries,
     a.zipfiles,
     a.datas,
-    [],
-    name='MedicalSupplementAdvisor',
-    debug=False,
-    bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     upx_exclude=[],
-    runtime_tmpdir=None,
-    console=False,
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
+    name='MedicalSupplementAdvisor',
 )
+
 app = BUNDLE(
-    exe,
+    coll,
     name='MedicalSupplementAdvisor.app',
     icon=None,
     bundle_identifier='com.medicalsupplementadvisor.app',
     info_plist={
         'CFBundleName': 'Medical Supplement Advisor',
         'CFBundleDisplayName': 'Medical Supplement Advisor',
-        'CFBundleExecutable': 'MedicalSupplementAdvisor',
         'CFBundleIdentifier': 'com.medicalsupplementadvisor.app',
         'CFBundleVersion': '1.0.0',
         'CFBundleShortVersionString': '1.0.0',
         'NSHighResolutionCapable': 'True',
         'LSMinimumSystemVersion': '10.13.0',
+        'NSPrincipalClass': 'NSApplication',
+        'NSRequiresAquaSystemAppearance': 'False',
     },
 )
