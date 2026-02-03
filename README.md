@@ -6,7 +6,7 @@
 [![CI/CD](https://github.com/WielkiKrzych/medical_supplement_advisor/workflows/CI/badge.svg)](https://github.com/WielkiKrzych/medical_supplement_advisor/actions)
 [![Code Quality: Pylint](https://img.shields.io/badge/code%20quality-pylint%20%3E%3D7.5-brightgreen)](https://www.pylint.org/)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests](https://img.shields.io/badge/tests-22%20passed-brightgreen)](https://github.com/WielkiKrzych/medical_supplement_advisor)
+[![Tests](https://img.shields.io/badge/tests-39%20passed-brightgreen)](https://github.com/WielkiKrzych/medical_supplement_advisor)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Transform your blood test results into personalized supplement recommendations with a modern, intuitive interface.
@@ -57,14 +57,20 @@ That's it! 🎉 The GUI will launch and you can start analyzing your blood tests
 ## ✨ Features
 
 ### 🔬 Intelligent Analysis
-- **Automated Blood Test Analysis**: Compare your results against medical reference ranges
+- **Advanced Clinical Algorithm**: Based on 60+ blood test parameters with detailed interpretations
+- **Pattern Recognition**: Identifies complex patterns (anemia, PCOS, insulin resistance, thyroid issues)
+- **Detailed Interpretations**: Each abnormal result includes possible causes and clinical context
 - **Rule-Based Recommendations**: Advanced engine matches supplements to specific deficiencies
 - **Priority-Based Suggestions**: Supplements ordered by importance for your health
+- **Curve Analysis**: Support for glucose and insulin curve interpretation
+- **Ratio Analysis**: Automatic calculation of important ratios (HDL:LDL, AST:ALT, LH:FSH, etc.)
 
 ### 📊 Comprehensive Data Management
-- **Multiple Input Formats**: Support for JSON, DOCX, and manual entry
+- **Multiple Input Formats**: Support for JSON, DOCX, PDF, and manual entry
 - **Flexible Patient Profiles**: Age, conditions, and health considerations
-- **Rich Reference Data**: Extensive supplement database with dosages and timing rules
+- **Rich Reference Data**: 60+ blood test parameters with clinical interpretations
+- **Commercial Supplement Database**: 70+ supplements with dosages and indications
+- **Clinical Rules Engine**: Pattern matching for complex health conditions
 
 ### 🎨 User-Friendly Interface
 - **Modern GUI**: Built with PyQt5 for a smooth desktop experience
@@ -73,10 +79,11 @@ That's it! 🎉 The GUI will launch and you can start analyzing your blood tests
 
 ### 🛡️ Quality & Reliability
 - **Type-Safe Code**: 100% type annotated with Pydantic models
-- **Comprehensive Testing**: Extensive test coverage for core business logic (22 tests)
+- **Comprehensive Testing**: 39 tests covering core business logic and new algorithm
 - **CI/CD Pipeline**: Automated testing on every push and pull request
 - **Code Quality**: Enforced with Pylint, Black, and Isort
 - **Security**: Path traversal protection, filename sanitization, file size limits
+- **Clinical Accuracy**: Based on real clinical data and protocols
 
 ### 🚀 Developer Experience
 - **Clean Architecture**: Well-organized, modular codebase
@@ -208,14 +215,42 @@ python src/main.py --document lab_results.pdf
 }
 ```
 
-**Supported Blood Tests**:
-- Complete Blood Count (WBC, RDW, PDW, Neutrofile, Bazofile)
-- Vitamins (D, B12, B9, C, A, E, K2)
-- Minerals (Iron, Ferritin, Calcium, Magnesium, Zinc, Selenium, Iodine, Potassium, Sodium)
-- Lipid Profile (Cholesterol, HDL, LDL, Triglycerides)
-- Thyroid (TSH, FT3, FT4)
-- Metabolic (Glucose, Insulin, Cortisol)
-- And more...
+**Supported Blood Tests** (60+ parameters):
+
+**Morfologia**:
+- WBC, RDW, PDW, Neutrofile, Bazofile, Limfocyty, Monocyty, Eozynofile
+- Hemoglobina, Erytrocyty, Hematokryt, MCV, MCH, MCHC
+
+**Vitamins**:
+- Witamina D3, B12, B9, C, A, E, K2
+
+**Minerals & Metabolism**:
+- Żelazo, Ferrytyna, Transferryna, Cynk, Selen, Magnez, Potas, Sód
+- Fosfor, Fosfataza Alkaliczna, Ceruloplazmina, Jod w moczu
+
+**Thyroid Panel**:
+- TSH, FT3, FT4, Anty-TG, Anty-TPO, TRAb
+
+**Lipid Profile**:
+- Cholesterol, HDL, LDL, Trójglicerydy (TG)
+- Ratios: HDL:LDL, HDL:TG
+
+**Liver Function**:
+- AST, ALT, GGTP, Stosunek AST:ALT
+
+**Glucose & Insulin**:
+- Glukoza (krzywa), Insulina (krzywa), HbA1c, HOMA-IR
+
+**Hormones**:
+- Testosteron, DHT, DHEAS, Androstendion, SHBG
+- Progesteron, Estradiol, LH, FSH, Prolaktyna, Kortyzol
+- Ratios: LH:FSH, Estradiol:Progesteron
+
+**Inflammatory Markers**:
+- CRP, OB (Odczyn Biernackiego)
+
+**Enzymes**:
+- DAO (diaminooksydaza), Peroksydaza Glutationowa (GPx)
 
 **Supported File Formats**:
 - JSON files (structured data)
@@ -239,7 +274,10 @@ The application generates a professional PDF report containing:
 medical-supplement-advisor/
 ├── 📂 data/                    # Reference data
 │   ├── reference_ranges.json   # Blood test reference ranges
+│   ├── reference_ranges_v2.json # Advanced clinical ranges (60+ tests)
 │   ├── supplements.json        # Supplement database (21 supplements)
+│   ├── supplements_v2.json     # Commercial supplements (70+ products)
+│   ├── interpretation_rules.json # Clinical interpretation rules
 │   ├── timing_rules.json      # When to take supplements
 │   └── dosage_rules.json      # Dosage recommendations
 ├── 📂 src/
@@ -247,9 +285,12 @@ medical-supplement-advisor/
 │   │   ├── blood_test.py     # Blood test model
 │   │   ├── patient.py        # Patient model
 │   │   ├── recommendation.py # Recommendation model
-│   │   └── supplement.py     # Supplement model
+│   │   ├── supplement.py     # Supplement model
+│   │   └── test_analysis.py  # Advanced analysis models
 │   ├── 📂 core/              # Business logic
 │   │   ├── analyzer.py       # Blood test analysis
+│   │   ├── advanced_analyzer.py  # Advanced clinical analysis
+│   │   ├── interpretation_engine.py # Detailed test interpretation
 │   │   ├── rule_engine.py    # Rule matching
 │   │   └── recommendation_engine.py  # Recommendations
 │   ├── 📂 utils/            # Helper utilities
@@ -264,7 +305,7 @@ medical-supplement-advisor/
 │   │   ├── app.py           # Application entry
 │   │   └── main_window.py   # Main window with security features
 │   └── main.py              # CLI entry point
-├── 📂 tests/                # Unit tests (22 tests)
+├── 📂 tests/                # Unit tests (39 tests)
 ├── 📂 examples/              # Sample data
 ├── 📂 .github/workflows/     # CI/CD pipelines
 ├── 📂 logs/                  # Application logs
@@ -309,6 +350,8 @@ The project maintains comprehensive test coverage:
 | Module | Description | Tests |
 |--------|-------------|-------|
 | **Analyzer** | Blood test status determination | ✓ |
+| **AdvancedAnalyzer** | Clinical pattern recognition | ✓ |
+| **InterpretationEngine** | Detailed test interpretation | ✓ |
 | **RuleEngine** | Pattern matching for supplements | ✓ |
 | **RecommendationEngine** | Recommendation generation | ✓ |
 | **Models** | Pydantic data model validation | ✓ |
@@ -365,6 +408,14 @@ git push
 
 ### Recent Improvements
 
+✨ **Advanced Clinical Algorithm (v2.0)**
+- 60+ blood test parameters with detailed interpretations
+- Pattern recognition for complex conditions (anemia, PCOS, insulin resistance, thyroid)
+- Curve analysis for glucose and insulin
+- Ratio analysis (HDL:LDL, AST:ALT, LH:FSH, etc.)
+- 70+ commercial supplements with dosages and indications
+- Clinical interpretation rules based on real medical data
+
 ✨ **Security Enhancements**
 - Path traversal protection in file operations
 - Filename sanitization to prevent injection attacks
@@ -393,11 +444,7 @@ git push
 - Single source of truth for priority ordering
 - Full type safety with `str | None` unions
 - Added logging system for better debugging
-
-✨ **Data Improvements**
-- Added 7 new supplements to database
-- Fixed HDL reference range (max 100 mg/dL)
-- Corrected supplement references in dosage rules
+- 39 comprehensive tests (100% passing)
 
 ---
 
