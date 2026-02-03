@@ -1,0 +1,1187 @@
+{
+  "version": "2.0",
+  "description": "Advanced reference ranges and interpretations based on clinical algorithm",
+  "categories": {
+    "morphology": {
+      "description": "Morfologia krwi",
+      "tests": [
+        {
+          "name": "EOZYNOFILE",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["Alergie", "Infekcje pasożytnicze", "Nietolerancja histaminy – DAO", "Wypalenie nadnerczy", "2-3 tygodnie po infekcji bakteryjnej", "BARDZO CZĘSTO GLISTA, OWSIK"],
+              "supplements": [],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Stres", "Ciężkie infekcje o ostrym przebiegu", "Intensywny wysiłek fizyczny", "Choroba Cushinga"],
+              "supplements": [],
+              "priority": "low"
+            }
+          ]
+        },
+        {
+          "name": "LEUKOCYTY",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["INFEKCJA", "Stany zapalne", "Zakażenia", "Stres", "Wysiłek fizyczny", "Ciąża", "Choroba nowotworowa"],
+              "supplements": ["Kurkumina", "EGCG", "Koenzym Q10", "Resweratrol"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory żelaza, wit.B", "Problemy z wchłanianiem i trawieniem", "Przerosty wirusowe, grzybicze czy pasożytnicze", "Niski cholesterol"],
+              "supplements": ["Laktoferyna", "Enzymy", "Witaminy z gr. B"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "LIMFOCYTY",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["INFEKCJA wirusowa, bakteryjna, pasożytnicza, grzybicza"],
+              "supplements": [],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Choroby autoimmunologiczne"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "NEUTROFILE",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["INFEKCJE BAKTERYJNE, grzybicze, pasożytnicze", "Leki steroidowe", "Ciąża 3 trymestr"],
+              "supplements": ["Imunaxxis"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobór B12 i B9", "Słaby stan jelit", "Proces autoimmunizacyjny", "Leki cytotoksyczne"],
+              "deficiencies": ["B12", "B9"],
+              "supplements": ["Witaminy z gr. B", "L-Glutamina"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "BAZOFILE",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["CIĘZKA nadczynność tarczycy", "RZS, WZJG", "Alergie pokarmowe", "Pasożyty", "Stan zapalny przewodu pokarmowego"],
+              "supplements": ["Imunaxxis lub Postbiotic", "Narum Fast"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Stres", "Ostre infekcje", "Niedobór progesteronu", "Leki (estrogeny albo tyroksyna)"],
+              "supplements": ["Ashwagandha"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "MONOCYTY",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["INFEKCJE BAKTERYJNE, WIRUSOWE, PASOŻYTNICZE", "CHOROBY AUTOIMMUNOLOGICZNE", "Zatrucie", "Duże stany zapalne", "Choroby jelit", "Nietolerancje pokarmowe", "INFKECJE GRZYBICZE!"],
+              "supplements": ["L-Glutamina", "Maślan sodu", "Lactibiane CND", "Narum Fast"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Spadek odporności", "Chroniczne stany zapalne"],
+              "supplements": ["Be Health Gloowi"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "WBC",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["Leukocytoza", "Może wystąpić po intensywnym wysiłku fizycznym", "Stres", "Przegrzanie organizmu", "Nasilenie choroby autoimmunologicznej", "Alergia bądź astma"],
+              "supplements": ["Ashwagandha"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Leukopenia", "Zmęczenie układu odpornościowego", "Niedobór B12/B9", "Dysbioza jelitowa", "Zakażenia grzybicze i pasożytnicze"],
+              "supplements": ["Maślan sodu", "Witamina z gr. B"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "HEMOGLOBINA",
+          "lab_reference": "MINIMUM 13, MAKS LABO",
+          "high_interpretations": [
+            {
+              "causes": ["Odwodnienie", "Niedotlenienie", "Hemochromatoza"],
+              "supplements": ["Picie wody"],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory: żelaza, B12, B9"],
+              "deficiencies": ["iron", "B12", "B9"],
+              "supplements": ["Laktoferyna", "Witaminy z gr. B", "Żelazo?"],
+              "priority": "critical"
+            }
+          ]
+        },
+        {
+          "name": "ERYTROCYTY",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["Odwodnienie", "Nadkrwistość", "Astma", "Terapie hormonalne", "Palenie papierosów", "Stres"],
+              "supplements": [],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory żelaza, B12, B9, witaminy C", "Utrata krwi (po okresie np.)", "Przewlekłe stany zapalne"],
+              "deficiencies": ["iron", "B12", "B9", "C"],
+              "supplements": ["Laktoferyna", "Witaminy z gr. B", "Żelazo?", "Koenzym Q10"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "HEMATOKRYT",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["Odwodnienie", "Biegunka", "Palenie", "Alkohol", "Choroby nerek"],
+              "supplements": ["Lactibiane Tolerancja"],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Anemia", "Ciąża", "Problem z wątrobą", "Choroby zapalne", "Przewodnienie"],
+              "supplements": ["Laktoferyna", "Heapset", "Żelazo?", "Koenzym Q10", "Liver Complex"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "MCV",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["Niedobór B12/B9", "Biegunka tłuszczowa", "Celiakia", "Niedoczynność tarczycy"],
+              "supplements": ["Witaminy z gr. B", "Lactibiane Tolerancja", "Selen, Cynk?"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Anemia z niedoboru żelaza, miedzi, witaminy B6", "Złe wchłanianie", "Dieta wysokobłonnikowa"],
+              "deficiencies": ["iron", "copper", "B6"],
+              "supplements": ["Miedź, Witamina B", "Żelazo", "Enzymy"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "MCH",
+          "lab_reference": "NORMA LABO",
+          "high_interpretations": [
+            {
+              "causes": ["Niedobór B12"],
+              "supplements": ["B12"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobór żelaza"],
+              "deficiencies": ["iron"],
+              "supplements": ["Żelazo"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "MCHC",
+          "lab_reference": "NORMA LABO",
+          "high_interpretations": [],
+          "low_interpretations": [
+            {
+              "causes": ["Niskie – niedobór żelaza"],
+              "deficiencies": ["iron"],
+              "supplements": ["Żelazo"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "RDW",
+          "lab_reference": "NORMA LABO",
+          "high_interpretations": [
+            {
+              "causes": ["Podniesione wczesny objaw niedoboru żelaza, B12, B9"],
+              "deficiencies": ["iron", "B12", "B9"],
+              "supplements": ["Witaminy z gr. B"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": []
+        },
+        {
+          "name": "PDW",
+          "lab_reference": "NORMA LABO",
+          "high_interpretations": [
+            {
+              "causes": ["Stan zapalny, niedokrwistość"],
+              "supplements": [],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Infekcje bakteryjne", "Niedokrwistość megablastyczna"],
+              "supplements": [],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "PCT",
+          "lab_reference": "NORMY REFERENCYJNE",
+          "high_interpretations": [
+            {
+              "causes": ["Wysokie – stan zapalny"],
+              "supplements": [],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niskie – niedobory witamin"],
+              "supplements": ["Badania?"],
+              "priority": "low"
+            }
+          ]
+        },
+        {
+          "name": "MPV",
+          "lab_reference": null,
+          "high_interpretations": [
+            {
+              "causes": ["Podwyższone – zwiększona produkcja płytek"],
+              "supplements": [],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": []
+        }
+      ]
+    },
+    "inflammatory_markers": {
+      "description": "Markery zapalne",
+      "tests": [
+        {
+          "name": "CRP",
+          "lab_reference": "MAX 2",
+          "high_interpretations": [
+            {
+              "causes": ["Stany zapalne, infekcje"],
+              "supplements": ["Kurkumina", "EGCG", "Resweratrol", "Koenzym Q10"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": []
+        },
+        {
+          "name": "OB",
+          "lab_reference": "MAX 10 - WTEDY JASNY STAN ZAPALNY. 4-10 – PRZEWLEKŁY MOŻLIWY STAN ZAPALNY.",
+          "high_interpretations": [
+            {
+              "causes": ["Niedokrwistość", "Ostre i przewlekłe stany zapalne"],
+              "supplements": ["Kurkumina", "EGCG", "Resweratrol", "Koenzym Q10"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": []
+        }
+      ]
+    },
+    "minerals_vitamins": {
+      "description": "Składniki mineralne i witaminy",
+      "tests": [
+        {
+          "name": "ŻELAZO",
+          "lab_reference": "100-120",
+          "unit": "ug/dL",
+          "high_interpretations": [
+            {
+              "causes": ["Za dużo stresu oksydacyjnego", "Za dużo miedzi w organizmie", "Hematokrytoza"],
+              "supplements": ["NIC"],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Za dużo miedzi w organizmie", "Złe wchłanianie"],
+              "deficiencies": ["iron"],
+              "supplements": ["Żelazo", "Laktoferyna"],
+              "priority": "critical"
+            }
+          ]
+        },
+        {
+          "name": "FERRYTYNA",
+          "lab_reference": "50-90",
+          "unit": "ng/mL",
+          "high_interpretations": [
+            {
+              "causes": ["Stan zapalny", "Choroby wątroby", "Nadczynność tarczycy"],
+              "supplements": ["Koenzym Q10", "Heapset", "NAC"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Zła praca żołądka", "Zaburzone wchłanianie", "Pasożyty na gape", "Mocne miesiączki"],
+              "deficiencies": ["iron"],
+              "supplements": ["Beatina HCL", "Laktoferyna", "Witamina C"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "WITAMINA B12",
+          "lab_reference": "OK. 500-750",
+          "unit": "pg/mL",
+          "high_interpretations": [
+            {
+              "causes": ["Nadmiar suplementacji", "Możliwe SIBO"],
+              "supplements": ["NIC, SZUKAMY PRZYCZYNY"],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Podniesiona homocysteina", "Podniesione MMA"],
+              "deficiencies": ["B12"],
+              "supplements": ["B12"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "MMA",
+          "lab_reference": "NORMY LABO",
+          "description": "Kwas metylomalonowy (wit. B12 w tkankach)",
+          "high_interpretations": [
+            {
+              "causes": ["Niedobór B12 (nawet przy prawidłowym poziomie w surowicy)"],
+              "deficiencies": ["B12"],
+              "supplements": ["Witamina B12"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Brak znaczenia klinicznego"],
+              "supplements": ["NIC"],
+              "priority": "low"
+            }
+          ]
+        },
+        {
+          "name": "WITAMINA B9",
+          "lab_reference": "15-25 ng/ml",
+          "high_interpretations": [
+            {
+              "causes": ["Może maskować niedobór B12"],
+              "supplements": ["SZUKAMY PRZYCZYNY"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Podniesiona homocysteina", "Organizm nieprzygotowany do ciąży"],
+              "deficiencies": ["B9"],
+              "supplements": ["Witamina B9"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "WITAMINA D3",
+          "lab_reference": "60-80",
+          "unit": "ng/mL",
+          "high_interpretations": [
+            {
+              "causes": ["Toksyczne wartości"],
+              "supplements": ["ODPUSZCZAMY SUPLEMENTACJE"],
+              "priority": "critical"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Osłabiona odporność"],
+              "deficiencies": ["D3"],
+              "supplements": ["Witamina D3 + K2 z tłuszczzem"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "HOMOCYSTEINA",
+          "lab_reference": "5-6 nmol/l",
+          "high_interpretations": [
+            {
+              "causes": ["Zaburzenia metylacji"],
+              "supplements": ["Formy metylowane wit. z gr. B"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Jeśli mamy za niską homocysteinę nie wprowadzamy form METYLOWANYCH!", "Stan zapalny", "Stres oksydacyjny", "Zbyt niskie spożycie białka", "Słabe trawienie", "Zbyt długie przyjmowanie form metylo"],
+              "supplements": ["NAC", "Witamina B6", "Białko w diecie", "Heapset", "Liver Complex", "Hepastrong", "D-glukaranian wapnia"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "FOSFATAZA ALKALICZNA",
+          "lab_reference": "OK. 70 u/l",
+          "high_interpretations": [
+            {
+              "causes": ["Problemy wątrobowe", "Nadczynność przytarczyc"],
+              "supplements": ["NAC", "DIM", "D-glukaranian wapnia", "Hepaset", "Hepastrong"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobór cynku (cynk jest mega ważny w kwestii wydzielania HCL)", "Niedobór magnezu", "Obciążone jelita", "Niedobory witaminy D", "Niedoczynność tarczycy", "Możliwy problem z żółcią", "Zaburzenia metylacji"],
+              "deficiencies": ["zinc", "magnesium", "D"],
+              "supplements": ["Cynk", "Witamina D3", "Cholina"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "CERULOPLAZMINA",
+          "lab_reference": "20–40 mg/dl (200–400 mg/l)",
+          "description": "Parametr miedzi",
+          "high_interpretations": [
+            {
+              "causes": ["Stany zapalne i infekcje (białko ostrej fazy)", "Choroby autoimmunologiczne"],
+              "supplements": ["Koenzym Q10", "Resweratrol"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Zaburzenia wątroby", "Niedobór miedzi"],
+              "deficiencies": ["copper"],
+              "supplements": ["Liver Complex", "Miedź"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "PEROKSYDAA GLUTATIONOWA",
+          "lab_reference": "27-73 u/g hb",
+          "description": "Bardzo zależna od selenu",
+          "high_interpretations": [
+            {
+              "causes": ["Stres oksydacyjny", "Choroby przewlekłe"],
+              "supplements": ["Resweratrol", "Koenzym Q10"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Zbyt mała podaż selenu", "Stany zapalne", "Choroby przewlekłe"],
+              "deficiencies": ["selenium"],
+              "supplements": ["Selen", "Witamina E"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "JOD W MOCZU",
+          "lab_reference": "DOROŚLI: 100–200 µg/l",
+          "high_interpretations": [
+            {
+              "causes": ["Nadmiar jodu w diecie", "Nadczynność tarczycy"],
+              "supplements": [],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobór jodu", "Może prowadzić do niedoczynności tarczycy i powstawania wola"],
+              "deficiencies": ["iodine"],
+              "supplements": ["Jod, UWAGA NA DAWKI I W ZALEŻNOŚCI CZY MAMY AUTOIMUNOLOGIE TARCZYCY!"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "ENZYM DAO",
+          "lab_reference": "14-33",
+          "high_interpretations": [
+            {
+              "causes": ["Zwiększona degradacja histaminy - co może zmniejszać objawy nietolerancji histaminowej"],
+              "supplements": ["DAO Biotic (1-2 kaps.) przed posiłkiem"],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Nietolerancja histaminy", "Często za niski przy różnych infekcjach"],
+              "supplements": ["DAO + Probiotyki (LACTIBIANE)", "Histamina-free dieta"],
+              "priority": "high"
+            }
+          ]
+        }
+      ]
+    },
+    "electrolytes": {
+      "description": "Elektrolity",
+      "tests": [
+        {
+          "name": "SÓD",
+          "lab_reference": "NORMY LAB",
+          "high_interpretations": [
+            {
+              "causes": ["Biegunka", "Odwodnienie", "Nadnercza", "Niewyrównana cukrzyca"],
+              "supplements": ["Woda", "Elektrolity"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory hormonów nadnerczy", "Niedoczynność tarczycy", "Niedobór kortyzolu", "Zespół wypalonych nadnerczy"],
+              "supplements": ["Koktajl nadnerczowy", "Aura", "Królowa"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "STOSUNEK SODU I POTASU",
+          "lab_reference": "SÓD:POTAS 30-35",
+          "high_interpretations": [
+            {
+              "causes": ["MOŻE BYĆ WYWALONY KORTYZOL"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": []
+        },
+        {
+          "name": "MAGNEZ",
+          "lab_reference": "POWYŻEJ 2",
+          "high_interpretations": [],
+          "low_interpretations": [
+            {
+              "causes": ["Zaburzona praca wątroby", "Zaburzona gospodarka cukrowa", "KPU", "Pasożyty"],
+              "supplements": ["Apyrol KPU", "Magnez"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "FOSFOR",
+          "lab_reference": "4 NAJLEPIEJ",
+          "high_interpretations": [
+            {
+              "causes": ["NISKA FOSFATAZA, SŁABE NERKI, NISKA WITAMINA D, KIEPSKIE TRAWIENIE"],
+              "supplements": ["L-Glutamina, Witamina D, Enzymy"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": []
+        }
+      ]
+    },
+    "thyroid": {
+      "description": "Tarczyca",
+      "tests": [
+        {
+          "name": "TSH",
+          "lab_reference": "0,5-2,5",
+          "unit": "mIU/L",
+          "high_interpretations": [
+            {
+              "causes": [">2,5 niedoczynność"],
+              "supplements": ["Selen, Cynk, Może tyrozyna jeśli nie ma autoimmunologii"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["<0,5 nadczynność"],
+              "supplements": ["Koenzym Q10"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "FT3",
+          "lab_reference": "50% normy",
+          "high_interpretations": [
+            {
+              "causes": ["Nadczynność"],
+              "supplements": ["NIC"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Zła praca tarczycy, wątroby, jelit i może nerek"],
+              "supplements": ["Selen, Cynk, Hepaset, Hepastrong, Maślan sodu"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "FT4",
+          "lab_reference": "60-70% normy",
+          "high_interpretations": [
+            {
+              "causes": ["Nadczynność"],
+              "supplements": ["NIC"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Praca naszej tarczycy zwalnia i zacznie wzrastać TSH"],
+              "supplements": ["Tyrozyna (jeśli nie ma autoimmunologii), Selen, Cynk"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "ANTYTG",
+          "lab_reference": "Normy labo",
+          "high_interpretations": [
+            {
+              "causes": ["Za wysoko: Autoimmunologia, możliwe problemy z układem pokarmowym"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": []
+        },
+        {
+          "name": "ANTYTPO",
+          "lab_reference": "Normy labo",
+          "high_interpretations": [],
+          "low_interpretations": []
+        },
+        {
+          "name": "TRAb",
+          "lab_reference": ">1,75",
+          "high_interpretations": [
+            {
+              "causes": ["MOŻE ŚWIADCZYĆ O GRASE BASEDOWIE"],
+              "supplements": [],
+              "priority": "critical"
+            }
+          ],
+          "low_interpretations": []
+        }
+      ]
+    },
+    "glucose_insulin": {
+      "description": "Gospodarka cukrowo-insulinowa",
+      "tests": [
+        {
+          "name": "GLUKOZA",
+          "lab_reference": "Na czczo 70-87, 1h do 120-140, 2h do 100, 3h ok. 70-90",
+          "high_interpretations": [
+            {
+              "causes": ["Insulinooporność", "Cukrzyca"],
+              "supplements": ["Dieta"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Hipoglikemia, insulinooporność reaktywna"],
+              "supplements": ["Dieta"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "INSULINA",
+          "lab_reference": "Na czczo najlepiej 5-6, 1h do 45 (5 krotność wyniku na czczo), 2h do 30, 3h do 10",
+          "high_interpretations": [
+            {
+              "causes": ["Jeżeli poziomy insuliny są wyższe to mamy do czynienia z insulinoopornością"],
+              "supplements": ["NAC", "Inozytol", "Berberyna (jeśli bilirubina OK)", "Lactibiane CND lub Mycobiotic"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobór insuliny", "NISKI POZIOM ENERGII W KOMÓRKACH", "Jeżeli mamy insulinę poniżej 3 na czczo, możemy się domyślać jedynie, że w krzywej byłyby hockiklocki"],
+              "supplements": ["Lactibiane CND", "Lactibiane CND lub Mycobiotic"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "HOMA IR",
+          "lab_reference": "<1,5",
+          "high_interpretations": [
+            {
+              "causes": ["Insulinooporność"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": []
+        },
+        {
+          "name": "HbA1c",
+          "lab_reference": "4,8-5,2%",
+          "high_interpretations": [
+            {
+              "causes": ["Podwyższone ryzyko cukrzycy"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Hipoglikemia, niestabilna glikemia"],
+              "supplements": [],
+              "priority": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    "lipid_liver": {
+      "description": "Lipidogram i wątroba",
+      "tests": [
+        {
+          "name": "CHOLESTEROL CAŁKOWITY",
+          "lab_reference": "180-220/240 (zależy od źródła)",
+          "high_interpretations": [
+            {
+              "causes": ["Ryzyko miażdżycy, stany zapalne"],
+              "supplements": ["Koenzym Q10", "Heapstrong"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory hormonalne"],
+              "supplements": ["Hepastrong", "Hepaset, NAC, D-glukaranian"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "HDL",
+          "lab_reference": "Powyżej 50 - 100",
+          "high_interpretations": [
+            {
+              "causes": ["RZADKO KIEDY PROBLEMATYCZNE"],
+              "supplements": ["Omega 3, Omega 6", "Niacyna"],
+              "priority": "low"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Ryzyko chorób serca"],
+              "supplements": ["Omega 3, Omega 6", "Cynk"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "LDL",
+          "lab_reference": "Od 100 do 200",
+          "high_interpretations": [
+            {
+              "causes": ["Ryzyko miażdżycy"],
+              "supplements": ["Omega 3, Omega 6"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory cholesterolu"],
+              "supplements": ["Omega 3, Omega 6"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "STOSUNEK HDL:LDL",
+          "lab_reference": "1:2",
+          "high_interpretations": [],
+          "low_interpretations": [
+            {
+              "causes": ["Jeśli jest 1:1 obciążona wątroba przerostami bakteryjnymi w jelicie, stanami zapalnymi, chorobą autoimmunologiczną np. Hashimoto, może być też spowodowane stresem oksydacyjnym"],
+              "supplements": ["Omega 3, Omega 6, Cholina"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "TG",
+          "lab_reference": "60 - 100 (dobrze jakby HDL=TG)",
+          "high_interpretations": [
+            {
+              "causes": ["Powyżej 100mg, często stany zapalne lub problemy z gospodarką insulinową"],
+              "supplements": ["Inozytol, NAC, Lactibiane CND, Mycobiotic"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Ok. 30 może wskazywać na gardie lamlie, celiakię lub problemami z żółcią"],
+              "supplements": ["Tauryna i badania kału"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "AST",
+          "lab_reference": "Najlepiej w okolicach 20, nie mniej niż 10",
+          "high_interpretations": [
+            {
+              "causes": ["Zapalenie wątroby (ogólnie rozszerzyć diagnostykę o USG)"],
+              "supplements": ["Hepaset, Liver Complex, Hepastrong"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedoborów witaminy B6"],
+              "supplements": ["Complex wit. z gr. B oraz miedź"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "ALT",
+          "lab_reference": "Do 26 uI/l",
+          "high_interpretations": [
+            {
+              "causes": ["Zapalenie wątroby (ogólnie rozszerzyć diagnostykę o USG)"],
+              "supplements": ["Hepaset, Liver Complex, Hepastrong"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory B6"],
+              "supplements": ["Complex wit. z gr. B"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "STOSUNEK AST:ALT",
+          "lab_reference": "Do 2",
+          "high_interpretations": [
+            {
+              "causes": ["<2 Może wskazywać na uszkodzenie wątroby związane z alkoholem"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["<1: Może sugerować stłuszczenie wątroby lub insulinooporność"],
+              "supplements": ["NAC, Inozytol, Lactibiane CND lub Mycobiotic, Ostropest"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "GGTP",
+          "lab_reference": "Do 26 uI/l (lub inne źródło do 35 u kobiet)",
+          "high_interpretations": [
+            {
+              "causes": ["Obciążenie wątroby", "Możliwe helicobakter lub problemy z żółcią"],
+              "supplements": ["Hepaset Strong", "Hepaset, Ostropest, Karczoch"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["ZBYT MAŁA PRODUKCJA ŻÓŁCI"],
+              "supplements": ["Cholina", "Hepaset, Ostropest, Karczoch, Tauryna"],
+              "priority": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    "hormones": {
+      "description": "Hormony",
+      "tests": [
+        {
+          "name": "TESTOSTERON",
+          "lab_reference": "Androgeny mają być najlepiej W POŁOWIE norm referencyjnych",
+          "high_interpretations": [
+            {
+              "causes": ["PCOS, insulinooporność"],
+              "supplements": ["Inozytol, NAC", "DIM", "Berberyna"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Niedobory androgenów", "Przewlekłe zmęczenie"],
+              "supplements": ["Królowa", "Czarnodziej", "Cynk, Witamina D"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "DHT",
+          "lab_reference": null,
+          "high_interpretations": [
+            {
+              "causes": ["Stany zapalne wew. org.", "Wątroba obciążona"],
+              "supplements": ["Palma sabałowa", "Kurkumina"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": [],
+              "supplements": ["Omega 3", "Magnez"],
+              "priority": "low"
+            }
+          ]
+        },
+        {
+          "name": "DHEAS",
+          "lab_reference": null,
+          "high_interpretations": [
+            {
+              "causes": ["Warto sprawdzić prolaktynę i 17-oh-progesteron -> może być problem z nadnerczami ponieważ nadmiar wskazuje na stres lub choroby nadnerczy"],
+              "supplements": ["Ashwagandha", "NAC"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": [],
+              "supplements": ["Kompleks wit. B", "Różaniec górski"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "ANDROSTENDION",
+          "lab_reference": null,
+          "high_interpretations": [
+            {
+              "causes": ["Stany zapalne wew. org.", "Wątroba obciążona", "Wysokie androgeny, stres"],
+              "supplements": ["Inozytol, NAC", "Selen", "EGCG lub mięta"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": [],
+              "supplements": ["Cynk", "Witamina A"],
+              "priority": "low"
+            }
+          ]
+        },
+        {
+          "name": "SHBG",
+          "lab_reference": "60-80 nmol/L",
+          "high_interpretations": [
+            {
+              "causes": ["Nadczynność tarczycy", "Dominacja estrogenowa"],
+              "supplements": ["Inozytol", "Heapstrong"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Wysokie androgeny", "Niskie estrogeny", "Niedoczynność tarczycy", "Obciążona wątroba"],
+              "supplements": ["Krzem", "Magnez"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "PROGESTERON",
+          "lab_reference": "Minimum funkcjonalnie 16 ng/ml – 21 dzień cyklu!!!, W fazie owulacji: 0,057—0,893",
+          "high_interpretations": [
+            {
+              "causes": ["Może wskazywać na ciążę, torbiele jajników"],
+              "supplements": ["DIM", "D-glukaran wapnia"],
+              "priority": "medium"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Może powodować problemy z płodnością, poronienia"],
+              "supplements": ["Niepokalane", "Cynk, Witamina C"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "ESTRADIOL",
+          "lab_reference": "PIERWSZE DNI CYKLU: 30-50 pg/ml, Owulacja: 13-330, Lutealna: 73-200",
+          "high_interpretations": [
+            {
+              "causes": ["Dominacja estrogenowa", "Torbiele jajników", "PCOS"],
+              "supplements": ["DIM", "D-glukaran wapnia", "Ostropest", "Hepaset"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Zaburzeniach owulacji", "Menopauzie", "Niedożywieniu"],
+              "supplements": ["Omega 3", "Witamina E", "Hepaset"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "STOSUNEK ESTRADIOL: PROGESTERON",
+          "lab_reference": "100-500, 200-300",
+          "high_interpretations": [],
+          "low_interpretations": [
+            {
+              "causes": [],
+              "supplements": ["DIM, Inozytol, NAC", "Ashwagandha"],
+              "priority": "medium"
+            }
+          ]
+        },
+        {
+          "name": "LH",
+          "lab_reference": "Folikularna: 5-12, Owulacyjna: 30-120, Lutealna: 5-25",
+          "high_interpretations": [
+            {
+              "causes": ["Zespół policystycznych jajników (PCOS), niewydolność jajników, menopauza"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Zaburzenia przysadki (np. Niedoczynność przysadki), niedobór GnRH"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "FSH",
+          "lab_reference": "Folikularna do 12, Owulacyjna: 20-90, Lutealna do 10",
+          "high_interpretations": [
+            {
+              "causes": ["Wczesna menopauza, niewydolność jajników, zespół Turnera"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Zaburzenia przysadki, hiperprolaktynemia"],
+              "supplements": [],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "STOSUNEK LH:FSH",
+          "lab_reference": "1:1",
+          "high_interpretations": [
+            {
+              "causes": ["Powyżej normy: Wysokie LH w stosunku do FSH (np. 2:1) sugeruje PCOS. Bardzo wysokie wartości mogą wskazywać na niewydolność jajników (np. Menopauzę)"],
+              "supplements": ["Myo-inozytol (2-4g)"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Poniżej normy: Niskie LH i FSH mogą świadczyć o niedoczynności przysadki lub czynnościowym braku miesiączki spowodowanym stresem, niską masą ciała lub nadmiernym wysiłkiem"],
+              "supplements": ["Ashwagandha", "NAC"],
+              "priority": "high"
+            }
+          ]
+        },
+        {
+          "name": "PROLAKTYNA",
+          "lab_reference": "Ok. 20ng/ml max 25 ng/ml",
+          "high_interpretations": [
+            {
+              "causes": ["Prawdopodobnie również wysokie androgeny", "Leki antydepresyjne", "Leki przeciwhistaminowe", "Wysoka glukoza", "Niedoczynna tarczyca", "Guz przysadki", "Zła higiena snu", "Stres", "Zbyt dużo aktywności fizycznej", "Stosunek seksualny przed badaniem"],
+              "supplements": ["Niepokalane", "Ashwagandha"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": [],
+              "supplements": ["L-tyrozyna"],
+              "priority": "low"
+            }
+          ]
+        },
+        {
+          "name": "KORTYZOL",
+          "lab_reference": "Max 15",
+          "high_interpretations": [
+            {
+              "causes": ["Przewlekły stres", "Insulinooporność", "Problemy z gospodarką cukrową", "Zaburzenia snu", "Stany zapalne", "Choroby nadnerczy (np. Zespół Cushinga)"],
+              "supplements": ["Fosfatydyloseryna", "Ashwagandha"],
+              "priority": "high"
+            }
+          ],
+          "low_interpretations": [
+            {
+              "causes": ["Wyczerpanie nadnerczy", "Przewlekłe zmęczenie", "Choroba Addisona", "O długotrwałym stresie prowadzącym do zaburzeń osi HPA"],
+              "supplements": ["Maca", "Witamina B5"],
+              "priority": "high"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

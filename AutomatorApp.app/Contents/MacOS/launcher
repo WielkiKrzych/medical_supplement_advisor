@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Application Launcher for Medical Supplement Advisor
+# This script launches the Python GUI with proper display server access
+
+APP_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RESOURCES_PATH="$APP_PATH/../Resources"
+
+# Open a new Terminal window and run the GUI
+osascript << 'EOF'
+tell application "Terminal"
+    activate
+    set scriptPath to (POSIX path of (path to resource "main.py" in directory "src" inside container of (path to me)))
+    set resourcesPath to (POSIX path of (path to resource "Resources" inside container of (path to me)))
+    do script "cd '" & resourcesPath & "' && /usr/local/bin/python3 -m src.main && exit"
+end tell
+EOF

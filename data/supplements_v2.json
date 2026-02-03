@@ -1,0 +1,616 @@
+{
+  "version": "2.0",
+  "description": "Commercial supplements database with dosages and indications",
+  "supplements": [
+    {
+      "id": "imunaxxis",
+      "name": "Imunaxxis",
+      "category": "immunity",
+      "active_ingredients": ["beta-glucan", "vitamin C", "zinc"],
+      "indications": ["neutrophils_high", "immunity_support"],
+      "dosage": "1-2 capsules daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "kurkumina",
+      "name": "Kurkumina",
+      "category": "anti_inflammatory",
+      "active_ingredients": ["curcumin"],
+      "indications": ["leukocytes_high", "crp_high", "ob_high", "inflammation"],
+      "dosage": "500-1000mg daily with piperine",
+      "contraindications": ["pregnancy", "gallstones"],
+      "interactions": ["blood_thinners"]
+    },
+    {
+      "id": "egcg",
+      "name": "EGCG",
+      "category": "anti_inflammatory",
+      "active_ingredients": ["epigallocatechin gallate"],
+      "indications": ["leukocytes_high", "crp_high", "ob_high", "androstendion_high"],
+      "dosage": "400-800mg daily",
+      "contraindications": ["liver_disease"],
+      "interactions": []
+    },
+    {
+      "id": "koenzym_q10",
+      "name": "Koenzym Q10",
+      "category": "mitochondrial_support",
+      "active_ingredients": ["ubiquinone"],
+      "indications": ["leukocytes_high", "ferritin_high", "cholesterol_high", "ceruloplazmina_high", "gpx_high", "tsh_low"],
+      "dosage": "100-200mg daily with fat",
+      "contraindications": [],
+      "interactions": ["statins", "blood_thinners"]
+    },
+    {
+      "id": "resweratrol",
+      "name": "Resweratrol",
+      "category": "anti_inflammatory",
+      "active_ingredients": ["resveratrol"],
+      "indications": ["leukocytes_high", "crp_high", "ob_high", "ceruloplazmina_high", "gpx_high"],
+      "dosage": "250-500mg daily",
+      "contraindications": [],
+      "interactions": ["blood_thinners"]
+    },
+    {
+      "id": "laktoferyna",
+      "name": "Laktoferyna",
+      "category": "immunity",
+      "active_ingredients": ["lactoferrin"],
+      "indications": ["leukocytes_low", "hemoglobin_low", "erythrocytes_low", "hematokryt_low"],
+      "dosage": "200-400mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "enzymy",
+      "name": "Enzymy trawienne",
+      "category": "digestion",
+      "active_ingredients": ["amylase", "protease", "lipase"],
+      "indications": ["leukocytes_low", "mcv_low", "ferritin_low"],
+      "dosage": "With meals",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "witaminy_gr_b",
+      "name": "Witaminy z grupy B",
+      "category": "vitamins",
+      "active_ingredients": ["B1", "B2", "B3", "B5", "B6", "B7", "B9", "B12"],
+      "indications": ["leukocytes_low", "neutrophils_low", "wbc_low", "mcv_high", "mch_high", "rdw_high", "ast_low", "alt_low"],
+      "dosage": "1 tablet daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "l_glutamina",
+      "name": "L-Glutamina",
+      "category": "gut_health",
+      "active_ingredients": ["L-glutamine"],
+      "indications": ["neutrophils_low", "monocytes_high", "sodium_high"],
+      "dosage": "5-10g daily",
+      "contraindications": ["bipolar_disorder", "seizures"],
+      "interactions": []
+    },
+    {
+      "id": "maslan_sodu",
+      "name": "Maslan sodu",
+      "category": "gut_health",
+      "active_ingredients": ["sodium butyrate"],
+      "indications": ["wbc_low", "ft3_low"],
+      "dosage": "300-600mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "ashwagandha",
+      "name": "Ashwagandha",
+      "category": "adaptogen",
+      "active_ingredients": ["withanolides"],
+      "indications": ["wbc_high", "bazofile_low", "dheas_high", "prolactin_high", "cortisol_high"],
+      "dosage": "300-600mg daily",
+      "contraindications": ["pregnancy", "autoimmune_disease", "thyroid_disorders"],
+      "interactions": ["sedatives", "thyroid_medications"]
+    },
+    {
+      "id": "selen",
+      "name": "Selen",
+      "category": "minerals",
+      "active_ingredients": ["selenium"],
+      "indications": ["tsh_high", "ft3_low", "ft4_low", "androstendion_high"],
+      "dosage": "100-200mcg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "cynk",
+      "name": "Cynk",
+      "category": "minerals",
+      "active_ingredients": ["zinc"],
+      "indications": ["tsh_high", "ft3_low", "ft4_low", "hdl_low", "fosfataza_alkaliczna_low"],
+      "dosage": "15-30mg daily",
+      "contraindications": [],
+      "interactions": ["antibiotics", "penicillamine"]
+    },
+    {
+      "id": "tyrozyna",
+      "name": "L-Tyrozyna",
+      "category": "amino_acid",
+      "active_ingredients": ["L-tyrosine"],
+      "indications": ["tsh_high", "ft4_low", "prolactin_low"],
+      "dosage": "500-1000mg daily",
+      "contraindications": ["hyperthyroidism", "melanoma"],
+      "interactions": ["mao_inhibitors", "thyroid_medications"]
+    },
+    {
+      "id": "omega_3",
+      "name": "Omega 3",
+      "category": "fatty_acids",
+      "active_ingredients": ["EPA", "DHA"],
+      "indications": ["hdl_low", "ldl_high", "tg_low", "estradiol_low"],
+      "dosage": "1000-3000mg EPA+DHA daily",
+      "contraindications": ["blood_thinners"],
+      "interactions": ["blood_thinners"]
+    },
+    {
+      "id": "omega_6",
+      "name": "Omega 6",
+      "category": "fatty_acids",
+      "active_ingredients": ["GLA"],
+      "indications": ["hdl_low", "ldl_high", "tg_low"],
+      "dosage": "500-1000mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "niacyna",
+      "name": "Niacyna",
+      "category": "vitamins",
+      "active_ingredients": ["vitamin B3"],
+      "indications": ["hdl_high"],
+      "dosage": "50-100mg daily",
+      "contraindications": ["liver_disease", "gout"],
+      "interactions": []
+    },
+    {
+      "id": "cholina",
+      "name": "Cholina",
+      "category": "vitamins",
+      "active_ingredients": ["choline"],
+      "indications": ["hdl_ldl_ratio_low", "ggtp_low", "fosfataza_alkaliczna_low"],
+      "dosage": "400-600mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "inozytol",
+      "name": "Inozytol",
+      "category": "vitamins",
+      "active_ingredients": ["myo-inositol"],
+      "indications": ["rdw_high", "tg_high", "testosterone_high", "shbg_high", "androstendion_high"],
+      "dosage": "2-4g daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "nac",
+      "name": "NAC",
+      "category": "antioxidant",
+      "active_ingredients": ["N-acetylcysteine"],
+      "indications": ["rdw_high", "ferritin_high", "tg_high", "testosterone_high", "dheas_high", "androstendion_high", "ast_alt_ratio_low", "prolactin_low"],
+      "dosage": "600-1200mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "lactibiane_cnd",
+      "name": "Lactibiane CND",
+      "category": "probiotics",
+      "active_ingredients": ["Lactobacillus", "Bifidobacterium"],
+      "indications": ["insulin_low", "tg_high", "monocytes_high"],
+      "dosage": "1-2 capsules daily",
+      "contraindications": [],
+      "interactions": ["antibiotics"]
+    },
+    {
+      "id": "mycobiotic",
+      "name": "Mycobiotic",
+      "category": "probiotics",
+      "active_ingredients": ["Saccharomyces boulardii"],
+      "indications": ["insulin_low", "tg_high", "ast_alt_ratio_low"],
+      "dosage": "1-2 capsules daily",
+      "contraindications": [],
+      "interactions": ["antifungals"]
+    },
+    {
+      "id": "berberyna",
+      "name": "Berberyna",
+      "category": "herbal",
+      "active_ingredients": ["berberine"],
+      "indications": ["insulin_high", "testosterone_high"],
+      "dosage": "500mg 2-3x daily",
+      "contraindications": ["pregnancy", "breastfeeding"],
+      "interactions": ["blood_pressure_meds", "blood_sugar_meds"]
+    },
+    {
+      "id": "dim",
+      "name": "DIM",
+      "category": "phytochemical",
+      "active_ingredients": ["diindolylmethane"],
+      "indications": ["testosterone_high", "progesterone_high", "estradiol_high"],
+      "dosage": "100-200mg daily",
+      "contraindications": ["pregnancy", "hormone_sensitive_conditions"],
+      "interactions": []
+    },
+    {
+      "id": "palma_sabalowa",
+      "name": "Palma sabałowa",
+      "category": "herbal",
+      "active_ingredients": ["saw palmetto extract"],
+      "indications": ["dht_high", "rdw_high"],
+      "dosage": "320mg daily",
+      "contraindications": ["pregnancy", "breastfeeding"],
+      "interactions": ["hormone_therapies"]
+    },
+    {
+      "id": "krzem",
+      "name": "Krzem",
+      "category": "minerals",
+      "active_ingredients": ["silica"],
+      "indications": ["shbg_low"],
+      "dosage": "20-40mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "niepokalane",
+      "name": "Niepokalane",
+      "category": "herbal",
+      "active_ingredients": ["chasteberry extract"],
+      "indications": ["progesterone_low", "prolactin_high"],
+      "dosage": "200-400mg daily",
+      "contraindications": ["pregnancy", "breastfeeding", "hormone_disorders"],
+      "interactions": ["hormone_therapies", "dopamine_antagonists"]
+    },
+    {
+      "id": "maca",
+      "name": "Maca",
+      "category": "herbal",
+      "active_ingredients": ["maca root extract"],
+      "indications": ["cortisol_low"],
+      "dosage": "1500-3000mg daily",
+      "contraindications": ["hormone_sensitive_conditions"],
+      "interactions": ["hormone_therapies"]
+    },
+    {
+      "id": "fosfatydyloseryna",
+      "name": "Fosfatydyloseryna",
+      "category": "phospholipid",
+      "active_ingredients": ["phosphatidylserine"],
+      "indications": ["cortisol_high"],
+      "dosage": "100-300mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "beatina_hcl",
+      "name": "Beatina HCl",
+      "category": "digestion",
+      "active_ingredients": ["betaine hydrochloride"],
+      "indications": ["ferritin_low"],
+      "dosage": "With meals",
+      "contraindications": ["ulcers", "gerd"],
+      "interactions": []
+    },
+    {
+      "id": "witamina_c",
+      "name": "Witamina C",
+      "category": "vitamins",
+      "active_ingredients": ["ascorbic acid"],
+      "indications": ["ferritin_low", "progesterone_low"],
+      "dosage": "500-2000mg daily",
+      "contraindications": ["kidney_stones"],
+      "interactions": []
+    },
+    {
+      "id": "witamina_e",
+      "name": "Witamina E",
+      "category": "vitamins",
+      "active_ingredients": ["tocopherols"],
+      "indications": ["gpx_low", "estradiol_low"],
+      "dosage": "200-400IU daily",
+      "contraindications": ["blood_thinners"],
+      "interactions": ["blood_thinners"]
+    },
+    {
+      "id": "witamina_a",
+      "name": "Witamina A",
+      "category": "vitamins",
+      "active_ingredients": ["retinol"],
+      "indications": ["androstendion_low"],
+      "dosage": "2500-5000IU daily",
+      "contraindications": ["pregnancy", "liver_disease"],
+      "interactions": []
+    },
+    {
+      "id": "witamina_d3",
+      "name": "Witamina D3",
+      "category": "vitamins",
+      "active_ingredients": ["cholecalciferol"],
+      "indications": ["vitamin_d3_low", "fosfataza_alkaliczna_low"],
+      "dosage": "2000-5000IU daily with K2",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "witamina_k2",
+      "name": "Witamina K2",
+      "category": "vitamins",
+      "active_ingredients": ["menaquinone-7"],
+      "indications": ["with_vitamin_d3"],
+      "dosage": "100-200mcg daily",
+      "contraindications": ["blood_thinners"],
+      "interactions": ["blood_thinners"]
+    },
+    {
+      "id": "miedz",
+      "name": "Miedz",
+      "category": "minerals",
+      "active_ingredients": ["copper"],
+      "indications": ["mcv_low", "ceruloplazmina_low", "ast_low", "alt_low"],
+      "dosage": "1-2mg daily",
+      "contraindications": [],
+      "interactions": ["zinc"]
+    },
+    {
+      "id": "wapn",
+      "name": "Wapn",
+      "category": "minerals",
+      "active_ingredients": ["calcium"],
+      "indications": ["homocysteine_low", "progesterone_high", "estradiol_high"],
+      "dosage": "500-1000mg daily",
+      "contraindications": ["kidney_stones"],
+      "interactions": ["thyroid_meds", "antibiotics"]
+    },
+    {
+      "id": "magnez",
+      "name": "Magnez",
+      "category": "minerals",
+      "active_ingredients": ["magnesium"],
+      "indications": ["magnesium_low", "shbg_low", "dht_low"],
+      "dosage": "200-400mg daily",
+      "contraindications": ["kidney_disease"],
+      "interactions": []
+    },
+    {
+      "id": "hepaset",
+      "name": "Hepaset",
+      "category": "liver_support",
+      "active_ingredients": ["milk thistle", "artichoke"],
+      "indications": ["ferritin_high", "ast_high", "alt_high", "cholesterol_low", "ggtp_high", "estradiol_high"],
+      "dosage": "1-2 capsules daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "hepastrong",
+      "name": "Hepastrong",
+      "category": "liver_support",
+      "active_ingredients": ["phospholipids", "choline"],
+      "indications": ["cholesterol_low", "ast_high", "alt_high", "ft3_low", "ft4_low", "estradiol_low"],
+      "dosage": "1-2 capsules daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "liver_complex",
+      "name": "Liver Complex",
+      "category": "liver_support",
+      "active_ingredients": ["milk thistle", "dandelion", "turmeric"],
+      "indications": ["hematokryt_low", "ceruloplazmina_low", "ast_low"],
+      "dosage": "1-2 capsules daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "ostropest",
+      "name": "Ostropest",
+      "category": "liver_support",
+      "active_ingredients": ["silymarin"],
+      "indications": ["ast_alt_ratio_low", "ggtp_high", "ggtp_low"],
+      "dosage": "200-400mg silymarin daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "karczoch",
+      "name": "Karczoch",
+      "category": "liver_support",
+      "active_ingredients": ["cynarin"],
+      "indications": ["ggtp_high", "ggtp_low"],
+      "dosage": "300-600mg daily",
+      "contraindications": ["gallstones"],
+      "interactions": []
+    },
+    {
+      "id": "tauryna",
+      "name": "Tauryna",
+      "category": "amino_acid",
+      "active_ingredients": ["taurine"],
+      "indications": ["tg_low", "ggtp_low"],
+      "dosage": "500-2000mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "d_glukaranian_wapnia",
+      "name": "D-glukaranian wapnia",
+      "category": "detox",
+      "active_ingredients": ["calcium D-glucarate"],
+      "indications": ["homocysteine_low", "progesterone_high", "estradiol_high", "estradiol_progesterone_ratio_low", "fosfataza_alkaliczna_high"],
+      "dosage": "200-500mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "sulforafan",
+      "name": "Sulforafan",
+      "category": "phytochemical",
+      "active_ingredients": ["sulforaphane"],
+      "indications": ["estradiol_progesterone_ratio_low"],
+      "dosage": "30-60mg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "rozaniec_gorski",
+      "name": "Rozaniec gorski",
+      "category": "adaptogen",
+      "active_ingredients": ["rhodiola rosea extract"],
+      "indications": ["dheas_low"],
+      "dosage": "200-400mg daily",
+      "contraindications": ["bipolar_disorder"],
+      "interactions": []
+    },
+    {
+      "id": "krolowa",
+      "name": "Królowa",
+      "category": "hormonal_support",
+      "active_ingredients": ["herbal blend"],
+      "indications": ["testosterone_low", "sodium_low"],
+      "dosage": "As directed",
+      "contraindications": ["pregnancy"],
+      "interactions": []
+    },
+    {
+      "id": "czarnodziej",
+      "name": "Czarnodziej",
+      "category": "hormonal_support",
+      "active_ingredients": ["herbal blend"],
+      "indications": ["testosterone_low"],
+      "dosage": "As directed",
+      "contraindications": ["pregnancy"],
+      "interactions": []
+    },
+    {
+      "id": "aura",
+      "name": "Aura",
+      "category": "adrenal_support",
+      "active_ingredients": ["herbal blend"],
+      "indications": ["sodium_low"],
+      "dosage": "As directed",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "heapset",
+      "name": "Heapset",
+      "category": "liver_support",
+      "active_ingredients": ["herbal blend"],
+      "indications": ["hematokryt_low", "ferritin_high"],
+      "dosage": "As directed",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "apyrol_kpu",
+      "name": "Apyrol KPU",
+      "category": "specialized",
+      "active_ingredients": ["pyrrole control blend"],
+      "indications": ["magnesium_low"],
+      "dosage": "As directed",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "be_health_gloowi",
+      "name": "Be Health Gloowi",
+      "category": "immunity",
+      "active_ingredients": ["immune blend"],
+      "indications": ["monocytes_low"],
+      "dosage": "As directed",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "postbiotic",
+      "name": "Postbiotic",
+      "category": "gut_health",
+      "active_ingredients": ["postbiotics"],
+      "indications": ["bazofile_high"],
+      "dosage": "As directed",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "narum_fast",
+      "name": "Narum Fast",
+      "category": "anti_inflammatory",
+      "active_ingredients": ["anti-inflammatory blend"],
+      "indications": ["bazofile_high", "monocytes_high"],
+      "dosage": "As directed",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "lactibiane_tolerance",
+      "name": "Lactibiane Tolerancja",
+      "category": "probiotics",
+      "active_ingredients": ["probiotic blend"],
+      "indications": ["hematokryt_high", "mcv_high"],
+      "dosage": "1-2 capsules daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "dao_biotic",
+      "name": "DAO Biotic",
+      "category": "enzymes",
+      "active_ingredients": ["DAO enzyme"],
+      "indications": ["dao_high"],
+      "dosage": "1-2 capsules before meals",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "zelazo",
+      "name": "Zelazo",
+      "category": "minerals",
+      "active_ingredients": ["iron"],
+      "indications": ["iron_deficiency", "hemoglobin_low", "erythrocytes_low", "mch_low", "mchc_low", "mcv_low"],
+      "dosage": "14-65mg daily depending on severity",
+      "contraindications": ["hemochromatosis"],
+      "interactions": ["antacids", "thyroid_meds"]
+    },
+    {
+      "id": "b12",
+      "name": "Witamina B12",
+      "category": "vitamins",
+      "active_ingredients": ["cyanocobalamin or methylcobalamin"],
+      "indications": ["b12_deficiency", "mch_high", "mma_high"],
+      "dosage": "500-1000mcg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "b9",
+      "name": "Kwas foliowy",
+      "category": "vitamins",
+      "active_ingredients": ["folic acid or methylfolate"],
+      "indications": ["b9_deficiency"],
+      "dosage": "400-800mcg daily",
+      "contraindications": [],
+      "interactions": []
+    },
+    {
+      "id": "b6",
+      "name": "Witamina B6",
+      "category": "vitamins",
+      "active_ingredients": ["pyridoxine or P5P"],
+      "indications": ["homocysteine_low", "mcv_low", "ast_low", "alt_low"],
+      "dosage": "25-50mg daily",
+      "contraindications": [],
+      "interactions": []
+    }
+  ]
+}

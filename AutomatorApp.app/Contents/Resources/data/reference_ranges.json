@@ -1,0 +1,190 @@
+{
+  "reference_ranges": [
+    {
+      "name": "WBC",
+      "min": 4.0,
+      "max": 10.0,
+      "unit": "x10^9/L"
+    },
+    {
+      "name": "RDW",
+      "min": 37.0,
+      "max": 54.0,
+      "unit": "%"
+    },
+    {
+      "name": "PDW",
+      "min": 9.0,
+      "max": 17.0,
+      "unit": "%"
+    },
+    {
+      "name": "Neutrofile",
+      "min": 40.0,
+      "max": 70.0,
+      "unit": "%"
+    },
+    {
+      "name": "Bazofile",
+      "min": 0.0,
+      "max": 1.0,
+      "unit": "%"
+    },
+    {
+      "name": "Żelazo",
+      "min": 100.0,
+      "max": 120.0,
+      "unit": "ug/dL"
+    },
+    {
+      "name": "Ferrytyna",
+      "min": 50.0,
+      "max": 90.0,
+      "unit": "ng/mL"
+    },
+    {
+      "name": "Cholesterol",
+      "min": 180.0,
+      "max": 220.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "HDL",
+      "min": 50.0,
+      "max": 999.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "LDL",
+      "min": 100.0,
+      "max": 200.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Trójglicerydy",
+      "min": 0.0,
+      "max": 100.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Glukoza",
+      "min": 70.0,
+      "max": 90.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Insulina",
+      "min": 0.0,
+      "max": 9.0,
+      "unit": "uU/mL"
+    },
+    {
+      "name": "TSH",
+      "min": 0.0,
+      "max": 2.5,
+      "unit": "mIU/L"
+    },
+    {
+      "name": "FT3",
+      "min": 1.8,
+      "max": 4.6,
+      "unit": "pmol/L"
+    },
+    {
+      "name": "FT4",
+      "min": 0.93,
+      "max": 1.7,
+      "unit": "pmol/L"
+    },
+    {
+      "name": "Witamina B12",
+      "min": 400.0,
+      "max": 900.0,
+      "unit": "pg/mL"
+    },
+    {
+      "name": "Kwas foliowy (Witamina B9)",
+      "min": 12.0,
+      "max": 20.0,
+      "unit": "ng/mL"
+    },
+    {
+      "name": "Witamina D (25-OH)",
+      "min": 50.0,
+      "max": 100.0,
+      "unit": "ng/mL"
+    },
+    {
+      "name": "Kortyzol",
+      "min": 0.0,
+      "max": 15.0,
+      "unit": "ug/dL"
+    },
+    {
+      "name": "Transferryna",
+      "min": 200.0,
+      "max": 360.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Witamina C",
+      "min": 0.4,
+      "max": 2.0,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Wapń (Ca)",
+      "min": 8.5,
+      "max": 10.2,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Magnez (Mg)",
+      "min": 1.7,
+      "max": 2.2,
+      "unit": "mg/dL"
+    },
+    {
+      "name": "Cynk",
+      "min": 70.0,
+      "max": 120.0,
+      "unit": "ug/dL"
+    },
+    {
+      "name": "Selen",
+      "min": 70.0,
+      "max": 150.0,
+      "unit": "ug/L"
+    },
+    {
+      "name": "Witamina A",
+      "min": 30.0,
+      "max": 80.0,
+      "unit": "ug/dL"
+    },
+    {
+      "name": "Witamina E",
+      "min": 5.5,
+      "max": 18.0,
+      "unit": "mg/L"
+    },
+    {
+      "name": "Jod",
+      "min": 40.0,
+      "max": 92.0,
+      "unit": "ug/L"
+    },
+    {
+      "name": "Potas (K)",
+      "min": 3.5,
+      "max": 5.1,
+      "unit": "mmol/L"
+    },
+    {
+      "name": "Sód (Na)",
+      "min": 135.0,
+      "max": 145.0,
+      "unit": "mmol/L"
+    }
+  ]
+}

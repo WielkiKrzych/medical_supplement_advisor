@@ -1,0 +1,628 @@
+{
+  "dosage_rules": [
+    {
+      "id": "vit_d_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina D (25-OH)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "2000 IU dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy D (poniżej 50 ng/mL)"
+        }
+      ]
+    },
+    {
+      "id": "vit_d_very_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina D (25-OH)",
+      "test_value_range": { "max": 30 },
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "5000 IU dziennie przez 8 tygodni, potem 2000 IU",
+          "priority": "critical",
+          "reason": "Poważny niedobór witaminy D (poniżej 30 ng/mL)"
+        }
+      ]
+    },
+    {
+      "id": "b12_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina B12",
+      "test_value_range": { "max": 400 },
+      "supplements": [
+        {
+          "supplement_id": "vit_b12",
+          "dosage": "1000 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy B12 (poniżej 400 pg/mL)"
+        }
+      ]
+    },
+    {
+      "id": "b12_optimal",
+      "condition_type": "single_test",
+      "test_name": "Witamina B12",
+      "test_value_range": { "min": 400, "max": 500 },
+      "supplements": [
+        {
+          "supplement_id": "vit_b12",
+          "dosage": "500 mcg dziennie",
+          "priority": "medium",
+          "reason": "Witamina B12 poniżej optymalnego poziomu 500 pg/mL"
+        }
+      ]
+    },
+    {
+      "id": "b9_low",
+      "condition_type": "single_test",
+      "test_name": "Kwas foliowy (Witamina B9)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_b9",
+          "dosage": "400 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór kwasu foliowego (poniżej 12 ng/mL)"
+        }
+      ]
+    },
+    {
+      "id": "iron_low",
+      "condition_type": "single_test",
+      "test_name": "Żelazo",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "14-18 mg dziennie",
+          "priority": "critical",
+          "reason": "Niedobór żelaza (poniżej 100 ug/dL)"
+        }
+      ]
+    },
+    {
+      "id": "iron_very_low",
+      "condition_type": "single_test",
+      "test_name": "Żelazo",
+      "test_value_range": { "max": 70 },
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "50-65 mg dziennie",
+          "priority": "critical",
+          "reason": "Poważny niedobór żelaza (poniżej 70 ug/dL)"
+        }
+      ]
+    },
+    {
+      "id": "ferritin_low",
+      "condition_type": "single_test",
+      "test_name": "Ferrytyna",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "14-18 mg dziennie",
+          "priority": "critical",
+          "reason": "Niski poziom ferrytyny (poniżej 50 ng/mL)"
+        }
+      ]
+    },
+    {
+      "id": "ferritin_optimal",
+      "condition_type": "single_test",
+      "test_name": "Ferrytyna",
+      "test_value_range": { "min": 50, "max": 70 },
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "8-10 mg dziennie",
+          "priority": "medium",
+          "reason": "Ferrytyna poniżej optymalnego poziomu (50-70 ng/mL)"
+        }
+      ]
+    },
+    {
+      "id": "glucose_high",
+      "condition_type": "single_test",
+      "test_name": "Glukoza",
+      "test_status": "high",
+      "supplements": [
+        {
+          "supplement_id": "chromium",
+          "dosage": "200-400 mcg dziennie",
+          "priority": "high",
+          "reason": "Podwyższony poziom glukozy (powyżej 90 mg/dL)"
+        },
+        {
+          "supplement_id": "alpha_lipoic_acid",
+          "dosage": "300-600 mg dziennie",
+          "priority": "medium",
+          "reason": "Wspomaganie metabolizmu glukozy"
+        }
+      ]
+    },
+    {
+      "id": "insulin_high",
+      "condition_type": "single_test",
+      "test_name": "Insulina",
+      "test_status": "high",
+      "supplements": [
+        {
+          "supplement_id": "chromium",
+          "dosage": "400 mcg dziennie",
+          "priority": "high",
+          "reason": "Podwyższona insulina (powyżej 9 uU/mL)"
+        },
+        {
+          "supplement_id": "omega_3",
+          "dosage": "2000 mg dziennie",
+          "priority": "medium",
+          "reason": "Poprawa wrażliwości na insulinę"
+        }
+      ]
+    },
+    {
+      "id": "tsh_high",
+      "condition_type": "single_test",
+      "test_name": "TSH",
+      "test_status": "high",
+      "supplements": [
+        {
+          "supplement_id": "selenium",
+          "dosage": "200 mcg dziennie",
+          "priority": "high",
+          "reason": "Podwyższone TSH (powyżej 2.5 mIU/L) - wsparcie tarczycy"
+        },
+        {
+          "supplement_id": "iodine",
+          "dosage": "150 mcg dziennie",
+          "priority": "medium",
+          "reason": "Jod dla prawidłowej funkcji tarczycy"
+        }
+      ]
+    },
+    {
+      "id": "ft3_low",
+      "condition_type": "single_test",
+      "test_name": "FT3",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "selenium",
+          "dosage": "200 mcg dziennie",
+          "priority": "high",
+          "reason": "Niski FT3 (poniżej 1.8 pmol/L) - wspomaganie konwersji T4 do T3"
+        }
+      ]
+    },
+    {
+      "id": "ft4_low",
+      "condition_type": "single_test",
+      "test_name": "FT4",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "selenium",
+          "dosage": "200 mcg dziennie",
+          "priority": "high",
+          "reason": "Niski FT4 (poniżej 0.93 pmol/L) - wsparcie produkcji hormonów"
+        }
+      ]
+    },
+    {
+      "id": "cholesterol_high",
+      "condition_type": "single_test",
+      "test_name": "Cholesterol",
+      "test_value_range": { "min": 220 },
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "2000-3000 mg dziennie (EPA/DHA)",
+          "priority": "high",
+          "reason": "Podwyższony cholesterol (powyżej 220 mg/dL)"
+        },
+        {
+          "supplement_id": "red_yeast_rice",
+          "dosage": "600-1200 mg dziennie",
+          "priority": "medium",
+          "reason": "Naturalne obniżanie cholesterolu"
+        }
+      ]
+    },
+    {
+      "id": "hdl_low",
+      "condition_type": "single_test",
+      "test_name": "HDL",
+      "test_value_range": { "max": 50 },
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "2000 mg dziennie",
+          "priority": "high",
+          "reason": "Niski HDL (poniżej 50 mg/dL) - zwiększenie 'dobrego' cholesterolu"
+        }
+      ]
+    },
+    {
+      "id": "ldl_high",
+      "condition_type": "single_test",
+      "test_name": "LDL",
+      "test_value_range": { "min": 130 },
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "2000 mg dziennie",
+          "priority": "high",
+          "reason": "Podwyższony LDL (powyżej 130 mg/dL)"
+        },
+        {
+          "supplement_id": "plant_sterols",
+          "dosage": "2-3 g dziennie",
+          "priority": "medium",
+          "reason": "Obniżenie 'złego' cholesterolu LDL"
+        }
+      ]
+    },
+    {
+      "id": "triglycerides_high",
+      "condition_type": "single_test",
+      "test_name": "Trójglicerydy",
+      "test_value_range": { "min": 100 },
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "2000-3000 mg dziennie",
+          "priority": "high",
+          "reason": "Podwyższone trójglicerydy (powyżej 100 mg/dL)"
+        }
+      ]
+    },
+    {
+      "id": "cortisol_high",
+      "condition_type": "single_test",
+      "test_name": "Kortyzol",
+      "test_status": "high",
+      "supplements": [
+        {
+          "supplement_id": "ashwagandha",
+          "dosage": "300-600 mg dziennie",
+          "priority": "high",
+          "reason": "Podwyższony kortyzol (powyżej 15 ug/dL) - adaptogen"
+        },
+        {
+          "supplement_id": "magnesium",
+          "dosage": "400 mg dziennie",
+          "priority": "medium",
+          "reason": "Wspomaganie redukcji stresu"
+        }
+      ]
+    },
+    {
+      "id": "wbc_high",
+      "condition_type": "single_test",
+      "test_name": "WBC",
+      "test_status": "high",
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "1000 mg dziennie",
+          "priority": "medium",
+          "reason": "Podwyższona liczba leukocytów - działanie przeciwzapalne"
+        }
+      ]
+    },
+    {
+      "id": "wbc_low",
+      "condition_type": "single_test",
+      "test_name": "WBC",
+      "test_value_range": { "max": 4 },
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "2000 IU dziennie",
+          "priority": "medium",
+          "reason": "Niska liczba leukocytów (poniżej 4) - wsparcie odporności"
+        },
+        {
+          "supplement_id": "zinc",
+          "dosage": "15-25 mg dziennie",
+          "priority": "medium",
+          "reason": "Cynk dla układu odpornościowego"
+        }
+      ]
+    },
+    {
+      "id": "neutrophils_low",
+      "condition_type": "single_test",
+      "test_name": "Neutrofile",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "2000 IU dziennie",
+          "priority": "medium",
+          "reason": "Niskie neutrofile (poniżej 40%) - wsparcie odporności"
+        }
+      ]
+    },
+    {
+      "id": "vit_c_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina C",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_c",
+          "dosage": "500-1000 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy C"
+        }
+      ]
+    },
+    {
+      "id": "calcium_low",
+      "condition_type": "single_test",
+      "test_name": "Wapń (Ca)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "calcium",
+          "dosage": "500-600 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór wapnia"
+        }
+      ]
+    },
+    {
+      "id": "magnesium_low",
+      "condition_type": "single_test",
+      "test_name": "Magnez (Mg)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "magnesium",
+          "dosage": "200-400 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór magnezu"
+        }
+      ]
+    },
+    {
+      "id": "zinc_low",
+      "condition_type": "single_test",
+      "test_name": "Cynk",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "zinc",
+          "dosage": "15-25 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór cynku"
+        }
+      ]
+    },
+    {
+      "id": "selenium_low",
+      "condition_type": "single_test",
+      "test_name": "Selen",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "selenium",
+          "dosage": "100-200 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór selenu"
+        }
+      ]
+    },
+    {
+      "id": "vit_a_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina A",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_a",
+          "dosage": "2500-5000 IU dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy A"
+        }
+      ]
+    },
+    {
+      "id": "vit_e_low",
+      "condition_type": "single_test",
+      "test_name": "Witamina E",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "vit_e",
+          "dosage": "15-30 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór witaminy E"
+        }
+      ]
+    },
+    {
+      "id": "iodine_low",
+      "condition_type": "single_test",
+      "test_name": "Jod",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "iodine",
+          "dosage": "150-300 mcg dziennie",
+          "priority": "high",
+          "reason": "Niedobór jodu"
+        }
+      ]
+    },
+    {
+      "id": "potassium_low",
+      "condition_type": "single_test",
+      "test_name": "Potas (K)",
+      "test_status": "low",
+      "supplements": [
+        {
+          "supplement_id": "potassium",
+          "dosage": "100-200 mg dziennie",
+          "priority": "high",
+          "reason": "Niedobór potasu"
+        }
+      ]
+    },
+    {
+      "id": "anemia_pattern",
+      "condition_type": "combination",
+      "tests": [
+        { "name": "Żelazo", "status": "low" },
+        { "name": "Ferrytyna", "status": "low" }
+      ],
+      "supplements": [
+        {
+          "supplement_id": "iron",
+          "dosage": "50-65 mg dziennie",
+          "priority": "critical",
+          "reason": "Wzorzec anemii z niedoboru żelaza"
+        },
+        {
+          "supplement_id": "vit_c",
+          "dosage": "500 mg dziennie",
+          "priority": "high",
+          "reason": "Witamina C poprawia wchłanianie żelaza"
+        }
+      ]
+    },
+    {
+      "id": "bone_health_pattern",
+      "condition_type": "combination",
+      "tests": [
+        { "name": "Witamina D (25-OH)", "status": "low" },
+        { "name": "Wapń (Ca)", "status": "low" }
+      ],
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "2000-5000 IU dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie zdrowia kości - niedobór witaminy D i wapnia"
+        },
+        {
+          "supplement_id": "calcium",
+          "dosage": "500-600 mg dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie zdrowia kości"
+        },
+        {
+          "supplement_id": "magnesium",
+          "dosage": "200-400 mg dziennie",
+          "priority": "high",
+          "reason": "Magnez wspomaga wchłanianie wapnia"
+        }
+      ]
+    },
+    {
+      "id": "thyroid_support",
+      "condition_type": "patient_condition",
+      "condition": "hypothyroidism",
+      "supplements": [
+        {
+          "supplement_id": "iodine",
+          "dosage": "150 mcg dziennie",
+          "priority": "high",
+          "reason": "Wsparcie tarczycy - niedoczynność"
+        },
+        {
+          "supplement_id": "selenium",
+          "dosage": "200 mcg dziennie",
+          "priority": "high",
+          "reason": "Selen wspomaga konwersję hormonów tarczycy"
+        }
+      ]
+    },
+    {
+      "id": "inflammation_support",
+      "condition_type": "patient_condition",
+      "condition": "inflammation",
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "1000-2000 mg dziennie (EPA/DHA)",
+          "priority": "medium",
+          "reason": "Wsparcie przy stanach zapalnych"
+        },
+        {
+          "supplement_id": "vit_c",
+          "dosage": "500 mg dziennie",
+          "priority": "medium",
+          "reason": "Witamina C - przeciwutleniacz"
+        }
+      ]
+    },
+    {
+      "id": "bone_density_support",
+      "condition_type": "patient_condition",
+      "condition": "osteoporosis",
+      "supplements": [
+        {
+          "supplement_id": "vit_d3",
+          "dosage": "4000 IU dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie gęstości kości - osteoporoza"
+        },
+        {
+          "supplement_id": "calcium",
+          "dosage": "600-800 mg dziennie",
+          "priority": "critical",
+          "reason": "Wsparcie gęstości kości"
+        },
+        {
+          "supplement_id": "magnesium",
+          "dosage": "400 mg dziennie",
+          "priority": "high",
+          "reason": "Magnez dla zdrowia kości"
+        },
+        {
+          "supplement_id": "vit_k2",
+          "dosage": "45-180 mcg dziennie",
+          "priority": "high",
+          "reason": "Witamina K2 wspomaga wchłanianie wapnia do kości"
+        }
+      ]
+    },
+    {
+      "id": "metabolic_syndrome",
+      "condition_type": "combination",
+      "tests": [
+        { "name": "Glukoza", "status": "high" },
+        { "name": "Trójglicerydy", "status": "high" },
+        { "name": "HDL", "status": "low" }
+      ],
+      "supplements": [
+        {
+          "supplement_id": "omega_3",
+          "dosage": "3000 mg dziennie",
+          "priority": "critical",
+          "reason": "Zespół metaboliczny - trójglicerydy, glukoza, HDL"
+        },
+        {
+          "supplement_id": "chromium",
+          "dosage": "400 mcg dziennie",
+          "priority": "high",
+          "reason": "Wspomaganie metabolizmu glukozy"
+        },
+        {
+          "supplement_id": "alpha_lipoic_acid",
+          "dosage": "600 mg dziennie",
+          "priority": "high",
+          "reason": "Poprawa wrażliwości na insulinę"
+        }
+      ]
+    }
+  ]
+}

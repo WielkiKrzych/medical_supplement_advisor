@@ -1,0 +1,492 @@
+{
+  "version": "2.0",
+  "description": "Interpretation rules for blood test analysis",
+  "rules": {
+    "single_test_rules": [
+      {
+        "id": "neutrophils_b12_deficiency",
+        "test_name": "NEUTROFILE",
+        "condition": "low",
+        "related_deficiencies": ["B12", "B9"],
+        "supplements": ["witaminy_gr_b", "l_glutamina"],
+        "priority": "high",
+        "interpretation": "Niedobór B12 i B9, słaby stan jelit lub proces autoimmunizacyjny"
+      },
+      {
+        "id": "mcv_iron_deficiency",
+        "test_name": "MCV",
+        "condition": "low",
+        "related_deficiencies": ["iron", "copper", "B6"],
+        "supplements": ["miedz", "zelazo", "enzymy"],
+        "priority": "high",
+        "interpretation": "Anemia z niedoboru żelaza, miedzi lub witaminy B6"
+      },
+      {
+        "id": "mcv_b12_deficiency",
+        "test_name": "MCV",
+        "condition": "high",
+        "related_deficiencies": ["B12", "B9"],
+        "supplements": ["witaminy_gr_b", "lactibiane_tolerance"],
+        "priority": "high",
+        "interpretation": "Niedobór B12/B9, biegunka tłuszczowa, celiakia lub niedoczynność tarczycy"
+      },
+      {
+        "id": "rdw_early_iron_deficiency",
+        "test_name": "RDW",
+        "condition": "high",
+        "related_deficiencies": ["iron", "B12", "B9"],
+        "supplements": ["witaminy_gr_b"],
+        "priority": "high",
+        "interpretation": "Podniesione RDW - wczesny objaw niedoboru żelaza, B12 lub B9"
+      },
+      {
+        "id": "ferritin_low_iron",
+        "test_name": "FERRYTYNA",
+        "condition": "low",
+        "related_deficiencies": ["iron"],
+        "supplements": ["beatina_hcl", "laktoferyna", "witamina_c"],
+        "priority": "high",
+        "interpretation": "Niedobór żelaza - zła praca żołądka, zaburzone wchłanianie, pasożyty lub mocne miesiączki"
+      },
+      {
+        "id": "ferritin_high_inflammation",
+        "test_name": "FERRYTYNA",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["koenzym_q10", "heapset", "nac"],
+        "priority": "medium",
+        "interpretation": "Stan zapalny, choroby wątroby lub nadczynność tarczycy"
+      },
+      {
+        "id": "tsh_hypothyroidism",
+        "test_name": "TSH",
+        "condition": "high",
+        "threshold": 2.5,
+        "related_deficiencies": [],
+        "supplements": ["selen", "cynk", "tyrozyna"],
+        "priority": "high",
+        "interpretation": "Niedoczynność tarczycy (TSH > 2.5)"
+      },
+      {
+        "id": "tsh_hyperthyroidism",
+        "test_name": "TSH",
+        "condition": "low",
+        "threshold": 0.5,
+        "related_deficiencies": [],
+        "supplements": ["koenzym_q10"],
+        "priority": "high",
+        "interpretation": "Nadczynność tarczycy (TSH < 0.5)"
+      },
+      {
+        "id": "ft3_low_conversion",
+        "test_name": "FT3",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["selen", "cynk", "hepaset", "hepastrong", "maslan_sodu"],
+        "priority": "high",
+        "interpretation": "Zła praca tarczycy, wątroby, jelit i może nerek"
+      },
+      {
+        "id": "ft4_low_production",
+        "test_name": "FT4",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["tyrozyna", "selen", "cynk"],
+        "priority": "high",
+        "interpretation": "Praca tarczycy zwalnia - zacznie wzrastać TSH"
+      },
+      {
+        "id": "insulin_high_resistance",
+        "test_name": "INSULINA",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["nac", "inozytol", "berberyna", "lactibiane_cnd"],
+        "priority": "high",
+        "interpretation": "Insulinooporność - wyższe poziomy insuliny"
+      },
+      {
+        "id": "glucose_high_diabetes",
+        "test_name": "GLUKOZA",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["dieta"],
+        "priority": "high",
+        "interpretation": "Insulinooporność lub cukrzyca"
+      },
+      {
+        "id": "cholesterol_high_risk",
+        "test_name": "CHOLESTEROL",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["koenzym_q10", "hepastrong"],
+        "priority": "medium",
+        "interpretation": "Ryzyko miażdżycy, stany zapalne"
+      },
+      {
+        "id": "hdl_low_heart_risk",
+        "test_name": "HDL",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["omega_3", "omega_6", "cynk"],
+        "priority": "high",
+        "interpretation": "Ryzyko chorób serca"
+      },
+      {
+        "id": "ldl_high_risk",
+        "test_name": "LDL",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["omega_3", "omega_6"],
+        "priority": "high",
+        "interpretation": "Ryzyko miażdżycy"
+      },
+      {
+        "id": "tg_high_inflammation",
+        "test_name": "TG",
+        "condition": "high",
+        "threshold": 100,
+        "related_deficiencies": [],
+        "supplements": ["inozytol", "nac", "lactibiane_cnd", "mycobiotic"],
+        "priority": "high",
+        "interpretation": "Stany zapalne lub problemy z gospodarką insulinową"
+      },
+      {
+        "id": "ast_high_liver",
+        "test_name": "AST",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["hepaset", "liver_complex", "hepastrong"],
+        "priority": "high",
+        "interpretation": "Zapalenie wątroby - rozważyć diagnostykę o USG"
+      },
+      {
+        "id": "alt_high_liver",
+        "test_name": "ALT",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["hepaset", "liver_complex", "hepastrong"],
+        "priority": "high",
+        "interpretation": "Zapalenie wątroby - rozważyć diagnostykę o USG"
+      },
+      {
+        "id": "ggtp_high_bile",
+        "test_name": "GGTP",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["hepaset_strong", "ostropest", "karczoch"],
+        "priority": "high",
+        "interpretation": "Obciążenie wątroby, możliwe helicobakter lub problemy z żółcią"
+      },
+      {
+        "id": "testosterone_high_pcos",
+        "test_name": "TESTOSTERON",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["inozytol", "nac", "dim", "berberyna"],
+        "priority": "high",
+        "interpretation": "PCOS, insulinooporność"
+      },
+      {
+        "id": "testosterone_low_fatigue",
+        "test_name": "TESTOSTERON",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["krolowa", "czarnodziej", "cynk", "witamina_d3"],
+        "priority": "high",
+        "interpretation": "Niedobory androgenów, przewlekłe zmęczenie"
+      },
+      {
+        "id": "progesterone_low_fertility",
+        "test_name": "PROGESTERON",
+        "condition": "low",
+        "threshold": 16,
+        "related_deficiencies": [],
+        "supplements": ["niepokalane", "cynk", "witamina_c"],
+        "priority": "high",
+        "interpretation": "Problemy z płodnością, ryzyko poronień"
+      },
+      {
+        "id": "estradiol_high_dominance",
+        "test_name": "ESTRADIOL",
+        "condition": "high",
+        "related_deficiencies": [],
+        "supplements": ["dim", "d_glukaranian_wapnia", "ostropest", "hepaset"],
+        "priority": "high",
+        "interpretation": "Dominacja estrogenowa, torbiele jajników lub PCOS"
+      },
+      {
+        "id": "estradiol_low_ovulation",
+        "test_name": "ESTRADIOL",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["omega_3", "witamina_e", "hepaset"],
+        "priority": "high",
+        "interpretation": "Zaburzenia owulacji, menopauza lub niedożywienie"
+      },
+      {
+        "id": "prolactin_high_stress",
+        "test_name": "PROLAKTYNA",
+        "condition": "high",
+        "threshold": 25,
+        "related_deficiencies": [],
+        "supplements": ["niepokalane", "ashwagandha"],
+        "priority": "high",
+        "interpretation": "Prawdopodobnie wysokie androgeny, leki, stres, zła higiena snu lub guz przysadki"
+      },
+      {
+        "id": "cortisol_high_stress",
+        "test_name": "KORTYZOL",
+        "condition": "high",
+        "threshold": 15,
+        "related_deficiencies": [],
+        "supplements": ["fosfatydyloseryna", "ashwagandha"],
+        "priority": "high",
+        "interpretation": "Przewlekły stres, insulinooporność, zaburzenia snu"
+      },
+      {
+        "id": "cortisol_low_adrenal",
+        "test_name": "KORTYZOL",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["maca", "witamina_b5"],
+        "priority": "high",
+        "interpretation": "Wyczerpanie nadnerczy, przewlekłe zmęczenie, choroba Addisona"
+      },
+      {
+        "id": "homocysteine_high_methylation",
+        "test_name": "HOMOCYSTEINA",
+        "condition": "high",
+        "threshold": 6,
+        "related_deficiencies": [],
+        "supplements": ["formy_metylowane_wit_b"],
+        "priority": "high",
+        "interpretation": "Zaburzenia metylacji"
+      },
+      {
+        "id": "homocysteine_low_protein",
+        "test_name": "HOMOCYSTEINA",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["nac", "witamina_b6", "bialko_w_diecie", "heapset", "liver_complex", "hepastrong", "d_glukaranian_wapnia"],
+        "priority": "medium",
+        "interpretation": "Stan zapalny, stres oksydacyjny, zbyt niskie spożycie białka lub słabe trawienie"
+      },
+      {
+        "id": "crp_high_inflammation",
+        "test_name": "CRP",
+        "condition": "high",
+        "threshold": 2,
+        "related_deficiencies": [],
+        "supplements": ["kurkumina", "egcg", "resweratrol", "koenzym_q10"],
+        "priority": "high",
+        "interpretation": "Stany zapalne, infekcje"
+      },
+      {
+        "id": "sodium_low_adrenal",
+        "test_name": "SÓD",
+        "condition": "low",
+        "related_deficiencies": [],
+        "supplements": ["koktajl_nadnerczowy", "aura", "krolowa"],
+        "priority": "high",
+        "interpretation": "Niedobory hormonów nadnerczy, niedoczynność tarczycy, niedobór kortyzolu lub zespół wypalonych nadnerczy"
+      }
+    ],
+    "combination_rules": [
+      {
+        "id": "anemia_iron_pattern",
+        "name": "Wzorzec anemii z niedoboru żelaza",
+        "tests": [
+          {"name": "HEMOGLOBINA", "condition": "low"},
+          {"name": "FERRYTYNA", "condition": "low"}
+        ],
+        "supplements": ["zelazo", "laktoferyna", "witaminy_gr_b", "witamina_c"],
+        "priority": "critical",
+        "interpretation": "Anemia z niedoboru żelaza - wymaga suplementacji"
+      },
+      {
+        "id": "anemia_b12_pattern",
+        "name": "Wzorzec anemii z niedoboru B12",
+        "tests": [
+          {"name": "MCV", "condition": "high"},
+          {"name": "WITAMINA_B12", "condition": "low"}
+        ],
+        "supplements": ["b12", "witaminy_gr_b", "lactibiane_tolerance"],
+        "priority": "critical",
+        "interpretation": "Anemia megaloblastyczna z niedoboru B12"
+      },
+      {
+        "id": "thyroid_autoimmune",
+        "name": "Autoimmunologiczna choroba tarczycy",
+        "tests": [
+          {"name": "ANTYTG", "condition": "high"},
+          {"name": "TSH", "condition": "high"}
+        ],
+        "supplements": ["selen", "cynk", "witamina_d3"],
+        "priority": "high",
+        "interpretation": "Hashimoto - autoimmunologiczna choroba tarczycy"
+      },
+      {
+        "id": "pcos_pattern",
+        "name": "Wzorzec PCOS",
+        "tests": [
+          {"name": "TESTOSTERON", "condition": "high"},
+          {"name": "LH_FSH_RATIO", "condition": "high", "threshold": 2.0}
+        ],
+        "supplements": ["inozytol", "nac", "dim", "berberyna"],
+        "priority": "high",
+        "interpretation": "Zespół policystycznych jajników (PCOS)"
+      },
+      {
+        "id": "insulin_resistance_pattern",
+        "name": "Wzorzec insulinooporności",
+        "tests": [
+          {"name": "INSULINA", "condition": "high"},
+          {"name": "GLUKOZA", "condition": "high"},
+          {"name": "HOMA_IR", "condition": "high", "threshold": 1.5}
+        ],
+        "supplements": ["nac", "inozytol", "berberyna", "lactibiane_cnd", "chromium"],
+        "priority": "high",
+        "interpretation": "Insulinooporność - wymaga interwencji"
+      },
+      {
+        "id": "liver_stress_pattern",
+        "name": "Obciążenie wątroby",
+        "tests": [
+          {"name": "AST", "condition": "high"},
+          {"name": "ALT", "condition": "high"}
+        ],
+        "supplements": ["hepaset", "liver_complex", "hepastrong", "ostropest"],
+        "priority": "high",
+        "interpretation": "Obciążenie wątroby - rozważyć diagnostykę o USG"
+      },
+      {
+        "id": "fatty_liver_pattern",
+        "name": "Stłuszczenie wątroby",
+        "tests": [
+          {"name": "AST_ALT_RATIO", "condition": "low", "threshold": 1.0},
+          {"name": "GGTP", "condition": "high"}
+        ],
+        "supplements": ["nac", "inozytol", "lactibiane_cnd", "mycobiotic", "ostropest"],
+        "priority": "high",
+        "interpretation": "Może sugerować stłuszczenie wątroby lub insulinooporność"
+      },
+      {
+        "id": "estrogen_dominance",
+        "name": "Dominacja estrogenowa",
+        "tests": [
+          {"name": "ESTRADIOL_PROGESTERONE_RATIO", "condition": "high"},
+          {"name": "SHBG", "condition": "high"}
+        ],
+        "supplements": ["dim", "d_glukaranian_wapnia", "hepastrong"],
+        "priority": "high",
+        "interpretation": "Dominacja estrogenowa - wymaga detoksykacji"
+      },
+      {
+        "id": "adrenal_fatigue",
+        "name": "Wypalenie nadnerczy",
+        "tests": [
+          {"name": "KORTYZOL", "condition": "low"},
+          {"name": "SÓD", "condition": "low"}
+        ],
+        "supplements": ["maca", "witamina_b5", "krolowa", "aura"],
+        "priority": "high",
+        "interpretation": "Zespół wypalonych nadnerczy"
+      },
+      {
+        "id": "inflammation_pattern",
+        "name": "Stan zapalny",
+        "tests": [
+          {"name": "CRP", "condition": "high"},
+          {"name": "OB", "condition": "high"}
+        ],
+        "supplements": ["kurkumina", "egcg", "resweratrol", "koenzym_q10"],
+        "priority": "high",
+        "interpretation": "Przewlekły stan zapalny"
+      }
+    ],
+    "ratio_rules": [
+      {
+        "id": "hdl_ldl_ratio",
+        "name": "HDL:LDL",
+        "optimal_ratio": "1:2",
+        "interpretation_low": "Jeśli jest 1:1 obciążona wątroba przerostami bakteryjnymi w jelicie, stanami zapalnymi, chorobą autoimmunologiczną np. Hashimoto",
+        "supplements_low": ["omega_3", "omega_6", "cholina"]
+      },
+      {
+        "id": "hdl_tg_ratio",
+        "name": "HDL:TG",
+        "optimal_ratio": "1:1",
+        "interpretation_high": "Dobry wskaźnik metaboliczny",
+        "interpretation_low": "Ryzyko metaboliczne"
+      },
+      {
+        "id": "ast_alt_ratio",
+        "name": "AST:ALT",
+        "optimal_ratio": "Do 2",
+        "interpretation_high": "Może wskazywać na uszkodzenie wątroby związane z alkoholem",
+        "interpretation_low": "Może sugerować stłuszczenie wątroby lub insulinooporność",
+        "supplements_low": ["nac", "inozytol", "lactibiane_cnd", "mycobiotic", "ostropest"]
+      },
+      {
+        "id": "lh_fsh_ratio",
+        "name": "LH:FSH",
+        "optimal_ratio": "1:1",
+        "interpretation_high": "Wysokie LH w stosunku do FSH (np. 2:1) sugeruje PCOS. Bardzo wysokie wartości mogą wskazywać na niewydolność jajników",
+        "supplements_high": ["myo-inozytol"],
+        "interpretation_low": "Niskie LH i FSH mogą świadczyć o niedoczynności przysadki",
+        "supplements_low": ["ashwagandha", "nac"]
+      },
+      {
+        "id": "estradiol_progesterone_ratio",
+        "name": "Estradiol:Progesteron",
+        "optimal_ranges": {
+          "100-500": "Normal",
+          "200-300": "Optimal"
+        },
+        "interpretation_high": "Dominacja estrogenowa",
+        "interpretation_low": "Niedobór estrogenów",
+        "supplements_low": ["dim", "inozytol", "nac"],
+        "supplements_high": ["ashwagandha"]
+      },
+      {
+        "id": "sodium_potassium_ratio",
+        "name": "Sód:Potas",
+        "optimal_ratio": "30-35",
+        "interpretation_high": "Może być wywalony kortyzol",
+        "interpretation_low": "Zaburzenia elektrolitowe"
+      }
+    ],
+    "curve_analysis": {
+      "glucose_curve": {
+        "timepoints": [0, 60, 120, 180],
+        "optimal_values": {
+          "0": {"min": 70, "max": 87},
+          "60": {"min": 120, "max": 140},
+          "120": {"max": 100},
+          "180": {"min": 70, "max": 90}
+        },
+        "interpretations": {
+          "fasting_high": "Insulinooporność lub cukrzyca",
+          "spike_too_high": "Nadmierna odpowiedź glukozowa",
+          "slow_clearance": "Upośledzona tolerancja glukozy",
+          "reactive_hypoglycemia": "Hipoglikemia reaktywna"
+        }
+      },
+      "insulin_curve": {
+        "timepoints": [0, 60, 120, 180],
+        "optimal_values": {
+          "0": {"min": 5, "max": 6},
+          "60": {"max": 45},
+          "120": {"max": 30},
+          "180": {"max": 10}
+        },
+        "interpretations": {
+          "fasting_high": "Insulinooporność",
+          "fasting_low": "Możliwe hockiklocki w krzywej",
+          "excessive_spike": "Nadmierna odpowiedź insulinowa",
+          "delayed_clearance": "Opóźniona eliminacja insuliny"
+        }
+      }
+    }
+  }
+}

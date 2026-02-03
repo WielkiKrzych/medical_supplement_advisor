@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Simple diagnostic launcher
+APP_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RESOURCES_PATH="$APP_PATH/../Resources"
+
+cd "$RESOURCES_PATH" || exit 1
+
+# Log to desktop for easy access
+LOG_FILE="$HOME/Desktop/AutomatorApp_debug.log"
+
+echo "=== Debug Launcher started at $(date) ===" > "$LOG_FILE"
+echo "Working directory: $(pwd)" >> "$LOG_FILE"
+echo "User: $USER" >> "$LOG_FILE"
+echo "Architecture: $(arch)" >> "$LOG_FILE"
+
+# Test Python
+echo "--- Testing Python ---" >> "$LOG_FILE"
+/usr/local/bin/python3 --version >> "$LOG_FILE" 2>&1
+/usr/local/bin/python3 -c "import platform; print('Platform:', platform.machine())" >> "$LOG_FILE" 2>&1
+
+# Test PyQt5
+echo "--- Testing PyQt5 ---" >> "$LOG_FILE"
+/usr/local/bin/python3 -c "from PyQt5.QtWidgets import QApplication; print('PyQt5 OK')" >> "$LOG_FILE" 2>&1
+
+# Try to start GUI
+echo "--- Starting GUI ---" >> "$LOG_FILE"
+echo "DISPLAY: $DISPLAY" >> "$LOG_FILE"
+
+# Run GUI with verbose output
+export QT_DEBUG_PLUGINS=1
+/usr/local/bin/python3 << 'PYTHON_SCRIPT' >> "$LOG_FILE" 2>&1
+import sys
+print(f"Python version: {sys.version}")
+print(f"Arguments: {sys.argv}")
+
+try:
+    from PyQt5.QtWidgets import QApplication
+    from PyQt5.QtCore import QT_VERSION_STR, PYQT_VERSION_STR
+
+    print(f"Qt version: {QT_VERSION_STR}")
+    print(f"PyQt version: {PYQT_VERSION_STR}")
+
+    app = QApplication(sys.argv)
+    print(f"QApplication created")
+    print(f"Platform: {app.platformName()}")
+    print(f"Screens: {len(app.screens())}")
+
+    # Now import and run the main application
+    print("Importing main module...")
+    from src.main import run_gui
+    print("Running GUI...")
+    run_gui()
+except Exception as e:
+    print(f"ERROR: {e}")
+    import traceback
+    traceback.print_exc()
+    sys.exit(1)
+PYTHON_SCRIPT
+
+EXIT_CODE=$?
+
+echo "--- GUI exited with code: $EXIT_CODE ---" >> "$LOG_FILE"
+echo "=== Debug Launcher ended at $(date) ===" >> "$LOG_FILE"

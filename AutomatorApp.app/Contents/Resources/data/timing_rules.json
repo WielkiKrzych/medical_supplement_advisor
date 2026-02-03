@@ -1,0 +1,26 @@
+{
+  "timing_rules": {
+    "vit_d3": "with_breakfast",
+    "vit_b12": "with_breakfast",
+    "vit_b9": "with_breakfast",
+    "iron": "between_meals",
+    "vit_c": "after_meal",
+    "calcium": "with_evening_meal",
+    "magnesium": "evening_before_bed",
+    "zinc": "with_meal",
+    "selenium": "with_meal",
+    "vit_a": "with_meal",
+    "vit_e": "with_meal",
+    "iodine": "with_breakfast",
+    "potassium": "with_meal",
+    "omega_3": "with_meal"
+  },
+  "timing_display": {
+    "with_breakfast": "Z posiłkiem śniadaniowym",
+    "between_meals": "Między posiłkami (na czczo)",
+    "after_meal": "Po posiłku",
+    "with_evening_meal": "Z posiłkiem wieczorowym",
+    "evening_before_bed": "Wieczorem przed snem",
+    "with_meal": "Z posiłkiem"
+  }
+}

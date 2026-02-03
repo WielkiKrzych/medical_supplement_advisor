@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Witamina D (25-OH)",
+    "value": 22.0,
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Witamina B12",
+    "value": 150.0,
+    "unit": "pg/mL"
+  },
+  {
+    "name": "Żelazo",
+    "value": 45.0,
+    "unit": "ug/dL"
+  },
+  {
+    "name": "Ferrytyna",
+    "value": 20.0,
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Magnez (Mg)",
+    "value": 1.5,
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Cynk",
+    "value": 60.0,
+    "unit": "ug/dL"
+  }
+]
