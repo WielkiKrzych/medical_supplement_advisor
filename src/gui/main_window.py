@@ -1,5 +1,7 @@
+import os
 import sys
 from pathlib import Path
+from typing import Optional
 from PyQt5.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -36,9 +38,9 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(700, 500)
         self.json_parser = JSONParser()
         self.document_parser = DocumentParser()
-        self.selected_json_file = None
-        self.selected_document_file = None
-        self.output_pdf_path = None
+        self.selected_json_file: Optional[Path] = None
+        self.selected_document_file: Optional[Path] = None
+        self.output_pdf_path: Optional[Path] = None
 
         self.init_ui()
 
@@ -163,9 +165,11 @@ class MainWindow(QMainWindow):
                 parsed_data = self.document_parser.parse_document(
                     self.selected_document_file
                 )
-            else:
+            elif self.selected_json_file:
                 self.status_text.append("Przetwarzanie pliku JSON...")
                 parsed_data = self.json_parser.parse_document(self.selected_json_file)
+            else:
+                raise ValueError("Nie wybrano pliku")
 
             patient_data = parsed_data.get("patient")
             blood_tests_data = parsed_data.get("blood_tests")
@@ -236,6 +240,8 @@ class MainWindow(QMainWindow):
 
             resolved_path = self.output_pdf_path.resolve()
             resolved_output_dir = OUTPUT_DIR.resolve()
+
+            # Ensure the path is within output directory
             if not str(resolved_path).startswith(str(resolved_output_dir)):
                 QMessageBox.critical(
                     self,
@@ -243,8 +249,26 @@ class MainWindow(QMainWindow):
                     "Ścieżka pliku jest poza dozwolonym katalogiem.",
                 )
                 return
+
+            # Additional check: verify it's actually a PDF
+            if resolved_path.suffix.lower() != ".pdf":
+                QMessageBox.critical(
+                    self,
+                    "Błąd bezpieczeństwa",
+                    "Nieprawidłowy format pliku.",
+                )
+                return
+
+            # Verify file is readable
+            if not resolved_path.is_file() or not os.access(resolved_path, os.R_OK):
+                QMessageBox.critical(
+                    self,
+                    "Błąd",
+                    "Brak dostępu do pliku.",
+                )
+                return
+
         except Exception:
-            # If validation fails, don't proceed
             QMessageBox.critical(self, "Błąd", "Nie można zweryfikować ścieżki pliku.")
             return
 
@@ -253,14 +277,16 @@ class MainWindow(QMainWindow):
 
         try:
             system = platform.system()
-            if system == "Darwin":  # macOS
-                subprocess.run(["open", str(self.output_pdf_path)], check=True)
+            if system == "Darwin":
+                subprocess.run(["open", str(resolved_path)], check=True)
             elif system == "Windows":
                 subprocess.run(
-                    ["start", "", str(self.output_pdf_path)], shell=True, check=True
+                    ["cmd", "/c", "start", "", str(resolved_path)],
+                    shell=True,
+                    check=True,
                 )
-            else:  # Linux and other Unix-like
-                subprocess.run(["xdg-open", str(self.output_pdf_path)], check=True)
+            else:
+                subprocess.run(["xdg-open", str(resolved_path)], check=True)
         except subprocess.CalledProcessError as e:
             QMessageBox.critical(self, "Błąd", f"Nie można otworzyć pliku PDF: {e}")
         except Exception as e:

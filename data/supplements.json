@@ -69,6 +69,36 @@
       "id": "omega_3",
       "name": "Kwasy Omega-3 (EPA/DHA)",
       "condition": "inflammation"
+    },
+    {
+      "id": "chromium",
+      "name": "Chrom (pikolinian chromu)",
+      "condition": "glucose_metabolism"
+    },
+    {
+      "id": "alpha_lipoic_acid",
+      "name": "Kwas alfa-liponowy (ALA)",
+      "condition": "insulin_sensitivity"
+    },
+    {
+      "id": "red_yeast_rice",
+      "name": "Czerwony ryż drożdżowy",
+      "condition": "high_cholesterol"
+    },
+    {
+      "id": "plant_sterols",
+      "name": "Fytosterole",
+      "condition": "high_ldl"
+    },
+    {
+      "id": "ashwagandha",
+      "name": "Ashwagandha (Withania somnifera)",
+      "condition": "high_cortisol"
+    },
+    {
+      "id": "vit_k2",
+      "name": "Witamina K2 (menachinon-7)",
+      "condition": "bone_health"
     }
   ]
 }

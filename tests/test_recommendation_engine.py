@@ -23,9 +23,6 @@ def reference_ranges():
     }
 
 
-from typing import Any, Dict, cast
-
-
 @pytest.fixture
 def supplements():
     return {
@@ -167,31 +164,46 @@ def test_recommendation_engine_handles_empty_tests(
     assert len(recommendation.supplements) == 0
 
 
-def test_recommendation_engine_includes_patient_conditions(
-    recommendation_engine, full_data
-):
+def test_recommendation_engine_includes_patient_conditions(sample_patient):
     """Test that patient conditions are considered in recommendations."""
-    rules = [
-        {
-            "id": "test_rule",
-            "condition_type": "patient_condition",
-            "condition": "inflammation",
-            "supplements": [
-                {
-                    "supplement_id": "omega3",
-                    "dosage": "1000 mg",
-                    "priority": "medium",
-                    "reason": "Stan zapalny",
-                }
-            ],
-        }
-    ]
+    dosage_rules = {
+        "dosage_rules": [
+            {
+                "id": "test_rule",
+                "condition_type": "patient_condition",
+                "condition": "inflammation",
+                "supplements": [
+                    {
+                        "supplement_id": "omega3",
+                        "dosage": "1000 mg",
+                        "priority": "medium",
+                        "reason": "Stan zapalny",
+                    }
+                ],
+            }
+        ]
+    }
+    supplements = {
+        "supplements": [
+            {"id": "omega3", "name": "Omega-3", "condition": "inflammation"}
+        ]
+    }
+    timing_rules = {
+        "timing_rules": {"omega3": "with_meal"},
+        "timing_display": {"with_meal": "Z posiłkiem"},
+    }
+    reference_ranges = {"reference_ranges": []}
+
+    engine = RecommendationEngine(
+        reference_ranges, supplements, timing_rules, dosage_rules
+    )
+
     patient = Patient(
         name="Jan", surname="Kowalski", age=42, conditions=["inflammation"]
     )
     tests = [BloodTest(name="Test", value=50.0, unit="unit", status="normal")]
 
-    recommendation = recommendation_engine.generate_recommendation(patient, tests)
+    recommendation = engine.generate_recommendation(patient, tests)
 
     assert any("zapalny" in s.reason for s in recommendation.supplements)
 
@@ -210,7 +222,7 @@ def test_recommendation_engine_no_recommendations_for_normal_tests(
 
 
 def test_recommendation_engine_merges_duplicate_supplements(sample_patient):
-    """Test that duplicate supplements are properly handled."""
+    """Test that duplicate supplements with same dosage are properly merged by priority."""
     dosage_rules = {
         "dosage_rules": [
             {
@@ -223,21 +235,21 @@ def test_recommendation_engine_merges_duplicate_supplements(sample_patient):
                         "supplement_id": "s1",
                         "dosage": "10mg",
                         "priority": "low",
-                        "reason": "Test",
+                        "reason": "Test low priority",
                     }
                 ],
             },
             {
                 "id": "rule2",
                 "condition_type": "single_test",
-                "test_name": "Test",
+                "test_name": "Test2",
                 "test_status": "low",
                 "supplements": [
                     {
                         "supplement_id": "s1",
-                        "dosage": "20mg",
+                        "dosage": "10mg",
                         "priority": "high",
-                        "reason": "Test",
+                        "reason": "Test high priority",
                     }
                 ],
             },
@@ -252,14 +264,18 @@ def test_recommendation_engine_merges_duplicate_supplements(sample_patient):
     }
     reference_ranges = {"reference_ranges": []}
 
-    tests = [BloodTest(name="Test", value=10.0, unit="unit", status="low")]
+    tests = [
+        BloodTest(name="Test", value=10.0, unit="unit", status="low"),
+        BloodTest(name="Test2", value=20.0, unit="unit", status="low"),
+    ]
 
     engine = RecommendationEngine(
         reference_ranges, supplements, timing_rules, dosage_rules
     )
     recommendation = engine.generate_recommendation(sample_patient, tests)
 
-    # Higher priority should override lower priority
+    # Same supplement with same dosage - higher priority should override
     assert len(recommendation.supplements) == 1
-    assert recommendation.supplements[0].dosage == "20mg"
+    assert recommendation.supplements[0].dosage == "10mg"
     assert recommendation.supplements[0].priority == "high"
+    assert recommendation.supplements[0].reason == "Test high priority"

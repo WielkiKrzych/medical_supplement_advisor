@@ -131,17 +131,46 @@ def test_rule_engine_combination_match(rule_engine, analyzed_blood_tests):
     assert len(supplements) > 0
 
 
-def test_rule_engine_patient_condition_match(rule_engine, sample_blood_tests):
+def test_rule_engine_patient_condition_match():
     """Test that rule engine matches patient condition rules."""
+    dosage_rules = {
+        "dosage_rules": [
+            {
+                "id": "condition_rule",
+                "condition_type": "patient_condition",
+                "condition": "inflammation",
+                "supplements": [
+                    {
+                        "supplement_id": "omega3",
+                        "dosage": "1000 mg",
+                        "priority": "medium",
+                        "reason": "Patient has inflammation",
+                    }
+                ],
+            }
+        ]
+    }
+    supplements = {
+        "supplements": [
+            {"id": "omega3", "name": "Omega-3", "condition": "inflammation"}
+        ]
+    }
+    timing_rules = {
+        "timing_rules": {"omega3": "with_meal"},
+        "timing_display": {"with_meal": "With meal", "empty": "Anytime"},
+    }
+
+    engine = RuleEngine(dosage_rules, supplements, timing_rules)
+
     patient = Patient(name="Test", surname="User", age=30, conditions=["inflammation"])
     analyzed_tests = [
         BloodTest(name="Witamina D (25-OH)", value=22.0, unit="ng/mL", status="low")
     ]
 
-    supplements = rule_engine.apply_rules(analyzed_tests, patient)
+    result = engine.apply_rules(analyzed_tests, patient)
 
-    assert len(supplements) > 0
-    assert any("inflammation" in s["reason"] for s in supplements)
+    assert len(result) > 0
+    assert any("inflammation" in s["reason"] for s in result)
 
 
 def test_rule_engine_no_match(rule_engine, sample_blood_tests):

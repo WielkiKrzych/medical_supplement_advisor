@@ -4,9 +4,9 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![CI/CD](https://github.com/WielkiKrzych/medical_supplement_advisor/workflows/CI/badge.svg)](https://github.com/WielkiKrzych/medical_supplement_advisor/actions)
-[![Code Quality: Pylint](https://img.shields.io/badge/code%20quality-pylint%20%3E%3D9.0-brightgreen)](https://www.pylint.org/)
+[![Code Quality: Pylint](https://img.shields.io/badge/code%20quality-pylint%20%3E%3D7.5-brightgreen)](https://www.pylint.org/)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Coverage](https://img.shields.io/badge/coverage-comprehensive-brightgreen)](https://github.com/WielkiKrzych/medical_supplement_advisor)
+[![Tests](https://img.shields.io/badge/tests-22%20passed-brightgreen)](https://github.com/WielkiKrzych/medical_supplement_advisor)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Transform your blood test results into personalized supplement recommendations with a modern, intuitive interface.
@@ -73,9 +73,10 @@ That's it! 🎉 The GUI will launch and you can start analyzing your blood tests
 
 ### 🛡️ Quality & Reliability
 - **Type-Safe Code**: 100% type annotated with Pydantic models
-- **Comprehensive Testing**: Extensive test coverage for core business logic
+- **Comprehensive Testing**: Extensive test coverage for core business logic (22 tests)
 - **CI/CD Pipeline**: Automated testing on every push and pull request
 - **Code Quality**: Enforced with Pylint, Black, and Isort
+- **Security**: Path traversal protection, filename sanitization, file size limits
 
 ### 🚀 Developer Experience
 - **Clean Architecture**: Well-organized, modular codebase
@@ -168,13 +169,23 @@ python src/main.py
 Use the command-line interface:
 
 ```bash
-python src/main.py --input examples/sample_blood_tests.json --output recommendations.pdf
+# Single JSON file with patient and blood tests
+python src/main.py --json examples/sample_blood_tests.json
+
+# Separate patient and blood test files
+python src/main.py --patient examples/sample_patient.json --blood-tests examples/sample_blood_tests.json
+
+# Parse PDF or DOCX document
+python src/main.py --document lab_results.pdf
 ```
 
 **Command Options**:
-- `--input`: Path to input file (JSON or DOCX)
-- `--output`: Path for output PDF report
-- `--format`: Input format (`json` or `docx`)
+- `--json`: Path to combined JSON file (patient + blood tests)
+- `--patient`: Path to patient JSON file (requires --blood-tests)
+- `--blood-tests`: Path to blood tests JSON file (requires --patient)
+- `--document`: Path to PDF or DOCX file for automatic parsing
+
+**Note**: Options `--json`, `--document`, and `--patient`/`--blood-tests` are mutually exclusive.
 
 ### Input Format
 
@@ -197,6 +208,21 @@ python src/main.py --input examples/sample_blood_tests.json --output recommendat
 }
 ```
 
+**Supported Blood Tests**:
+- Complete Blood Count (WBC, RDW, PDW, Neutrofile, Bazofile)
+- Vitamins (D, B12, B9, C, A, E, K2)
+- Minerals (Iron, Ferritin, Calcium, Magnesium, Zinc, Selenium, Iodine, Potassium, Sodium)
+- Lipid Profile (Cholesterol, HDL, LDL, Triglycerides)
+- Thyroid (TSH, FT3, FT4)
+- Metabolic (Glucose, Insulin, Cortisol)
+- And more...
+
+**Supported File Formats**:
+- JSON files (structured data)
+- PDF files (lab reports with OCR support)
+- DOCX files (Word documents)
+- Maximum file size: 50MB
+
 ### Output Format
 
 The application generates a professional PDF report containing:
@@ -213,11 +239,15 @@ The application generates a professional PDF report containing:
 medical-supplement-advisor/
 ├── 📂 data/                    # Reference data
 │   ├── reference_ranges.json   # Blood test reference ranges
-│   ├── supplements.json        # Supplement database
+│   ├── supplements.json        # Supplement database (21 supplements)
 │   ├── timing_rules.json      # When to take supplements
 │   └── dosage_rules.json      # Dosage recommendations
 ├── 📂 src/
 │   ├── 📂 models/            # Pydantic data models
+│   │   ├── blood_test.py     # Blood test model
+│   │   ├── patient.py        # Patient model
+│   │   ├── recommendation.py # Recommendation model
+│   │   └── supplement.py     # Supplement model
 │   ├── 📂 core/              # Business logic
 │   │   ├── analyzer.py       # Blood test analysis
 │   │   ├── rule_engine.py    # Rule matching
@@ -225,16 +255,19 @@ medical-supplement-advisor/
 │   ├── 📂 utils/            # Helper utilities
 │   │   ├── exceptions.py     # Custom exceptions
 │   │   ├── validator.py      # Data validation
-│   │   ├── data_loader.py    # JSON loading
+│   │   ├── data_loader.py    # JSON loading with caching
 │   │   ├── formatter.py     # PDF generation
-│   │   └── json_parser.py   # JSON parsing
+│   │   ├── json_parser.py   # JSON parsing
+│   │   ├── document_parser.py # PDF/DOCX parsing with OCR
+│   │   └── logger.py        # Application logging
 │   ├── 📂 gui/              # PyQt5 GUI
 │   │   ├── app.py           # Application entry
-│   │   └── main_window.py   # Main window
+│   │   └── main_window.py   # Main window with security features
 │   └── main.py              # CLI entry point
-├── 📂 tests/                # Unit tests
+├── 📂 tests/                # Unit tests (22 tests)
 ├── 📂 examples/              # Sample data
 ├── 📂 .github/workflows/     # CI/CD pipelines
+├── 📂 logs/                  # Application logs
 ├── 📄 config.py            # Configuration
 ├── 📄 pyproject.toml       # Project metadata & tool config
 ├── 📄 requirements.txt      # Dependencies
@@ -279,8 +312,20 @@ The project maintains comprehensive test coverage:
 | **RuleEngine** | Pattern matching for supplements | ✓ |
 | **RecommendationEngine** | Recommendation generation | ✓ |
 | **Models** | Pydantic data model validation | ✓ |
+| **Security** | Path validation, sanitization | ✓ |
+| **Logging** | Application logging system | ✓ |
 
 Coverage reports are automatically uploaded to CI.
+
+### Security Features
+
+The application includes multiple security layers:
+
+- **Path Traversal Protection**: All file paths are validated before access
+- **Filename Sanitization**: Special characters are removed from filenames
+- **File Size Limits**: Maximum file size (50MB) prevents DoS attacks
+- **Input Validation**: All user inputs are validated using Pydantic models
+- **Safe PDF Opening**: PDF files are verified before opening with system applications
 
 ---
 
@@ -320,21 +365,39 @@ git push
 
 ### Recent Improvements
 
+✨ **Security Enhancements**
+- Path traversal protection in file operations
+- Filename sanitization to prevent injection attacks
+- File size limits (50MB) to prevent DoS attacks
+- Secure PDF opening with path validation
+
 ✨ **Custom Exception Classes**
 - `ValidationError`: Data structure validation
-- `DataLoaderError`: JSON file loading
+- `DataLoaderError`: JSON file loading with detailed context
 - `RuleEngineError`: Rule engine errors
 - `AnalysisError`: Blood test analysis
 
-✨ **Enhanced Validation**
-- Exception-based error handling
+✨ **Enhanced Validation & Error Handling**
+- Exception-based error handling throughout the codebase
 - Clear error messages with context
 - Proper error propagation
+- Comprehensive JSON parsing error handling
+
+✨ **Performance Optimizations**
+- Data caching with `@lru_cache` for reference data
+- Reduced file I/O operations
+- Optimized data loading
 
 ✨ **Code Quality**
 - Eliminated code duplication
 - Single source of truth for priority ordering
 - Full type safety with `str | None` unions
+- Added logging system for better debugging
+
+✨ **Data Improvements**
+- Added 7 new supplements to database
+- Fixed HDL reference range (max 100 mg/dL)
+- Corrected supplement references in dosage rules
 
 ---
 

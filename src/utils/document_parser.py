@@ -43,6 +43,8 @@ except ImportError:
 from src.utils.exceptions import DataLoaderError
 from config import DEFAULT_PATIENT_NAME, DEFAULT_PATIENT_SURNAME, DEFAULT_PATIENT_AGE
 
+MAX_FILE_SIZE = 50 * 1024 * 1024
+
 
 @dataclass
 class PatientData:
@@ -109,6 +111,12 @@ class DocumentParser:
 
         if not file_path.exists():
             raise DataLoaderError(f"File not found: {file_path}")
+
+        file_size = file_path.stat().st_size
+        if file_size > MAX_FILE_SIZE:
+            raise DataLoaderError(
+                f"File too large: {file_size} bytes. Maximum allowed: {MAX_FILE_SIZE} bytes"
+            )
 
         # Detect format and parse accordingly
         if file_path.suffix.lower() == ".docx":

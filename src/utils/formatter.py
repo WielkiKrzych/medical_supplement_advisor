@@ -1,5 +1,9 @@
-from src.models.recommendation import Recommendation
+import os
+import re
 from pathlib import Path
+from typing import Tuple
+
+from src.models.recommendation import Recommendation
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -8,7 +12,6 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib import colors
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-import os
 
 
 def register_polish_fonts():
@@ -44,6 +47,12 @@ def register_polish_fonts():
     return "Helvetica", "Helvetica-Bold"
 
 
+def sanitize_filename(name: str) -> str:
+    invalid_chars = r"[<>:\"/\\|?*\x00-\x1f]"
+    sanitized = re.sub(invalid_chars, "_", name)
+    return sanitized[:100]
+
+
 class PDFFormatter:
     def __init__(self, output_dir: Path):
         self.output_dir = output_dir
@@ -52,14 +61,24 @@ class PDFFormatter:
         self._configure_styles()
 
     def _configure_styles(self):
-        """Configure styles with Polish font support."""
         for style_name in ["Normal", "Title", "Heading2"]:
             if style_name in self.styles:
                 self.styles[style_name].fontName = self.font_name
 
     def generate_pdf(self, recommendation: Recommendation) -> Path:
-        filename = f"{recommendation.patient_name}_{recommendation.patient_surname}_supplements.pdf"
+        safe_name = sanitize_filename(recommendation.patient_name)
+        safe_surname = sanitize_filename(recommendation.patient_surname)
+        filename = f"{safe_name}_{safe_surname}_supplements.pdf"
         filepath = self.output_dir / filename
+
+        counter = 1
+        original_filepath = filepath
+        while filepath.exists():
+            filename = f"{safe_name}_{safe_surname}_{counter}_supplements.pdf"
+            filepath = self.output_dir / filename
+            counter += 1
+            if counter > 1000:
+                raise IOError("Cannot generate unique filename")
 
         doc = SimpleDocTemplate(
             str(filepath),
