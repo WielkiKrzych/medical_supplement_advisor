@@ -2,7 +2,7 @@ import sys
 import argparse
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.utils.data_loader import DataLoader
 from src.utils.validator import Validator
