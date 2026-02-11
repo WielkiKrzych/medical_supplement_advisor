@@ -10,6 +10,7 @@ from src.models.test_analysis import (
 )
 from src.core.interpretation_engine import InterpretationEngine
 from src.utils.data_loader import DataLoader
+from src.utils.i18n import t
 from config import DATA_DIR
 
 
@@ -18,15 +19,60 @@ class AdvancedAnalyzer:
         self.data_loader = DataLoader(data_dir)
         self.interpretation_engine = InterpretationEngine(data_dir)
         self.supplements_data = self._load_supplements()
+        self.test_categories = self._load_test_categories()
+
+    def _load_test_categories(self) -> Dict[str, List[str]]:
+        """Load test categories from JSON config file."""
+        from src.utils.logger import get_logger
+        logger = get_logger(__name__)
+        try:
+            data = self.data_loader.load_json("test_categories.json")
+            categories = data.get("categories", {})
+            # Flatten categories into lookup dict: category -> list of test names (uppercase)
+            return {
+                cat_name: [t.upper() for t in cat_data.get("tests", [])]
+                for cat_name, cat_data in categories.items()
+            }
+        except Exception as e:
+            # Fallback to hardcoded lists if config fails to load
+            logger.error(f"Failed to load test_categories.json: {e}")
+            return {
+                "morphology": [
+                    "EOZYNOFILE", "LEUKOCYTY", "LIMFOCYTY", "NEUTROFILE",
+                    "BAZOFILE", "MONOCYTY", "WBC", "HEMOGLOBINA",
+                    "ERYTROCYTY", "HEMATOKRYT", "MCV", "MCH", "MCHC",
+                    "RDW", "PDW", "PCT", "MPV"
+                ],
+                "inflammatory": ["CRP", "OB"],
+                "minerals_vitamins": [
+                    "ŻELAZO", "FERRYTYNA", "TRANSFERYNA", "WITAMINA B12",
+                    "MMA", "WITAMINA B9", "WITAMINA D3", "HOMOCYSTEINA",
+                    "CYNK", "SELEN", "FOSFATAZA ALKALICZNA", "CERULOPLAZMINA",
+                    "PEROKSYDAZA GLUTATIONOWA", "JOD W MOCZU", "ENZYM DAO"
+                ],
+                "electrolytes": ["SÓD", "POTAS", "MAGNEZ", "FOSFOR"],
+                "thyroid": ["TSH", "FT3", "FT4", "ANTY-TG", "ANTY-TPO", "TRAB"],
+                "lipids": ["CHOLESTEROL", "HDL", "LDL", "TG", "TRÓGLICERYDY"],
+                "liver": ["AST", "ALT", "GGTP"],
+                "hormones": [
+                    "TESTOSTERON", "DHT", "DHEAS", "ANDROSTENDION", "SHBG",
+                    "PROGESTERON", "ESTRADIOL", "LH", "FSH", "PROLAKTYNA", "KORTYZOL"
+                ],
+                "glucose_insulin": ["GLUKOZA", "INSULINA", "HBA1C", "HOMA-IR"]
+            }
 
     def _load_supplements(self) -> Dict[str, Any]:
+        from src.utils.logger import get_logger
+        logger = get_logger(__name__)
         try:
             data = self.data_loader.load_json("supplements_v2.json")
             supplements = {}
             for supp in data.get("supplements", []):
                 supplements[supp["id"]] = supp
+            logger.info(f"Loaded {len(supplements)} supplements from database")
             return supplements
-        except Exception:
+        except Exception as e:
+            logger.error(f"Failed to load supplements_v2.json: {e}")
             return {}
 
     def analyze_blood_tests(
@@ -86,54 +132,16 @@ class AdvancedAnalyzer:
         )
 
     def _is_morphology_test(self, name: str) -> bool:
-        morphology_tests = [
-            "EOZYNOFILE",
-            "LEUKOCYTY",
-            "LIMFOCYTY",
-            "NEUTROFILE",
-            "BAZOFILE",
-            "MONOCYTY",
-            "WBC",
-            "HEMOGLOBINA",
-            "ERYTROCYTY",
-            "HEMATOKRYT",
-            "MCV",
-            "MCH",
-            "MCHC",
-            "RDW",
-            "PDW",
-            "PCT",
-            "MPV",
-        ]
-        return name.upper() in morphology_tests
+        return name.upper() in self.test_categories.get("morphology", [])
 
     def _is_inflammatory_marker(self, name: str) -> bool:
-        markers = ["CRP", "OB"]
-        return name.upper() in markers
+        return name.upper() in self.test_categories.get("inflammatory", [])
 
     def _is_mineral_vitamin(self, name: str) -> bool:
-        tests = [
-            "ŻELAZO",
-            "FERRYTYNA",
-            "TRANSFERYNA",
-            "WITAMINA B12",
-            "MMA",
-            "WITAMINA B9",
-            "WITAMINA D3",
-            "HOMOCYSTEINA",
-            "CYNK",
-            "SELEN",
-            "FOSFATAZA ALKALICZNA",
-            "CERULOPLAZMINA",
-            "PEROKSYDAZA GLUTATIONOWA",
-            "JOD W MOCZU",
-            "ENZYM DAO",
-        ]
-        return name.upper() in [t.upper() for t in tests]
+        return name.upper() in self.test_categories.get("minerals_vitamins", [])
 
     def _is_electrolyte(self, name: str) -> bool:
-        tests = ["SÓD", "POTAS", "MAGNEZ", "FOSFOR"]
-        return name.upper() in [t.upper() for t in tests]
+        return name.upper() in self.test_categories.get("electrolytes", [])
 
     def _analyze_thyroid(self, tests: List[BloodTest]) -> Optional[Any]:
         test_dict = {t.name.upper(): t for t in tests}
@@ -340,19 +348,19 @@ class AdvancedAnalyzer:
 
         if morphology and morphology.deficiencies:
             for defic in morphology.deficiencies:
-                issues.append(f"Niedobór: {defic}")
+                issues.append(f"{t('analysis.deficiency')}: {defic}")
 
         if thyroid and thyroid.tsh_status != "normal":
-            issues.append(f"TSH {thyroid.tsh_status}")
+            issues.append(t("analysis.thyroid_abnormal"))
 
         if glucose_insulin and glucose_insulin.insulin_resistance:
-            issues.append("Insulinooporność")
+            issues.append(t("analysis.insulin_resistance"))
 
         if lipids and lipids.cardiovascular_risk == "high":
-            issues.append("Wysokie ryzyko sercowo-naczyniowe")
+            issues.append(t("analysis.cardiovascular_risk_high"))
 
         if liver and liver.pattern:
-            issues.append(f"Wątroba: {liver.pattern}")
+            issues.append(f"{t('categories.liver')}: {liver.pattern}")
 
         return issues
 
@@ -362,9 +370,9 @@ class AdvancedAnalyzer:
         summary = []
 
         if critical_issues:
-            summary.append(f"Znaleziono {len(critical_issues)} krytycznych problemów")
+            summary.append(t("analysis.critical_issues_found", len(critical_issues)))
 
         if supplements:
-            summary.append(f"Zalecane suplementy: {len(supplements)}")
+            summary.append(t("analysis.supplements_recommended", len(supplements)))
 
         return summary

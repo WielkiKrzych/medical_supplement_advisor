@@ -27,23 +27,41 @@ class InterpretationEngine:
         self.data_loader = DataLoader(data_dir)
         self.reference_data = self._load_reference_data()
         self.interpretation_rules = self._load_interpretation_rules()
+        self.clinical_thresholds = self._load_clinical_thresholds()
 
     def _load_reference_data(self) -> Dict[str, Any]:
         try:
             return self.data_loader.load_json("reference_ranges_v2.json")
-        except Exception:
+        except Exception as e:
+            from src.utils.logger import get_logger
+            logger = get_logger(__name__)
+            logger.error(f"Failed to load reference_ranges_v2.json: {e}")
             return {}
 
     def _load_interpretation_rules(self) -> Dict[str, Any]:
         try:
             return self.data_loader.load_json("interpretation_rules.json")
-        except Exception:
+        except Exception as e:
+            from src.utils.logger import get_logger
+            logger = get_logger(__name__)
+            logger.error(f"Failed to load interpretation_rules.json: {e}")
             return {}
 
-    def interpret_single_test(self, test: BloodTest) -> TestAnalysis:
+    def _load_clinical_thresholds(self) -> Dict[str, Dict[str, Any]]:
+        try:
+            data = self.data_loader.load_json("clinical_thresholds.json")
+            thresholds = data.get("thresholds", {})
+            return thresholds
+        except Exception as e:
+            from src.utils.logger import get_logger
+            logger = get_logger(__name__)
+            logger.error(f"Failed to load clinical_thresholds.json: {e}")
+            return {}
+
+    def interpret_single_test(self, test: BloodTest, threshold_type: str = "functional") -> TestAnalysis:
         test_config = self._find_test_config(test.name)
 
-        status = self._determine_status(test, test_config)
+        status = self._determine_status(test, test_config, threshold_type)
         interpretations = self._get_interpretations(test.name, status, test_config)
         deficiencies = self._identify_deficiencies(test.name, status, test_config)
         supplements = self._get_supplements(test.name, status)
@@ -72,7 +90,7 @@ class InterpretationEngine:
                     return test
         return None
 
-    def _determine_status(self, test: BloodTest, config: Optional[Dict]) -> str:
+    def _determine_status(self, test: BloodTest, config: Optional[Dict], threshold_type: str = "functional") -> str:
         if not config:
             return "unknown"
 
@@ -80,32 +98,20 @@ class InterpretationEngine:
         test_name = test.name.upper()
         value = test.value
 
-        thresholds = {
-            "TSH": (0.5, 2.5),
-            "FERRYTYNA": (50, 90),
-            "WITAMINA D3": (60, 80),
-            "HOMOCYSTEINA": (5, 6),
-            "HDL": (50, 100),
-            "LDL": (100, 200),
-            "TG": (60, 100),
-            "AST": (10, 20),
-            "ALT": (0, 26),
-            "GGTP": (0, 26),
-            "KORTYZOL": (0, 15),
-            "PROLAKTYNA": (0, 25),
-            "CRP": (0, 2),
-            "NEUTROFILE": (40, 70),
-            "MCV": (80, 100),
-            "MCH": (27, 32),
-        }
+        if test_name in self.clinical_thresholds:
+            threshold_data = self.clinical_thresholds[test_name]
+            min_key = f"{threshold_type}_min"
+            max_key = f"{threshold_type}_max"
 
-        if test_name in thresholds:
-            low, high = thresholds[test_name]
-            if value < low:
-                return "low"
-            elif value > high:
-                return "high"
-            return "normal"
+            low = threshold_data.get(min_key)
+            high = threshold_data.get(max_key)
+
+            if low is not None and high is not None:
+                if value < low:
+                    return "low"
+                elif value > high:
+                    return "high"
+                return "normal"
 
         if "MAX" in lab_ref.upper():
             try:
