@@ -28,13 +28,14 @@ from src.core.recommendation_engine import RecommendationEngine
 from src.utils.formatter import PDFFormatter
 from src.utils.data_loader import DataLoader
 from src.utils.document_parser import DocumentParser
+from src.utils.i18n import t
 from config import DATA_DIR, OUTPUT_DIR
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Medical Supplement Advisor")
+        self.setWindowTitle(t("gui.title"))
         self.setMinimumSize(700, 500)
         self.json_parser = JSONParser()
         self.document_parser = DocumentParser()
@@ -51,7 +52,7 @@ class MainWindow(QMainWindow):
         layout.setSpacing(15)
         layout.setContentsMargins(20, 20, 20, 20)
 
-        title_label = QLabel("Medical Supplement Advisor")
+        title_label = QLabel(t("gui.title"))
         title_font = QFont()
         title_font.setPointSize(18)
         title_font.setBold(True)
@@ -59,26 +60,22 @@ class MainWindow(QMainWindow):
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
 
-        description_label = QLabel(
-            "Wybierz plik z wynikami badań (JSON, PDF lub DOCX) "
-            "aby wygenerować rekomendację suplementacji.\n"
-            "Dokumenty PDF i DOCX zostaną automatycznie przetworzone."
-        )
+        description_label = QLabel(t("gui.description"))
         description_label.setWordWrap(True)
         description_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(description_label)
         layout.addSpacing(10)
 
-        input_group = QGroupBox("Dane wejściowe")
+        input_group = QGroupBox(t("gui.input_group"))
         input_layout = QVBoxLayout()
 
         file_selector_layout = QHBoxLayout()
         self.file_path_edit = QLineEdit()
-        self.file_path_edit.setPlaceholderText("Wybierz plik (JSON, PDF lub DOCX)...")
+        self.file_path_edit.setPlaceholderText(t("gui.file_placeholder"))
         self.file_path_edit.setReadOnly(True)
         file_selector_layout.addWidget(self.file_path_edit)
 
-        self.browse_button = QPushButton("Przeglądaj...")
+        self.browse_button = QPushButton(t("gui.browse"))
         self.browse_button.clicked.connect(self.browse_json_file)
         file_selector_layout.addWidget(self.browse_button)
 
@@ -86,7 +83,7 @@ class MainWindow(QMainWindow):
         input_group.setLayout(input_layout)
         layout.addWidget(input_group)
 
-        self.generate_button = QPushButton("Generuj raport PDF")
+        self.generate_button = QPushButton(t("gui.generate_report"))
         self.generate_button.setEnabled(False)
         self.generate_button.setMinimumHeight(40)
         self.generate_button.clicked.connect(self.generate_pdf)
@@ -94,7 +91,7 @@ class MainWindow(QMainWindow):
 
         layout.addSpacing(10)
 
-        output_group = QGroupBox("Status")
+        output_group = QGroupBox(t("gui.status_group"))
         output_layout = QVBoxLayout()
 
         self.status_text = QTextEdit()
@@ -102,14 +99,14 @@ class MainWindow(QMainWindow):
         self.status_text.setMaximumHeight(100)
         output_layout.addWidget(self.status_text)
 
-        self.output_label = QLabel("Plik PDF: Nie wygenerowano")
+        self.output_label = QLabel(f"{t('gui.pdf_file')}: {t('pdf_not_generated')}")
         self.output_label.setStyleSheet("color: gray;")
         output_layout.addWidget(self.output_label)
 
         output_group.setLayout(output_layout)
         layout.addWidget(output_group)
 
-        self.open_pdf_button = QPushButton("Otwórz PDF")
+        self.open_pdf_button = QPushButton(t("gui.open_pdf"))
         self.open_pdf_button.setEnabled(False)
         self.open_pdf_button.clicked.connect(self.open_pdf)
         layout.addWidget(self.open_pdf_button)

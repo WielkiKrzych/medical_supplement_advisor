@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Tuple
 
 from src.models.recommendation import Recommendation
+from src.utils.i18n import t
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -91,21 +92,36 @@ class PDFFormatter:
 
         elements = []
 
-        elements.append(Paragraph("Rekomendacja Suplementacji", self.styles["Title"]))
+        # Medical disclaimer - prominently displayed at the top
+        disclaimer_style = ParagraphStyle(
+            "Disclaimer",
+            parent=self.styles["Normal"],
+            fontSize=7,
+            textColor=colors.red,
+            alignment=TA_CENTER,
+            leading=10,
+        )
+        disclaimer_text = t("pdf.disclaimer")
+        elements.append(Paragraph(disclaimer_text, disclaimer_style))
+        elements.append(Spacer(1, 0.5 * cm))
+        elements.append(Paragraph("─" * 60, self.styles["Normal"]))
+        elements.append(Spacer(1, 0.5 * cm))
+
+        elements.append(Paragraph(t("pdf.title"), self.styles["Title"]))
         elements.append(Spacer(1, 1 * cm))
 
-        patient_info = f"<b>Pacjent:</b> {recommendation.patient_name} {recommendation.patient_surname}<br/>"
-        patient_info += f"<b>Data:</b> {recommendation.date.strftime('%Y-%m-%d %H:%M')}"
+        patient_info = f"<b>{t('pdf.patient')}:</b> {recommendation.patient_name} {recommendation.patient_surname}<br/>"
+        patient_info += f"<b>{t('pdf.date')}:</b> {recommendation.date.strftime('%Y-%m-%d %H:%M')}"
         elements.append(Paragraph(patient_info, self.styles["Normal"]))
         elements.append(Spacer(1, 1 * cm))
 
         if not recommendation.supplements:
             elements.append(
-                Paragraph("Brak rekomendacji suplementacji.", self.styles["Normal"])
+                Paragraph(t("pdf.no_supplements"), self.styles["Normal"])
             )
         else:
             elements.append(
-                Paragraph("Rekomendowane Suplementy:", self.styles["Heading2"])
+                Paragraph(t("pdf.recommended_supplements"), self.styles["Heading2"])
             )
             elements.append(Spacer(1, 0.5 * cm))
 
@@ -133,11 +149,11 @@ class PDFFormatter:
             table_data = [
                 [
                     Paragraph("Lp.", header_style),
-                    Paragraph("Suplement", header_style),
-                    Paragraph("Dawkowanie", header_style),
-                    Paragraph("Pora przyjmowania", header_style),
-                    Paragraph("Priorytet", header_style),
-                    Paragraph("Powód", header_style),
+                    Paragraph(t("pdf.supplement"), header_style),
+                    Paragraph(t("pdf.dosage"), header_style),
+                    Paragraph(t("pdf.timing"), header_style),
+                    Paragraph(t("pdf.priority"), header_style),
+                    Paragraph(t("pdf.reason"), header_style),
                 ]
             ]
 
@@ -214,10 +230,4 @@ class PDFFormatter:
         return filepath
 
     def _get_priority_display(self, priority: str) -> str:
-        priority_translations = {
-            "critical": "Krytyczny",
-            "high": "Wysoki",
-            "medium": "Średni",
-            "low": "Niski",
-        }
-        return priority_translations.get(priority, priority)
+        return t(f"pdf.priority_{priority}")
