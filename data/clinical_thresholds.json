@@ -1,0 +1,171 @@
+{
+  "version": "1.0",
+  "description": "Clinical reference ranges for blood test interpretation",
+  "threshold_types": {
+    "lab": "Standard laboratory reference ranges",
+    "functional": "Optimal functional medicine ranges",
+    "optimal": "Ideal health targets"
+  },
+  "thresholds": {
+    "TSH": {
+      "lab_min": 0.4,
+      "lab_max": 4.0,
+      "functional_min": 0.5,
+      "functional_max": 2.5,
+      "optimal_min": 1.0,
+      "optimal_max": 1.8,
+      "unit": "mIU/L",
+      "notes": "Functional range is narrower than lab range"
+    },
+    "FERRYTYNA": {
+      "lab_min": 10,
+      "lab_max": 291,
+      "functional_min": 50,
+      "functional_max": 150,
+      "optimal_min": 70,
+      "optimal_max": 120,
+      "unit": "ng/mL",
+      "notes": "Optimal range for iron stores"
+    },
+    "WITAMINA D3": {
+      "lab_min": 20,
+      "lab_max": 100,
+      "functional_min": 40,
+      "functional_max": 100,
+      "optimal_min": 60,
+      "optimal_max": 80,
+      "unit": "ng/mL",
+      "notes": "25-OH vitamin D levels"
+    },
+    "HOMOCYSTEINA": {
+      "lab_min": 5,
+      "lab_max": 15,
+      "functional_min": 7,
+      "functional_max": 12,
+      "optimal_min": 5,
+      "optimal_max": 6,
+      "unit": "µmol/L",
+      "notes": "Lower is better for cardiovascular risk"
+    },
+    "HDL": {
+      "lab_min": 40,
+      "lab_max": 60,
+      "functional_min": 50,
+      "functional_max": 80,
+      "optimal_min": 60,
+      "optimal_max": 100,
+      "unit": "mg/dL",
+      "notes": "Higher HDL is better"
+    },
+    "LDL": {
+      "lab_min": 50,
+      "lab_max": 130,
+      "functional_min": 70,
+      "functional_max": 100,
+      "optimal_min": 70,
+      "optimal_max": 100,
+      "unit": "mg/dL",
+      "notes": "Lower LDL is better"
+    },
+    "TG": {
+      "lab_min": 40,
+      "lab_max": 160,
+      "functional_min": 50,
+      "functional_max": 100,
+      "optimal_min": 60,
+      "optimal_max": 100,
+      "unit": "mg/dL",
+      "notes": "Lower triglycerides indicate better metabolic health"
+    },
+    "AST": {
+      "lab_min": 10,
+      "lab_max": 40,
+      "functional_min": 10,
+      "functional_max": 25,
+      "optimal_min": 10,
+      "optimal_max": 20,
+      "unit": "U/L",
+      "notes": "Liver enzyme"
+    },
+    "ALT": {
+      "lab_min": 7,
+      "lab_max": 56,
+      "functional_min": 15,
+      "functional_max": 30,
+      "optimal_min": 10,
+      "optimal_max": 26,
+      "unit": "U/L",
+      "notes": "Liver enzyme"
+    },
+    "GGTP": {
+      "lab_min": 9,
+      "lab_max": 48,
+      "functional_min": 10,
+      "functional_max": 30,
+      "optimal_min": 10,
+      "optimal_max": 26,
+      "unit": "U/L",
+      "notes": "Liver enzyme, marker for bile and alcohol"
+    },
+    "KORTYZOL": {
+      "lab_min": 6,
+      "lab_max": 23,
+      "functional_min": 10,
+      "functional_max": 20,
+      "optimal_min": 10,
+      "optimal_max": 15,
+      "unit": "µg/dL",
+      "notes": "Morning cortisol peak values"
+    },
+    "PROLAKTYNA": {
+      "lab_min": 4,
+      "lab_max": 15,
+      "functional_min": 5,
+      "functional_max": 15,
+      "optimal_min": 5,
+      "optimal_max": 10,
+      "unit": "ng/mL",
+      "notes": "Prolactin levels"
+    },
+    "CRP": {
+      "lab_min": 0,
+      "lab_max": 5,
+      "functional_min": 0,
+      "functional_max": 1,
+      "optimal_min": 0,
+      "optimal_max": 2,
+      "unit": "mg/L",
+      "notes": "Lower CRP indicates less inflammation"
+    },
+    "NEUTROFILE": {
+      "lab_min": 40,
+      "lab_max": 75,
+      "functional_min": 40,
+      "functional_max": 70,
+      "optimal_min": 45,
+      "optimal_max": 65,
+      "unit": "%",
+      "notes": "Neutrophil percentage"
+    },
+    "MCV": {
+      "lab_min": 80,
+      "lab_max": 100,
+      "functional_min": 82,
+      "functional_max": 98,
+      "optimal_min": 85,
+      "optimal_max": 95,
+      "unit": "fL",
+      "notes": "Mean corpuscular volume"
+    },
+    "MCH": {
+      "lab_min": 27,
+      "lab_max": 33,
+      "functional_min": 27,
+      "functional_max": 32,
+      "optimal_min": 28,
+      "optimal_max": 31,
+      "unit": "pg",
+      "notes": "Mean corpuscular hemoglobin"
+    }
+  }
+}
