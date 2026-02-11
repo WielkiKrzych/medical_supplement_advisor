@@ -1,0 +1,101 @@
+{
+  "version": "1.0",
+  "description": "Blood test categorization for analysis",
+  "categories": {
+    "morphology": {
+      "description": "Morfologia krwi",
+      "tests": [
+        "EOZYNOFILE",
+        "LEUKOCYTY",
+        "LIMFOCYTY",
+        "NEUTROFILE",
+        "BAZOFILE",
+        "MONOCYTY",
+        "WBC",
+        "HEMOGLOBINA",
+        "ERYTROCYTY",
+        "HEMATOKRYT",
+        "MCV",
+        "MCH",
+        "MCHC",
+        "RDW",
+        "PDW",
+        "PCT",
+        "MPV"
+      ]
+    },
+    "inflammatory": {
+      "description": "Markery zapalne",
+      "tests": ["CRP", "OB"]
+    },
+    "minerals_vitamins": {
+      "description": "Składniki mineralne i witaminy",
+      "tests": [
+        "ŻELAZO",
+        "FERRYTYNA",
+        "TRANSFERYNA",
+        "WITAMINA B12",
+        "MMA",
+        "WITAMINA B9",
+        "WITAMINA D3",
+        "HOMOCYSTEINA",
+        "CYNK",
+        "SELEN",
+        "FOSFATAZA ALKALICZNA",
+        "CERULOPLAZMINA",
+        "PEROKSYDAZA GLUTATIONOWA",
+        "JOD W MOCZU",
+        "ENZYM DAO"
+      ]
+    },
+    "electrolytes": {
+      "description": "Elektrolity",
+      "tests": ["SÓD", "POTAS", "MAGNEZ", "FOSFOR"]
+    },
+    "thyroid": {
+      "description": "Tarczyca",
+      "tests": [
+        "TSH",
+        "FT3",
+        "FT4",
+        "ANTY-TG",
+        "ANTY-TPO",
+        "TRAB"
+      ]
+    },
+    "lipids": {
+      "description": "Profil lipidowy",
+      "tests": [
+        "CHOLESTEROL",
+        "HDL",
+        "LDL",
+        "TG",
+        "TRÓGLICERYDY"
+      ]
+    },
+    "liver": {
+      "description": "Wątroba",
+      "tests": ["AST", "ALT", "GGTP"]
+    },
+    "hormones": {
+      "description": "Hormony",
+      "tests": [
+        "TESTOSTERON",
+        "DHT",
+        "DHEAS",
+        "ANDROSTENDION",
+        "SHBG",
+        "PROGESTERON",
+        "ESTRADIOL",
+        "LH",
+        "FSH",
+        "PROLAKTYNA",
+        "KORTYZOL"
+      ]
+    },
+    "glucose_insulin": {
+      "description": "Gospodarka cukrowo-insulinowa",
+      "tests": ["GLUKOZA", "INSULINA", "HBA1C", "HOMA-IR"]
+    }
+  }
+}
