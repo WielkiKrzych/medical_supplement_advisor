@@ -7,6 +7,7 @@ them to the JSON format required by the Medical Supplement Advisor.
 
 import re
 import io
+import json
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 from dataclasses import dataclass
@@ -39,11 +40,13 @@ try:
     OCR_AVAILABLE = True
 except ImportError:
     OCR_AVAILABLE = False
-
 from src.utils.exceptions import DataLoaderError
-from config import DEFAULT_PATIENT_NAME, DEFAULT_PATIENT_SURNAME, DEFAULT_PATIENT_AGE
+from src.utils.logger import get_logger
+from config import DEFAULT_PATIENT_NAME, DEFAULT_PATIENT_SURNAME, DEFAULT_PATIENT_AGE, DATA_DIR, REGEX_PATTERNS_FILE
 
 MAX_FILE_SIZE = 50 * 1024 * 1024
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -93,6 +96,41 @@ class DocumentParser:
                 "No document parsing libraries available. "
                 "Install pdfplumber and/or python-docx."
             )
+        self.regex_patterns = self._load_regex_patterns()
+
+    def _load_regex_patterns(self) -> Dict[str, any]:
+        """Load regex patterns from configuration file."""
+        try:
+            with open(REGEX_PATTERNS_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get("patterns", {})
+        except FileNotFoundError:
+            logger.warning(f"Regex patterns file not found: {REGEX_PATTERNS_FILE}, using defaults")
+            return self._get_default_patterns()
+        except (json.JSONDecodeError, Exception) as e:
+            logger.error(f"Failed to load regex patterns: {e}, using defaults")
+            return self._get_default_patterns()
+
+    def _get_default_patterns(self) -> Dict[str, any]:
+        """Get default regex patterns when config file is not available."""
+        return {
+            "test_name_variations": {
+                "mappings": {
+                    "WITAMINA D3": ["WITAMINA D", "25-OH WITAMINA D", "25(OH)D"],
+                    "WITAMINA B12": ["KOBALAMINA", "CYANOCOBALAMINA", "B12"],
+                    "WITAMINA B9": ["KWAS FOLIOWY", "FOLACJA", "B9"],
+                    "FERRYTYNA": ["FERRETINA"],
+                    "HOMOCYSTEINA": ["HOMOCYSTEINE", "HCY"],
+                    "CRP": ["C-REACTYWNE BIAŁKO", "HS-CRP"],
+                    "OB": ["ODKLENIENIE", "SED", "ESR"],
+                    "NEUTROFILE": ["NEUTRO", "NEUT"],
+                    "LIMFOCYTY": ["LYMPH", "LYM"],
+                    "MONOCYTY": ["MONO"],
+                    "Eozynofile": ["EOS", "EO"],
+                    "Bazofile": ["BASO", "BAZO"],
+                }
+            }
+        }
 
     def parse_document(self, file_path: Union[str, Path]) -> Dict:
         """
@@ -574,7 +612,7 @@ class DocumentParser:
         return patient_data, blood_tests
 
     def _add_blood_test_from_match(
-        self, match, blood_tests: List[BloodTest], valid_keywords: List[str] = None
+        self, match, blood_tests: List[BloodTest], valid_keywords: list[str] | None = None
     ) -> bool:
         """
         Add a blood test from regex match to the list.
