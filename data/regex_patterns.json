@@ -1,0 +1,107 @@
+{
+  "version": "1.0",
+  "description": "Regex patterns for parsing blood test values from documents",
+  "patterns": {
+    "blood_test_value": {
+      "description": "Pattern to match blood test name and value pairs",
+      "regex": "(?m)^(?P<name>[A-ZĄĆĘŁŃÓŚŻ]+[A-ZĄĆĘŁŃÓŚŻ\\s]*)\\s*[=:]\\s*(?P<value>[\\d.,]+)\\s*(?P<unit>[a-zA-Z%/µmg]+)?"
+    },
+
+    "test_name_variations": {
+      "description": "Alternative names for common blood tests",
+      "mappings": {
+        "WITAMINA D3": ["WITAMINA D", "25-OH WITAMINA D", "25(OH)D", "CHOLEKALCYFEROL"],
+        "WITAMINA B12": ["KOBALAMINA", "CYANOCOBALAMINA", "B12"],
+        "WITAMINA B9": ["KWAS FOLIOWY", "FOLACJA", "B9"],
+        "FERRYTYNA": ["FERRETINA"],
+        "HOMOCYSTEINA": ["HOMOCYSTEINE", "HCY"],
+        "CRP": ["C-REACTYWNE BIAŁKO", "HS-CRP", "CRP US", "CRP HS"],
+        "OB": ["ODKLENIENIE", "SED", "ESR"],
+        "NEUTROFILE": ["NEUTRO", "NEUT"],
+        "LIMFOCYTY": ["LYMPH", "LYM"],
+        "MONOCYTY": ["MONO"],
+        "Eozynofile": ["EOS", "EO"],
+        "Bazofile": ["BASO", "BAZO"],
+        "CHOLESTEROL": ["CHOLESTEROL OGÓLNEM", "TC", "TOTAL CHOLESTEROL"],
+        "LDL": ["CHOLESTEROL LDL", "CHOLESTEROL ZŁY", "BADZ CHOLESTEROL"],
+        "HDL": ["CHOLESTEROL HDL", "CHOLESTEROL DOBRY", "GOOD CHOLESTEROL"],
+        "TG": ["TRÓGLICERYDY", "TRYGLICERYDY", "TG"],
+        "AST": ["ASPAT", "SGOT", "GOT"],
+        "ALT": ["ALAT", "SGPT", "GPT"],
+        "GGTP": ["GAMMA GT", "GT"]
+      }
+    },
+
+    "unit_patterns": {
+      "description": "Common unit format patterns",
+      "patterns": {
+        "mg/dL": ["mg/dl", "mg / dl", "mg dl-1"],
+        "g/L": ["g/l", "g / l"],
+        "U/L": ["U/l", "U / l", "IU/L"],
+        "pg/mL": ["pg/ml", "pg / ml"],
+        "ng/mL": ["ng/ml", "ng / ml"],
+        "µmol/L": ["umol/l", "umol / l", "μmol/L"],
+        "fmol/L": ["fmol/ml", "fmol / l"],
+        "%": ["procent", "%", "pct"]
+      }
+    },
+
+    "date_patterns": [
+      "%Y-%m-%d",
+      "%Y/%m/%d",
+      "%d.%m.%Y",
+      "%d-%m-%Y",
+      "%d/%m/%Y"
+    ],
+
+    "time_patterns": {
+      "CZCO": 0,
+      "0H": 0,
+      "0 godz": 0,
+      "CZCO1": 60,
+      "1H": 60,
+      "60 min": 60,
+      "1 godz": 60,
+      "CZCO2": 120,
+      "2H": 120,
+      "120 min": 120,
+      "2 godz": 120,
+      "CZCO3": 180,
+      "3H": 180,
+      "180 min": 180,
+      "3 godz": 180
+    },
+
+    "ignore_keywords": [
+      "WNIOSKI",
+      "UWAGI",
+      "KOMENTARZ",
+      "NOTATKI",
+      "REFERENCJA",
+      "METODA",
+      "LABORATORIUM",
+      "LEKARZ"
+    ],
+
+    "section_headers": [
+      "MORFOLOGIA",
+      "MORFOLOGIA KRWI",
+      "Morfologia",
+      "MARKERY ZAPALNE",
+      "SKŁADNIKI MINERALNE",
+      "WITAMINY",
+      "ELEKTROLITY",
+      "TARCZYCA",
+      "LIPIDOGRAM",
+      "PROFIL LIPIDOWY",
+      "WĄTROBA",
+      "PARAMETRY WĄTROBY",
+      "HORMONY",
+      "GOSPODARKA CUKROWA",
+      "PROFIL GLUKOZOWY",
+      "GOSPODARKA CUKROWO-INSULINOWA",
+      "GLUKOZA",
+      "INSULINA"
+    ]
+  }
+}
