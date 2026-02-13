@@ -23,6 +23,7 @@ Transform your blood test results into personalized supplement recommendations w
 - [🏗️ Project Structure](#️-project-structure)
 - [🧪 Testing](#-testing)
 - [🛠️ Development](#️-development)
+- [🗺️ Roadmap & Future Plans](#️-roadmap--future-plans)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
@@ -473,6 +474,33 @@ git push
 - Priority parameter validation in PDF generation
 - Logger imports optimized to module level
 - Improved error handling with proper logging
+
+---
+
+## 🗺️ Roadmap & Future Plans
+
+### Version 2.2 (In Progress)
+- [ ] **Web Interface**: Flask/FastAPI web application for browser access
+- [ ] **Multi-language Support**: English translations alongside Polish
+- [ ] **Enhanced PDF Reports**: Charts, graphs, and visual deficiency indicators
+
+### Version 2.3 (Planned)
+- [ ] **Machine Learning**: Personalized recommendations based on historical data
+- [ ] **Drug Interactions**: Alert system for supplement-medication interactions
+- [ ] **Mobile Companion**: iOS/Android app for tracking and reminders
+
+### Version 3.0 (Long-term Vision)
+- [ ] **Healthcare Provider Integration**: HL7 FHIR compatibility
+- [ ] **Telemedicine API**: Integration with telehealth platforms
+- [ ] **Community Features**: Anonymous data sharing for research
+- [ ] **AI Chatbot**: Natural language interface for health queries
+
+### Contributing to Roadmap
+
+Have ideas? We'd love to hear them!
+- 🐛 [Report bugs](https://github.com/WielkiKrzych/medical_supplement_advisor/issues)
+- 💡 [Request features](https://github.com/WielkiKrzych/medical_supplement_advisor/issues)
+- 🗣️ [Join discussions](https://github.com/WielkiKrzych/medical_supplement_advisor/discussions)
 
 ---
 
