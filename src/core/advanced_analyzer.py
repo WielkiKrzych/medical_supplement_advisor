@@ -63,8 +63,6 @@ class AdvancedAnalyzer:
             }
 
     def _load_supplements(self) -> Dict[str, Any]:
-        from src.utils.logger import get_logger
-        logger = get_logger(__name__)
         try:
             data = self.data_loader.load_json("supplements_v2.json")
             supplements = {}
@@ -151,14 +149,17 @@ class AdvancedAnalyzer:
             return None
 
         tsh = test_dict["TSH"].value
-        ft3 = test_dict.get("FT3", BloodTest(name="FT3", value=0, unit="pmol/L")).value
-        ft4 = test_dict.get("FT4", BloodTest(name="FT4", value=0, unit="pmol/L")).value
+        ft3 = test_dict.get("FT3")
+        ft4 = test_dict.get("FT4")
+
+        ft3_val = ft3.value if ft3 else 0
+        ft4_val = ft4.value if ft4 else 0
 
         ft3_ref = (1.8, 4.6)
         ft4_ref = (0.93, 1.7)
 
         return self.interpretation_engine.interpret_thyroid_panel(
-            tsh, ft3, ft4, ft3_ref, ft4_ref
+            tsh, ft3_val, ft4_val, ft3_ref, ft4_ref
         )
 
     def _analyze_glucose_insulin(self, tests: List[BloodTest]) -> Optional[Any]:
@@ -244,12 +245,15 @@ class AdvancedAnalyzer:
     def _analyze_lipids(self, tests: List[BloodTest]) -> Optional[Any]:
         test_dict = {t.name.upper(): t for t in tests}
 
-        cholesterol = test_dict.get(
-            "CHOLESTEROL", BloodTest(name="Cholesterol", value=0, unit="mg/dL")
-        ).value
-        hdl = test_dict.get("HDL", BloodTest(name="HDL", value=0, unit="mg/dL")).value
-        ldl = test_dict.get("LDL", BloodTest(name="LDL", value=0, unit="mg/dL")).value
-        tg = test_dict.get("TG", BloodTest(name="TG", value=0, unit="mg/dL")).value
+        cholesterol_test = test_dict.get("CHOLESTEROL")
+        hdl_test = test_dict.get("HDL")
+        ldl_test = test_dict.get("LDL")
+        tg_test = test_dict.get("TG")
+
+        cholesterol = cholesterol_test.value if cholesterol_test else 0
+        hdl = hdl_test.value if hdl_test else 0
+        ldl = ldl_test.value if ldl_test else 0
+        tg = tg_test.value if tg_test else 0
 
         if cholesterol == 0 and hdl == 0 and ldl == 0 and tg == 0:
             return None
@@ -261,9 +265,13 @@ class AdvancedAnalyzer:
     def _analyze_liver(self, tests: List[BloodTest]) -> Optional[Any]:
         test_dict = {t.name.upper(): t for t in tests}
 
-        ast = test_dict.get("AST", BloodTest(name="AST", value=0, unit="U/L")).value
-        alt = test_dict.get("ALT", BloodTest(name="ALT", value=0, unit="U/L")).value
-        ggtp = test_dict.get("GGTP", BloodTest(name="GGTP", value=0, unit="U/L")).value
+        ast_test = test_dict.get("AST")
+        alt_test = test_dict.get("ALT")
+        ggtp_test = test_dict.get("GGTP")
+
+        ast = ast_test.value if ast_test else 0
+        alt = alt_test.value if alt_test else 0
+        ggtp = ggtp_test.value if ggtp_test else 0
 
         if ast == 0 and alt == 0 and ggtp == 0:
             return None
@@ -273,14 +281,15 @@ class AdvancedAnalyzer:
     def _analyze_hormones(self, tests: List[BloodTest]) -> Optional[Any]:
         test_dict = {t.name.upper(): t for t in tests}
 
-        lh = test_dict.get("LH", BloodTest(name="LH", value=0, unit="IU/L")).value
-        fsh = test_dict.get("FSH", BloodTest(name="FSH", value=0, unit="IU/L")).value
-        e2 = test_dict.get(
-            "ESTRADIOL", BloodTest(name="Estradiol", value=0, unit="pg/mL")
-        ).value
-        prog = test_dict.get(
-            "PROGESTERON", BloodTest(name="Progesteron", value=0, unit="ng/mL")
-        ).value
+        lh_test = test_dict.get("LH")
+        fsh_test = test_dict.get("FSH")
+        e2_test = test_dict.get("ESTRADIOL")
+        prog_test = test_dict.get("PROGESTERON")
+
+        lh = lh_test.value if lh_test else 0
+        fsh = fsh_test.value if fsh_test else 0
+        e2 = e2_test.value if e2_test else 0
+        prog = prog_test.value if prog_test else 0
 
         if lh == 0 and fsh == 0 and e2 == 0 and prog == 0:
             return None

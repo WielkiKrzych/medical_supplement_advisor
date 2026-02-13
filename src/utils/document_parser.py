@@ -669,9 +669,9 @@ class DocumentParser:
                     re.search(keyword, name_lower) for keyword in valid_keywords
                 ):
                     # Still add if it looks like a medical test (short name, medical units)
+                    valid_units = ["mg", "ng", "IU", "U", "%", "g/L", "mmol/L"]
                     if len(name.split()) > 3 or not any(
-                        unit in unit
-                        for unit in ["mg", "ng", "IU", "U", "%", "g/L", "mmol/L"]
+                        valid_unit in unit for valid_unit in valid_units
                     ):
                         return False
 
