@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
         self.status_text.setMaximumHeight(100)
         output_layout.addWidget(self.status_text)
 
-        self.output_label = QLabel(f"{t('gui.pdf_file')}: {t('pdf_not_generated')}")
+        self.output_label = QLabel(f"{t('gui.pdf_file')}: {t('gui.pdf_not_generated')}")
         self.output_label.setStyleSheet("color: gray;")
         output_layout.addWidget(self.output_label)
 

@@ -84,6 +84,7 @@ That's it! 🎉 The GUI will launch and you can start analyzing your blood tests
 - **Code Quality**: Enforced with Pylint, Black, and Isort
 - **Security**: Path traversal protection, filename sanitization, file size limits
 - **Clinical Accuracy**: Based on real clinical data and protocols
+- **Internationalization**: i18n support with language persistence
 
 ### 🚀 Developer Experience
 - **Clean Architecture**: Well-organized, modular codebase
@@ -278,8 +279,14 @@ medical-supplement-advisor/
 │   ├── supplements.json        # Supplement database (21 supplements)
 │   ├── supplements_v2.json     # Commercial supplements (70+ products)
 │   ├── interpretation_rules.json # Clinical interpretation rules
+│   ├── clinical_thresholds.json # Configurable clinical thresholds
+│   ├── test_categories.json    # Test category definitions
 │   ├── timing_rules.json      # When to take supplements
 │   └── dosage_rules.json      # Dosage recommendations
+├── 📂 i18n/                   # Internationalization
+│   └── pl.json               # Polish translations
+├── 📂 config/                 # Configuration
+│   └── user_settings.json     # User preferences (language, etc.)
 ├── 📂 src/
 │   ├── 📂 models/            # Pydantic data models
 │   │   ├── blood_test.py     # Blood test model
@@ -300,6 +307,7 @@ medical-supplement-advisor/
 │   │   ├── formatter.py     # PDF generation
 │   │   ├── json_parser.py   # JSON parsing
 │   │   ├── document_parser.py # PDF/DOCX parsing with OCR
+│   │   ├── i18n.py          # Internationalization utilities
 │   │   └── logger.py        # Application logging
 │   ├── 📂 gui/              # PyQt5 GUI
 │   │   ├── app.py           # Application entry
@@ -445,6 +453,26 @@ git push
 - Full type safety with `str | None` unions
 - Added logging system for better debugging
 - 39 comprehensive tests (100% passing)
+
+✨ **Internationalization (i18n) v2.1**
+- Full i18n support with translation files (`i18n/pl.json`)
+- Language persistence across application restarts
+- All hardcoded strings moved to translation files
+- Patterns and ratio interpretations now translatable
+- Easy to add new languages by creating new JSON files
+
+✨ **Configurable Clinical Thresholds**
+- Clinical thresholds loaded from `clinical_thresholds.json`
+- Fallback thresholds when configuration fails
+- Support for functional and lab reference ranges
+- Easy to customize for different clinical protocols
+
+✨ **Bug Fixes & Improvements**
+- PDF filename collision prevention with timestamps
+- Translation key validation and fallbacks
+- Priority parameter validation in PDF generation
+- Logger imports optimized to module level
+- Improved error handling with proper logging
 
 ---
 

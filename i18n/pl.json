@@ -19,6 +19,7 @@
     "priority_high": "Wysoki",
     "priority_medium": "Średni",
     "priority_low": "Niski",
+    "priority_unknown": "Nieznany",
     "warning": "UWAGA",
     "warning_text": "Powyższe rekomendacje mają charakter informacyjny i nie zastępują profesjonalnej porady medycznej."
   },
@@ -81,11 +82,31 @@
   "patterns": {
     "microcytic_anemia_iron": "Mikrocytowa anemia (niedobór żelaza)",
     "macrocytic_anemia_b12": "Makrocytowa anemia (niedobór B12 lub kwasu foliowego)",
+    "neutropenia_b12_b9": "Neutropenia - niedobór B12/B9",
     "insulin_resistance_pattern": "Insulinooporność",
+    "insulin_resistance_or_diabetes": "Insulinooporność lub cukrzyca",
+    "possible_fluctuations": "Możliwe wahania w krzywej",
     "hypothyroidism": "Niedoczynność tarczycy",
     "hyperthyroidism": "Nadczynność tarczycy",
     "pcos_pattern": "PCOS (Zespół policystycznych jajników)",
-    "nafld_pattern": "NAFLD (Niealkoholowa stłuszczeniowa choroba wątroby)"
+    "nafld_pattern": "NAFLD (Niealkoholowa stłuszczeniowa choroba wątroby)",
+    "alcohol_liver_damage": "Alkoholowe uszkodzenie wątroby",
+    "fatty_liver_insulin_resistance": "Stłuszczenie wątroby lub insulinooporność",
+    "liver_inflammation": "Zapalenie wątroby"
+  },
+
+  "ratios": {
+    "normal": "Prawidłowy",
+    "optimal": "Optymalny",
+    "needs_improvement": "Wymaga poprawy",
+    "hdl_ldl_low": "Niski stosunek - ryzyko sercowo-naczyniowe",
+    "liver_burden_inflammation": "Obciążona wątroba, stany zapalne",
+    "alcohol_liver_damage": "Uszkodzenie wątroby związane z alkoholem",
+    "fatty_liver_insulin_resistance": "Stłuszczenie wątroby lub insulinooporność",
+    "pcos_ovarian_failure": "PCOS lub niewydolność jajników",
+    "pituitary_hypothyroidism": "Niedoczynność przysadki",
+    "estrogen_dominance": "Dominacja estrogenowa",
+    "estrogen_deficiency": "Niedobór estrogenów"
   },
 
   "categories": {

@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Tuple
 
@@ -69,17 +70,16 @@ class PDFFormatter:
     def generate_pdf(self, recommendation: Recommendation) -> Path:
         safe_name = sanitize_filename(recommendation.patient_name)
         safe_surname = sanitize_filename(recommendation.patient_surname)
-        filename = f"{safe_name}_{safe_surname}_supplements.pdf"
+        timestamp = int(datetime.now().timestamp())
+        filename = f"{safe_name}_{safe_surname}_{timestamp}_supplements.pdf"
         filepath = self.output_dir / filename
 
-        counter = 1
-        original_filepath = filepath
-        while filepath.exists():
-            filename = f"{safe_name}_{safe_surname}_{counter}_supplements.pdf"
+        # Check for collision (extremely unlikely with timestamp, but safe)
+        if filepath.exists():
+            import hashlib
+            hash_suffix = hashlib.md5(str(filepath).encode()).hexdigest()[:6]
+            filename = f"{safe_name}_{safe_surname}_{timestamp}_{hash_suffix}_supplements.pdf"
             filepath = self.output_dir / filename
-            counter += 1
-            if counter > 1000:
-                raise IOError("Cannot generate unique filename")
 
         doc = SimpleDocTemplate(
             str(filepath),
@@ -230,4 +230,8 @@ class PDFFormatter:
         return filepath
 
     def _get_priority_display(self, priority: str) -> str:
+        """Get translated priority display with validation."""
+        valid_priorities = ["critical", "high", "medium", "low"]
+        if priority not in valid_priorities:
+            return t("pdf.priority_unknown") if "priority_unknown" in t("pdf.priority_unknown") else priority
         return t(f"pdf.priority_{priority}")

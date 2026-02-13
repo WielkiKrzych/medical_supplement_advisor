@@ -11,7 +11,10 @@ from src.models.test_analysis import (
 from src.core.interpretation_engine import InterpretationEngine
 from src.utils.data_loader import DataLoader
 from src.utils.i18n import t
+from src.utils.logger import get_logger
 from config import DATA_DIR
+
+logger = get_logger(__name__)
 
 
 class AdvancedAnalyzer:
@@ -23,8 +26,6 @@ class AdvancedAnalyzer:
 
     def _load_test_categories(self) -> Dict[str, List[str]]:
         """Load test categories from JSON config file."""
-        from src.utils.logger import get_logger
-        logger = get_logger(__name__)
         try:
             data = self.data_loader.load_json("test_categories.json")
             categories = data.get("categories", {})

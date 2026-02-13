@@ -19,7 +19,11 @@ from src.models.test_analysis import (
     InsulinCurveAnalysis,
 )
 from src.utils.data_loader import DataLoader
+from src.utils.logger import get_logger
+from src.utils.i18n import t
 from config import DATA_DIR
+
+logger = get_logger(__name__)
 
 
 class InterpretationEngine:
@@ -33,8 +37,6 @@ class InterpretationEngine:
         try:
             return self.data_loader.load_json("reference_ranges_v2.json")
         except Exception as e:
-            from src.utils.logger import get_logger
-            logger = get_logger(__name__)
             logger.error(f"Failed to load reference_ranges_v2.json: {e}")
             return {}
 
@@ -42,8 +44,6 @@ class InterpretationEngine:
         try:
             return self.data_loader.load_json("interpretation_rules.json")
         except Exception as e:
-            from src.utils.logger import get_logger
-            logger = get_logger(__name__)
             logger.error(f"Failed to load interpretation_rules.json: {e}")
             return {}
 
@@ -51,12 +51,28 @@ class InterpretationEngine:
         try:
             data = self.data_loader.load_json("clinical_thresholds.json")
             thresholds = data.get("thresholds", {})
-            return thresholds
+            if thresholds:
+                return thresholds
         except Exception as e:
-            from src.utils.logger import get_logger
-            logger = get_logger(__name__)
             logger.error(f"Failed to load clinical_thresholds.json: {e}")
-            return {}
+        
+        # Return fallback thresholds when JSON fails to load
+        return self._get_fallback_thresholds()
+
+    def _get_fallback_thresholds(self) -> Dict[str, Dict[str, Any]]:
+        """Fallback thresholds when clinical_thresholds.json fails to load."""
+        return {
+            "TSH": {"functional_min": 0.5, "functional_max": 2.5, "lab_min": 0.27, "lab_max": 4.2},
+            "FERRYTYNA": {"functional_min": 50, "functional_max": 90, "lab_min": 10, "lab_max": 150},
+            "WITAMINA D3": {"functional_min": 40, "functional_max": 60, "lab_min": 30, "lab_max": 100},
+            "WITAMINA B12": {"functional_min": 400, "functional_max": 800, "lab_min": 200, "lab_max": 900},
+            "HOMOCYSTEINA": {"functional_min": 5, "functional_max": 8, "lab_min": 5, "lab_max": 15},
+            "INSULINA": {"functional_min": 3, "functional_max": 6, "lab_min": 2, "lab_max": 25},
+            "GLUKOZA": {"functional_min": 70, "functional_max": 87, "lab_min": 70, "lab_max": 99},
+            "HBA1C": {"functional_min": 4.8, "functional_max": 5.2, "lab_min": 4.0, "lab_max": 6.0},
+            "CYNK": {"functional_min": 80, "functional_max": 120, "lab_min": 70, "lab_max": 150},
+            "SELEN": {"functional_min": 100, "functional_max": 150, "lab_min": 70, "lab_max": 150},
+        }
 
     def interpret_single_test(self, test: BloodTest, threshold_type: str = "functional") -> TestAnalysis:
         test_config = self._find_test_config(test.name)
@@ -215,18 +231,18 @@ class InterpretationEngine:
             mch = test_dict["MCH"].value
 
             if mcv < 80 and mch < 27:
-                patterns.append("Mikrocytowa anemia (niedobór żelaza)")
+                patterns.append(t("patterns.microcytic_anemia_iron"))
                 deficiencies.extend(["iron", "copper", "B6"])
                 recommendations.extend(["Żelazo", "Miedź", "Witaminy z gr. B"])
             elif mcv > 100 and mch > 32:
-                patterns.append("Megaloblastyczna anemia (niedobór B12/B9)")
+                patterns.append(t("patterns.macrocytic_anemia_b12"))
                 deficiencies.extend(["B12", "B9"])
                 recommendations.extend(["B12", "Kwas foliowy"])
 
         if "NEUTROFILE" in test_dict:
             neut = test_dict["NEUTROFILE"]
             if neut.value < 40:
-                patterns.append("Neutropenia - niedobór B12/B9")
+                patterns.append(t("patterns.neutropenia_b12_b9"))
                 deficiencies.extend(["B12", "B9"])
                 recommendations.extend(["Witaminy z gr. B", "L-Glutamina"])
 
@@ -254,9 +270,7 @@ class InterpretationEngine:
                 value=ratio,
                 optimal_range="1:2",
                 status="low" if ratio < 0.5 else "normal",
-                interpretation="Niski stosunek - ryzyko sercowo-naczyniowe"
-                if ratio < 0.5
-                else "Prawidłowy",
+                interpretation=t("ratios.hdl_ldl_low") if ratio < 0.5 else t("ratios.normal"),
                 supplements=["Omega 3", "Omega 6", "Cholina"] if ratio < 0.5 else [],
             )
             ratios.append(ratio_analysis)
@@ -273,9 +287,7 @@ class InterpretationEngine:
                     value=ratio,
                     optimal_range="1:1",
                     status=status,
-                    interpretation="Optymalny"
-                    if status == "optimal"
-                    else "Wymaga poprawy",
+                    interpretation=t("ratios.optimal") if status == "optimal" else t("ratios.needs_improvement"),
                     supplements=[] if status == "optimal" else ["Omega 3"],
                 )
             )
@@ -363,7 +375,7 @@ class InterpretationEngine:
 
         interpretations = []
         if fasting > 87:
-            interpretations.append("Insulinooporność lub cukrzyca")
+            interpretations.append(t("patterns.insulin_resistance_or_diabetes"))
 
         return GlucoseCurveAnalysis(
             readings=curve_readings,
@@ -410,9 +422,9 @@ class InterpretationEngine:
 
         interpretations = []
         if fasting > 6:
-            interpretations.append("Insulinooporność")
+            interpretations.append(t("patterns.insulin_resistance_pattern"))
         elif fasting < 3:
-            interpretations.append("Możliwe hockiklocki w krzywej")
+            interpretations.append(t("patterns.possible_fluctuations"))
 
         return InsulinCurveAnalysis(
             readings=curve_readings,
@@ -443,32 +455,32 @@ class InterpretationEngine:
             value = value1 / value2
 
         status = "normal"
-        interpretation = "Prawidłowy"
+        interpretation = t("ratios.normal")
         supplements = []
 
         if name == "HDL:LDL":
             if value < 0.5:
                 status = "low"
-                interpretation = "Obciążona wątroba, stany zapalne"
+                interpretation = t("ratios.liver_burden_inflammation")
                 supplements = ["omega_3", "omega_6", "cholina"]
 
         elif name == "AST:ALT":
             if value > 2:
                 status = "high"
-                interpretation = "Uszkodzenie wątroby związane z alkoholem"
+                interpretation = t("ratios.alcohol_liver_damage")
             elif value < 1:
                 status = "low"
-                interpretation = "Stłuszczenie wątroby lub insulinooporność"
+                interpretation = t("ratios.fatty_liver_insulin_resistance")
                 supplements = ["nac", "inozytol", "lactibiane_cnd", "ostropest"]
 
         elif name == "LH:FSH":
             if value > 2:
                 status = "high"
-                interpretation = "PCOS lub niewydolność jajników"
+                interpretation = t("ratios.pcos_ovarian_failure")
                 supplements = ["myo-inozytol"]
             elif value < 0.5:
                 status = "low"
-                interpretation = "Niedoczynność przysadki"
+                interpretation = t("ratios.pituitary_hypothyroidism")
                 supplements = ["ashwagandha", "nac"]
 
         return RatioAnalysis(
@@ -507,9 +519,9 @@ class InterpretationEngine:
                     value=ratio_val,
                     optimal_range="100-500",
                     status=status,
-                    interpretation="Dominacja estrogenowa"
+                    interpretation=t("ratios.estrogen_dominance")
                     if status == "high"
-                    else "Niedobór estrogenów",
+                    else t("ratios.estrogen_deficiency"),
                     supplements=supplements,
                 )
             )
@@ -529,11 +541,11 @@ class InterpretationEngine:
 
         pattern = None
         if ratio > 2:
-            pattern = "alkoholowe uszkodzenie wątroby"
+            pattern = t("patterns.alcohol_liver_damage")
         elif ratio < 1 and ggtp > 35:
-            pattern = "stłuszczenie wątroby lub insulinooporność"
+            pattern = t("patterns.fatty_liver_insulin_resistance")
         elif ast > 20 or alt > 26:
-            pattern = "zapalenie wątroby"
+            pattern = t("patterns.liver_inflammation")
 
         recommendations = []
         if pattern:
