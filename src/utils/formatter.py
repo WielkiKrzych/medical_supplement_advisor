@@ -42,7 +42,7 @@ def register_polish_fonts():
             pdfmetrics.registerFont(TTFont("CustomFont", regular_path))
             pdfmetrics.registerFont(TTFont("CustomFont-Bold", bold_path))
             return "CustomFont", "CustomFont-Bold"
-        except:
+        except Exception:
             continue
 
     # Fallback to standard fonts (may not support Polish characters)

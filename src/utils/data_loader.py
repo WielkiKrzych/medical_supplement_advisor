@@ -1,5 +1,4 @@
 import json
-from functools import lru_cache
 from pathlib import Path
 from typing import Dict, Any
 
@@ -12,6 +11,7 @@ logger = get_logger(__name__)
 class DataLoader:
     def __init__(self, data_dir: Path):
         self.data_dir = data_dir
+        self._cache: Dict[str, Any] = {}
 
     def load_json(self, filename: str) -> Dict[str, Any]:
         candidate = Path(filename)
@@ -64,22 +64,22 @@ class DataLoader:
                 error_msg, file_path=str(filepath)
             ) from e
 
-    @lru_cache(maxsize=10)
+    def _load_cached(self, filename: str) -> Dict[str, Any]:
+        if filename not in self._cache:
+            logger.debug(f"Loading {filename} from file")
+            self._cache[filename] = self.load_json(filename)
+        else:
+            logger.debug(f"Loading {filename} from cache")
+        return self._cache[filename]
+
     def load_reference_ranges(self) -> Dict[str, Any]:
-        logger.debug("Loading reference_ranges from cache or file")
-        return self.load_json("reference_ranges.json")
+        return self._load_cached("reference_ranges.json")
 
-    @lru_cache(maxsize=10)
     def load_supplements(self) -> Dict[str, Any]:
-        logger.debug("Loading supplements from cache or file")
-        return self.load_json("supplements.json")
+        return self._load_cached("supplements.json")
 
-    @lru_cache(maxsize=10)
     def load_timing_rules(self) -> Dict[str, Any]:
-        logger.debug("Loading timing_rules from cache or file")
-        return self.load_json("timing_rules.json")
+        return self._load_cached("timing_rules.json")
 
-    @lru_cache(maxsize=10)
     def load_dosage_rules(self) -> Dict[str, Any]:
-        logger.debug("Loading dosage_rules from cache or file")
-        return self.load_json("dosage_rules.json")
+        return self._load_cached("dosage_rules.json")

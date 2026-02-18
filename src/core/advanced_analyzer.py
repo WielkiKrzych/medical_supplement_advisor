@@ -31,7 +31,7 @@ class AdvancedAnalyzer:
             categories = data.get("categories", {})
             # Flatten categories into lookup dict: category -> list of test names (uppercase)
             return {
-                cat_name: [t.upper() for t in cat_data.get("tests", [])]
+                cat_name: [name.upper() for name in cat_data.get("tests", [])]
                 for cat_name, cat_data in categories.items()
             }
         except Exception as e:
@@ -82,7 +82,7 @@ class AdvancedAnalyzer:
             analysis = self.interpretation_engine.interpret_single_test(test)
             analyzed_tests.append(analysis)
 
-        morphology_tests = [t for t in tests if self._is_morphology_test(t.name)]
+        morphology_tests = [test for test in tests if self._is_morphology_test(test.name)]
         morphology = self.interpretation_engine.interpret_morphology(morphology_tests)
 
         inflammatory = [
@@ -143,7 +143,7 @@ class AdvancedAnalyzer:
         return name.upper() in self.test_categories.get("electrolytes", [])
 
     def _analyze_thyroid(self, tests: List[BloodTest]) -> Optional[Any]:
-        test_dict = {t.name.upper(): t for t in tests}
+        test_dict = {test.name.upper(): test for test in tests}
 
         if "TSH" not in test_dict:
             return None
@@ -163,7 +163,7 @@ class AdvancedAnalyzer:
         )
 
     def _analyze_glucose_insulin(self, tests: List[BloodTest]) -> Optional[Any]:
-        test_dict = {t.name.upper(): t for t in tests}
+        test_dict = {test.name.upper(): test for test in tests}
 
         if "GLUKOZA" not in test_dict and "INSULINA" not in test_dict:
             return None
@@ -247,7 +247,7 @@ class AdvancedAnalyzer:
         return 0
 
     def _analyze_lipids(self, tests: List[BloodTest]) -> Optional[Any]:
-        test_dict = {t.name.upper(): t for t in tests}
+        test_dict = {test.name.upper(): test for test in tests}
 
         cholesterol_test = test_dict.get("CHOLESTEROL")
         hdl_test = test_dict.get("HDL")
@@ -267,7 +267,7 @@ class AdvancedAnalyzer:
         )
 
     def _analyze_liver(self, tests: List[BloodTest]) -> Optional[Any]:
-        test_dict = {t.name.upper(): t for t in tests}
+        test_dict = {test.name.upper(): test for test in tests}
 
         ast_test = test_dict.get("AST")
         alt_test = test_dict.get("ALT")
@@ -283,7 +283,7 @@ class AdvancedAnalyzer:
         return self.interpretation_engine.interpret_liver_panel(ast, alt, ggtp)
 
     def _analyze_hormones(self, tests: List[BloodTest]) -> Optional[Any]:
-        test_dict = {t.name.upper(): t for t in tests}
+        test_dict = {test.name.upper(): test for test in tests}
 
         lh_test = test_dict.get("LH")
         fsh_test = test_dict.get("FSH")
@@ -336,7 +336,7 @@ class AdvancedAnalyzer:
                         supplement_id=supp_id,
                         name=supp_data["name"],
                         dosage=supp_data["dosage"],
-                        priority="high",
+                        priority=supp_data.get("priority", "medium"),
                         reason=f"Wskazane dla {supp_data['category']}",
                         contraindications=supp_data.get("contraindications", []),
                         interactions=supp_data.get("interactions", []),

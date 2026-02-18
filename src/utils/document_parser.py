@@ -255,17 +255,20 @@ class DocumentParser:
                 if len(all_tables) >= 2:
                     patient_data = self._extract_patient_from_table(all_tables[0])
                     blood_tests = self._extract_blood_tests_from_table(all_tables[1])
-                else:
-                    patient_data, blood_tests = self._extract_from_text(pdf)
+                    return {
+                        "patient": patient_data.to_dict(),
+                        "blood_tests": [test.to_dict() for test in blood_tests],
+                    }
 
-                # Check if extracted text is garbled (CID encoding)
+                # Text extraction path — check for garbled text
                 combined_text = ""
                 for page in pdf.pages:
-                    combined_text += page.extract_text() + "\n"
+                    combined_text += (page.extract_text() or "") + "\n"
 
                 if self._is_text_garbled(combined_text):
                     return self._parse_pdf_with_ocr(file_path)
 
+                patient_data, blood_tests = self._extract_from_text(pdf)
                 return {
                     "patient": patient_data.to_dict(),
                     "blood_tests": [test.to_dict() for test in blood_tests],
@@ -419,7 +422,7 @@ class DocumentParser:
     def _extract_from_text(self, pdf) -> tuple:
         full_text = ""
         for page in pdf.pages:
-            full_text += page.extract_text() + "\n"
+            full_text += (page.extract_text() or "") + "\n"
         return self._parse_text_content(full_text)
 
     def _is_text_garbled(self, text: str) -> bool:

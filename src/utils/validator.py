@@ -1,3 +1,5 @@
+from pydantic import ValidationError as PydanticValidationError
+
 from src.models.patient import Patient
 from src.models.blood_test import BloodTest
 from src.utils.exceptions import ValidationError, AnalysisError
@@ -7,11 +9,21 @@ from typing import List
 class Validator:
     @staticmethod
     def validate_patient(data: dict) -> Patient:
-        return Patient(**data)
+        try:
+            return Patient(**data)
+        except PydanticValidationError as e:
+            raise ValidationError(
+                f"Invalid patient data: {e}", field="patient"
+            ) from e
 
     @staticmethod
     def validate_blood_tests(data: List[dict]) -> List[BloodTest]:
-        return [BloodTest(**test) for test in data]
+        try:
+            return [BloodTest(**test) for test in data]
+        except PydanticValidationError as e:
+            raise ValidationError(
+                f"Invalid blood test data: {e}", field="blood_tests"
+            ) from e
 
     @staticmethod
     def validate_reference_ranges(data: dict) -> None:
