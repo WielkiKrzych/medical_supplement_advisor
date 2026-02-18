@@ -198,7 +198,11 @@ class AdvancedAnalyzer:
         if "GLUKOZA" in test_dict and "INSULINA" in test_dict:
             glucose_0 = test_dict["GLUKOZA"].value
             insulin_0 = test_dict["INSULINA"].value
-            homa_ir = (glucose_0 * insulin_0) / 405
+            glucose_unit = test_dict["GLUKOZA"].unit.lower()
+            if "mmol" in glucose_unit:
+                homa_ir = (glucose_0 * insulin_0) / 22.5
+            else:
+                homa_ir = (glucose_0 * insulin_0) / 405
 
         hba1c_status = None
         if "HBA1C" in test_dict:

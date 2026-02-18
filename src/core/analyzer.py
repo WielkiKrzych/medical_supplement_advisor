@@ -20,7 +20,7 @@ class Analyzer:
 
             if ref_range:
                 status = self._determine_status(test.value, ref_range)
-                test.status = status
+                test = test.model_copy(update={"status": status})
 
             analyzed_tests.append(test)
 

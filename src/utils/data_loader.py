@@ -14,7 +14,16 @@ class DataLoader:
         self.data_dir = data_dir
 
     def load_json(self, filename: str) -> Dict[str, Any]:
-        filepath = self.data_dir / filename
+        candidate = Path(filename)
+        if candidate.is_absolute():
+            filepath = candidate.resolve()
+        else:
+            filepath = (self.data_dir / filename).resolve()
+
+        if not filepath.is_relative_to(self.data_dir.resolve()):
+            error_msg = f"Path traversal detected: {filename}"
+            logger.error(error_msg)
+            raise DataLoaderError(error_msg, file_path=filename)
 
         if not filepath.exists():
             error_msg = f"File not found: {filepath}"

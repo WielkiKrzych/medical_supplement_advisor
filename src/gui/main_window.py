@@ -239,7 +239,7 @@ class MainWindow(QMainWindow):
             resolved_output_dir = OUTPUT_DIR.resolve()
 
             # Ensure the path is within output directory
-            if not str(resolved_path).startswith(str(resolved_output_dir)):
+            if not resolved_path.is_relative_to(resolved_output_dir):
                 QMessageBox.critical(
                     self,
                     "Błąd bezpieczeństwa",
@@ -277,11 +277,7 @@ class MainWindow(QMainWindow):
             if system == "Darwin":
                 subprocess.run(["open", str(resolved_path)], check=True)
             elif system == "Windows":
-                subprocess.run(
-                    ["cmd", "/c", "start", "", str(resolved_path)],
-                    shell=True,
-                    check=True,
-                )
+                os.startfile(str(resolved_path))
             else:
                 subprocess.run(["xdg-open", str(resolved_path)], check=True)
         except subprocess.CalledProcessError as e:

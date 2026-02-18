@@ -61,25 +61,27 @@ def test_load_json_file_not_found(data_loader):
     assert "File not found" in str(exc_info.value)
 
 
-def test_load_json_invalid_json(data_loader, tmp_path):
+def test_load_json_invalid_json(tmp_path):
     """Test loading a file with invalid JSON."""
     invalid_file = tmp_path / "invalid.json"
     with open(invalid_file, "w") as f:
         f.write('{" invalid json }')
 
+    tmp_loader = DataLoader(tmp_path)
     with pytest.raises(DataLoaderError) as exc_info:
-        data_loader.load_json(str(invalid_file))
+        tmp_loader.load_json("invalid.json")
 
     assert "Invalid JSON" in str(exc_info.value)
 
 
-def test_load_json_empty_file(data_loader, tmp_path):
+def test_load_json_empty_file(tmp_path):
     """Test loading an empty JSON file."""
     empty_file = tmp_path / "empty.json"
     with open(empty_file, "w") as f:
         f.write("   ")
 
+    tmp_loader = DataLoader(tmp_path)
     with pytest.raises(DataLoaderError) as exc_info:
-        data_loader.load_json(str(empty_file))
+        tmp_loader.load_json("empty.json")
 
     assert "File is empty" in str(exc_info.value)
