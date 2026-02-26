@@ -11,6 +11,18 @@ class Analyzer:
 
     def __init__(self, reference_ranges: Dict):
         self.reference_ranges = reference_ranges["reference_ranges"]
+        # Build lookup dict for O(1) access by test name
+        self._lookup: Dict[str, Dict] = {
+            ref["name"]: ref for ref in self.reference_ranges
+        }
+    """Analyzes blood test results against reference ranges.
+
+    Determines if blood test values are low, normal, or high
+    based on predefined reference ranges.
+    """
+
+    def __init__(self, reference_ranges: Dict):
+        self.reference_ranges = reference_ranges["reference_ranges"]
 
     def analyze_blood_tests(self, blood_tests: List[BloodTest]) -> List[BloodTest]:
         analyzed_tests = []
@@ -27,6 +39,7 @@ class Analyzer:
         return analyzed_tests
 
     def _find_reference_range(self, test_name: str) -> Dict | None:
+        return self._lookup.get(test_name)
         for ref_range in self.reference_ranges:
             if ref_range["name"] == test_name:
                 return ref_range

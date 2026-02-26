@@ -42,7 +42,11 @@ class RecommendationEngine:
             for supp in supplements_data
         ]
 
-        supplement_recommendations.sort(key=self._priority_sort_key)
+        supplement_recommendations = sorted(
+            supplement_recommendations, key=self._priority_sort_key
+        )
+
+        return Recommendation(
 
         return Recommendation(
             patient_name=patient.name,

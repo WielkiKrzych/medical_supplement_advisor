@@ -76,6 +76,12 @@ class PDFFormatter:
 
         # Check for collision (extremely unlikely with timestamp, but safe)
         if filepath.exists():
+            # Use MD5 hash to generate unique suffix - not for security, only to avoid filename collisions
+            import hashlib
+            hash_suffix = hashlib.md5(str(filepath).encode()).hexdigest()[:6]
+            filename = f"{safe_name}_{safe_surname}_{timestamp}_{hash_suffix}_supplements.pdf"
+            filepath = self.output_dir / filename
+        if filepath.exists():
             import hashlib
             hash_suffix = hashlib.md5(str(filepath).encode()).hexdigest()[:6]
             filename = f"{safe_name}_{safe_surname}_{timestamp}_{hash_suffix}_supplements.pdf"
@@ -230,6 +236,13 @@ class PDFFormatter:
         return filepath
 
     def _get_priority_display(self, priority: str) -> str:
+        """Get translated priority display with validation."""
+        valid_priorities = ["critical", "high", "medium", "low"]
+        if priority not in valid_priorities:
+            # Return raw priority if translation key doesn't exist
+            translated = t("pdf.priority_unknown")
+            return translated if translated != "pdf.priority_unknown" else priority
+        return t(f"pdf.priority_{priority}")
         """Get translated priority display with validation."""
         valid_priorities = ["critical", "high", "medium", "low"]
         if priority not in valid_priorities:

@@ -2,7 +2,7 @@ from pydantic import ValidationError as PydanticValidationError
 
 from src.models.patient import Patient
 from src.models.blood_test import BloodTest
-from src.utils.exceptions import ValidationError, AnalysisError
+from src.utils.exceptions import ValidationError
 from typing import List
 
 

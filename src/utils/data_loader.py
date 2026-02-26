@@ -1,4 +1,6 @@
 import json
+from copy import deepcopy
+from pathlib import Path
 from pathlib import Path
 from typing import Dict, Any
 
@@ -65,6 +67,13 @@ class DataLoader:
             ) from e
 
     def _load_cached(self, filename: str) -> Dict[str, Any]:
+        if filename not in self._cache:
+            logger.debug(f"Loading {filename} from file")
+            self._cache[filename] = self.load_json(filename)
+        else:
+            logger.debug(f"Loading {filename} from cache")
+        # Return a deep copy to prevent cache mutation
+        return deepcopy(self._cache[filename])
         if filename not in self._cache:
             logger.debug(f"Loading {filename} from file")
             self._cache[filename] = self.load_json(filename)

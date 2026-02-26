@@ -7,6 +7,11 @@ from src.models.test_analysis import (
     TestAnalysis,
     ComprehensiveAnalysis,
     SupplementRecommendation,
+    GlucoseInsulinInterpretation,
+)
+    TestAnalysis,
+    ComprehensiveAnalysis,
+    SupplementRecommendation,
 )
 from src.core.interpretation_engine import InterpretationEngine
 from src.utils.data_loader import DataLoader
@@ -25,6 +30,18 @@ class AdvancedAnalyzer:
         self.test_categories = self._load_test_categories()
 
     def _load_test_categories(self) -> Dict[str, List[str]]:
+        """Load test categories from JSON config file."""
+        try:
+            data = self.data_loader.load_json("test_categories.json")
+            categories = data.get("categories", {})
+            # Flatten categories into lookup dict: category -> list of test names (uppercase)
+            return {
+                cat_name: [name.upper() for name in cat_data.get("tests", [])]
+                for cat_name, cat_data in categories.items()
+            }
+        except (FileNotFoundError, KeyError, TypeError) as e:
+            # Fallback to hardcoded lists if config fails to load
+            logger.error(f"Failed to load test_categories.json: {e}")
         """Load test categories from JSON config file."""
         try:
             data = self.data_loader.load_json("test_categories.json")
@@ -63,6 +80,15 @@ class AdvancedAnalyzer:
             }
 
     def _load_supplements(self) -> Dict[str, Any]:
+        try:
+            data = self.data_loader.load_json("supplements_v2.json")
+            supplements = {}
+            for supp in data.get("supplements", []):
+                supplements[supp["id"]] = supp
+            logger.info(f"Loaded {len(supplements)} supplements from database")
+            return supplements
+        except (FileNotFoundError, KeyError, TypeError) as e:
+            logger.error(f"Failed to load supplements_v2.json: {e}")
         try:
             data = self.data_loader.load_json("supplements_v2.json")
             supplements = {}
@@ -183,12 +209,20 @@ class AdvancedAnalyzer:
         insulin_curve = None
 
         if glucose_readings:
+            glucose_readings = sorted(glucose_readings, key=lambda x: x["time"])
+            glucose_curve = self.interpretation_engine.analyze_glucose_curve(
+                glucose_readings
+            )
             glucose_readings.sort(key=lambda x: x["time"])
             glucose_curve = self.interpretation_engine.analyze_glucose_curve(
                 glucose_readings
             )
 
         if insulin_readings:
+            insulin_readings = sorted(insulin_readings, key=lambda x: x["time"])
+            insulin_curve = self.interpretation_engine.analyze_insulin_curve(
+                insulin_readings
+            )
             insulin_readings.sort(key=lambda x: x["time"])
             insulin_curve = self.interpretation_engine.analyze_insulin_curve(
                 insulin_readings
@@ -219,6 +253,10 @@ class AdvancedAnalyzer:
             insulin_resistance = True
 
         recommendations = []
+        if insulin_resistance:
+            recommendations.extend(["NAC", "Inozytol", "Berberyna", "Lactibiane CND"])
+
+        return GlucoseInsulinInterpretation(
         if insulin_resistance:
             recommendations.extend(["NAC", "Inozytol", "Berberyna", "Lactibiane CND"])
 

@@ -36,6 +36,30 @@ class InterpretationEngine:
     def _load_reference_data(self) -> Dict[str, Any]:
         try:
             return self.data_loader.load_json("reference_ranges_v2.json")
+        except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+            logger.error(f"Failed to load reference_ranges_v2.json: {e}")
+            return {}
+
+    def _load_interpretation_rules(self) -> Dict[str, Any]:
+        try:
+            return self.data_loader.load_json("interpretation_rules.json")
+        except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+            logger.error(f"Failed to load interpretation_rules.json: {e}")
+            return {}
+
+    def _load_clinical_thresholds(self) -> Dict[str, Dict[str, Any]]:
+        try:
+            data = self.data_loader.load_json("clinical_thresholds.json")
+            thresholds = data.get("thresholds", {})
+            if thresholds:
+                return thresholds
+        except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+            logger.error(f"Failed to load clinical_thresholds.json: {e}")
+        
+        # Return fallback thresholds when JSON fails to load
+        return self._get_fallback_thresholds()
+        try:
+            return self.data_loader.load_json("reference_ranges_v2.json")
         except Exception as e:
             logger.error(f"Failed to load reference_ranges_v2.json: {e}")
             return {}

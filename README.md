@@ -508,6 +508,36 @@ MIT License - Free to use, modify, and distribute
 
 ---
 
+## 📋 Recent Changes (v2.1.1)
+
+### Code Quality Improvements
+
+This update addresses code review findings to improve security, performance, and maintainability:
+
+#### 🔴 Critical Fixes
+- **Security**: Exception details no longer leaked to GUI dialogs in `main_window.py`
+- **Security**: Fixed ReDoS-susceptible regex patterns in `document_parser.py`
+
+#### 🟠 High Priority Fixes
+- **Data Quality**: Reformatted `supplements.json` with proper indentation for readability
+- **Immutability**: Replaced `.sort()` with `sorted()` in `advanced_analyzer.py` and `recommendation_engine.py`
+- **Code Style**: Moved inline imports to module level in `advanced_analyzer.py` and `document_parser.py`
+- **Error Handling**: Replaced broad `except Exception` with specific exception types
+- **Cache Safety**: `DataLoader` now returns deep copies to prevent cache mutation
+- **Performance**: Built lookup dicts for O(1) reference range search in `analyzer.py` and `rule_engine.py`
+
+#### 🟡 Medium Priority Fixes
+- **Singleton Safety**: Fixed mutable class-level state in `I18n` singleton
+- **Logic Fix**: Corrected fallback logic in `_get_priority_display` in `formatter.py`
+- **Documentation**: Added explanatory comment for MD5 usage in filename generation
+
+#### 🟢 Low Priority Fixes
+- **Cleanup**: Removed unused `AnalysisError` import from `validator.py`
+
+---
+
+## 🔗 Quick Links
+
 ## 🔗 Quick Links
 
 <div align="center">

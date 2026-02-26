@@ -16,8 +16,25 @@ class RuleEngine:
         self.supplements = {s["id"]: s for s in supplements["supplements"]}
         self.timing_rules = timing_rules["timing_rules"]
         self.timing_display = timing_rules["timing_display"]
+    """Engine for applying dosage and timing rules to blood test results.
+
+    Matches blood tests and patient conditions against configured rules
+    to determine appropriate supplements, dosages, and timing.
+    """
+
+    def __init__(self, dosage_rules: Dict, supplements: Dict, timing_rules: Dict):
+        self.dosage_rules = dosage_rules["dosage_rules"]
+        self.supplements = {s["id"]: s for s in supplements["supplements"]}
+        self.timing_rules = timing_rules["timing_rules"]
+        self.timing_display = timing_rules["timing_display"]
 
     def apply_rules(self, blood_tests: List[BloodTest], patient: Patient) -> List[Dict]:
+        # Build lookup dict for O(1) access by test name
+        test_lookup: Dict[str, BloodTest] = {test.name: test for test in blood_tests}
+        matched_supplements = {}
+
+        for rule in self.dosage_rules:
+            if self._matches_rule(rule, test_lookup, patient):
         matched_supplements = {}
 
         for rule in self.dosage_rules:
@@ -54,6 +71,18 @@ class RuleEngine:
         return list(matched_supplements.values())
 
     def _matches_rule(
+        self, rule: Dict, test_lookup: Dict[str, BloodTest], patient: Patient
+    ) -> bool:
+        condition_type = rule["condition_type"]
+
+        if condition_type == "single_test":
+            return self._matches_single_test_rule(rule, test_lookup)
+        elif condition_type == "combination":
+            return self._matches_combination_rule(rule, test_lookup)
+        elif condition_type == "patient_condition":
+            return self._matches_patient_condition_rule(rule, patient)
+
+        return False
         self, rule: Dict, blood_tests: List[BloodTest], patient: Patient
     ) -> bool:
         condition_type = rule["condition_type"]
@@ -68,6 +97,25 @@ class RuleEngine:
         return False
 
     def _matches_single_test_rule(
+        self, rule: Dict, test_lookup: Dict[str, BloodTest]
+    ) -> bool:
+        test_name = rule["test_name"]
+        test = test_lookup.get(test_name)
+
+        if not test or not test.status:
+            return False
+
+        if rule.get("test_status") and test.status != rule["test_status"]:
+            return False
+
+        if "test_value_range" in rule:
+            value_range = rule["test_value_range"]
+            if "min" in value_range and test.value < value_range["min"]:
+                return False
+            if "max" in value_range and test.value > value_range["max"]:
+                return False
+
+        return True
         self, rule: Dict, blood_tests: List[BloodTest]
     ) -> bool:
         test_name = rule["test_name"]
@@ -89,6 +137,18 @@ class RuleEngine:
         return True
 
     def _matches_combination_rule(
+        self, rule: Dict, test_lookup: Dict[str, BloodTest]
+    ) -> bool:
+        required_tests = rule.get("tests", [])
+
+        for required_test in required_tests:
+            test = test_lookup.get(required_test["name"])
+            if not test:
+                return False
+            if not test.status or test.status != required_test["status"]:
+                return False
+
+        return True
         self, rule: Dict, blood_tests: List[BloodTest]
     ) -> bool:
         required_tests = rule.get("tests", [])
@@ -106,7 +166,7 @@ class RuleEngine:
         required_condition = rule["condition"]
         return required_condition in patient.conditions
 
-    def _find_blood_test_by_name(
+    def _should_replace(self, existing: Dict, new: Dict) -> bool:
         self, blood_tests: List[BloodTest], name: str
     ) -> BloodTest | None:
         for test in blood_tests:

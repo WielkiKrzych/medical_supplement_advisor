@@ -8,6 +8,10 @@ them to the JSON format required by the Medical Supplement Advisor.
 import re
 import io
 import json
+from datetime import datetime
+from pathlib import Path
+import io
+import json
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 from dataclasses import dataclass
@@ -548,6 +552,8 @@ class DocumentParser:
             r"Data\s+urodzenia[:\s]+(\d{4})-(\d{2})-(\d{2})", text
         )
         if birth_date_match:
+            birth_year = int(birth_date_match.group(1))
+            age = datetime.now().year - birth_year
             from datetime import datetime
 
             birth_year = int(birth_date_match.group(1))
@@ -591,6 +597,26 @@ class DocumentParser:
         ]
 
         # Pattern 1: "Test Name (ICD-9: XXX) value unit" format (common in Diagnostyka reports)
+        # Fixed: Replaced \s with space in char class, added length limit to prevent ReDoS
+        test_pattern_icd = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż .\-()]{1,50})(?:\s*\(ICD-9:[^)]+\))?\s+([\d.,]+)\s*([a-zA-Ząćęłńóśźż/%\*^ ]{0,20})"
+
+        # Pattern 2: "Test Name: Value Unit" (with colon)
+        # Fixed: Replaced \s with space in char class, added length limit to prevent ReDoS
+        test_pattern_1 = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż .\-()]{1,50})[:\s]+([\d.,]+)\s*([a-zA-Ząćęłńóśźż/%\*^ ]{0,20})"
+
+        # Pattern 3: Table-like format with rows
+        # Fixed: Added length limit to prevent ReDoS
+        test_pattern_2 = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż .\-()]{1,50})\s+([\d.,]+)\s+([a-zA-Ząćęłńóśźż/%\*^]{1,20})"
+
+        # Try ICD pattern first (most specific for lab reports)
+        for match in re.finditer(test_pattern_icd, text):
+            self._add_blood_test_from_match(match, blood_tests, valid_keywords)
+
+        for match in re.finditer(test_pattern_1, text):
+            self._add_blood_test_from_match(match, blood_tests, valid_keywords)
+
+        for match in re.finditer(test_pattern_2, text):
+            self._add_blood_test_from_match(match, blood_tests, valid_keywords)
         test_pattern_icd = r"([A-ZĄĆĘŁŃÓŚŹŻ][a-zA-Ząćęłńóśźż\s\.\-\(\)]+?)(?:\s*\(ICD-9:[^\)]+\))?\s+([\d.,]+)\s*([a-zA-Ząćęłńóśźż/%\*\^\s]*)"
 
         # Pattern 2: "Test Name: Value Unit" (with colon)

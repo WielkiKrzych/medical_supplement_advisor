@@ -20,6 +20,10 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
+from src.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.utils.json_parser import JSONParser
@@ -214,6 +218,17 @@ class MainWindow(QMainWindow):
             self.open_pdf_button.setEnabled(True)
 
         except FileNotFoundError as e:
+            logger.error(f"File not found: {e}")
+            QMessageBox.critical(self, "Błąd", "Wybrany plik nie istnieje.")
+            self.status_text.append("✗ Błąd: Plik nie istnieje.")
+        except ValueError as e:
+            logger.error(f"Invalid data: {e}")
+            QMessageBox.critical(self, "Błąd danych", "Dane wejściowe są nieprawidłowe. Sprawdź format pliku.")
+            self.status_text.append("✗ Błąd: Nieprawidłowe dane wejściowe.")
+        except Exception as e:
+            logger.error(f"Unexpected error: {e}")
+            QMessageBox.critical(self, "Błąd", "Wystąpił nieoczekiwany błąd. Sprawdź logi aplikacji.")
+            self.status_text.append("✗ Błąd: Wystąpił nieoczekiwany błąd.")
             QMessageBox.critical(self, "Błąd", f"Plik nie istnieje: {e}")
             self.status_text.append(f"✗ Błąd: {e}")
         except ValueError as e:
@@ -281,6 +296,11 @@ class MainWindow(QMainWindow):
             else:
                 subprocess.run(["xdg-open", str(resolved_path)], check=True)
         except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to open PDF: {e}")
+            QMessageBox.critical(self, "Błąd", "Nie można otworzyć pliku PDF.")
+        except Exception as e:
+            logger.error(f"Unexpected error opening PDF: {e}")
+            QMessageBox.critical(self, "Błąd", "Wystąpił błąd podczas otwierania pliku.")
             QMessageBox.critical(self, "Błąd", f"Nie można otworzyć pliku PDF: {e}")
         except Exception as e:
             QMessageBox.critical(

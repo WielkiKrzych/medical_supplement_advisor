@@ -16,6 +16,21 @@ class I18n:
     """Internationalization utility for managing translations."""
 
     _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(I18n, cls).__new__(cls)
+            # Initialize instance attributes (not class-level mutable state)
+            cls._instance._current_language = "pl"
+            cls._instance._translations: Dict[str, Dict] = {}
+        return cls._instance
+
+    def __init__(self):
+        self._load_translations()
+        self._load_saved_language()
+    """Internationalization utility for managing translations."""
+
+    _instance = None
     _current_language = "pl"
     _translations: Dict[str, Dict] = {}
 
