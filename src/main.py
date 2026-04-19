@@ -13,8 +13,29 @@ from src.core.recommendation_engine import RecommendationEngine
 from config import DATA_DIR, OUTPUT_DIR
 
 
+def run_web(patient, blood_tests, host="127.0.0.1", port=8000, no_browser=False):
+    import threading
+    import webbrowser
+
+    import uvicorn
+
+    from src.core.advanced_analyzer import AdvancedAnalyzer
+    from src.web.app import create_app
+
+    analyzer = AdvancedAnalyzer()
+    comprehensive = analyzer.analyze_blood_tests(blood_tests, patient)
+    app = create_app(analysis=comprehensive)
+
+    if not no_browser:
+        url = f"http://{host}:{port}"
+        threading.Timer(1.5, lambda: webbrowser.open(url)).start()
+
+    print(f"\n🌐 Serwer uruchomiony: http://{host}:{port}")
+    print("Naciśnij Ctrl+C aby zatrzymać\n")
+    uvicorn.run(app, host=host, port=port)
+
+
 def run_cli():
-    """Run CLI interface with arguments."""
     parser = argparse.ArgumentParser(
         description="Medical Supplement Advisor - Parser dokumentów JSON i generator rekomendacji"
     )
@@ -38,10 +59,31 @@ def run_cli():
         type=str,
         help="Ścieżka do pliku PDF lub DOCX z wynikami badań (automatyczne parsowanie)",
     )
+    parser.add_argument(
+        "--web",
+        action="store_true",
+        help="Uruchom interaktywny dashboard webowy",
+    )
+    parser.add_argument(
+        "--host",
+        type=str,
+        default="127.0.0.1",
+        help="Host serwera webowego",
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8000,
+        help="Port serwera webowego",
+    )
+    parser.add_argument(
+        "--no-browser",
+        action="store_true",
+        help="Nie otwieraj automatycznie przeglądarki",
+    )
     args = parser.parse_args()
 
-    # Check if any CLI arguments were provided
-    has_args = any([args.json, args.patient, args.blood_tests, args.document])
+    has_args = any([args.json, args.patient, args.blood_tests, args.document, args.web])
 
     if not has_args:
         return False  # No CLI arguments, should run GUI instead
@@ -97,20 +139,30 @@ def run_cli():
         print("Błąd: Nie znaleziono badań krwi.")
         sys.exit(1)
 
-    print("Medical Supplement Advisor")
-    print("=" * 40)
-
     loader = DataLoader(DATA_DIR)
-
-    reference_ranges = loader.load_reference_ranges()
-    supplements = loader.load_supplements()
-    timing_rules = loader.load_timing_rules()
-    dosage_rules = loader.load_dosage_rules()
 
     validator = Validator()
 
     patient = validator.validate_patient(patient_data)
     blood_tests = validator.validate_blood_tests(blood_tests_data)
+
+    if args.web:
+        run_web(
+            patient,
+            blood_tests,
+            host=args.host,
+            port=args.port,
+            no_browser=args.no_browser,
+        )
+        return True
+
+    print("Medical Supplement Advisor")
+    print("=" * 40)
+
+    reference_ranges = loader.load_reference_ranges()
+    supplements = loader.load_supplements()
+    timing_rules = loader.load_timing_rules()
+    dosage_rules = loader.load_dosage_rules()
 
     recommendation_engine = RecommendationEngine(
         reference_ranges=reference_ranges,
@@ -132,7 +184,7 @@ def run_cli():
         for supp in recommendation.supplements:
             print(f"  - {supp.name}: {supp.dosage} ({supp.priority})")
 
-    return True  # CLI ran successfully
+    return True
 
 
 def run_gui():
