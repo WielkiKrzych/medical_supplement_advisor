@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Medical Supplement Advisor{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+                        medical: { light: '#f0f9ff', DEFAULT: '#e0f2fe', dark: '#0c4a6e' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; }
+        .status-normal { background-color: #dcfce7; color: #166534; }
+        .status-low { background-color: #dbeafe; color: #1e40af; }
+        .status-high { background-color: #fee2e2; color: #991b1b; }
+        .status-critical { background-color: #991b1b; color: #ffffff; }
+        .priority-critical { background-color: #dc2626; color: #ffffff; }
+        .priority-high { background-color: #ea580c; color: #ffffff; }
+        .priority-medium { background-color: #f59e0b; color: #000000; }
+        .priority-normal { background-color: #22c55e; color: #ffffff; }
+        .priority-low { background-color: #6b7280; color: #ffffff; }
+        .panel-collapsible .panel-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .panel-collapsible.open .panel-content { max-height: 2000px; transition: max-height 0.5s ease-in; }
+        .panel-collapsible .toggle-icon { transition: transform 0.3s ease; }
+        .panel-collapsible.open .toggle-icon { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-2xl">🩺</span>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-xl font-semibold text-gray-900">Medical Supplement Advisor</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">Interaktywny raport analizy badań krwi</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <p class="text-center text-sm text-gray-500">
+                Medical Supplement Advisor &mdash; Raport ma charakter informacyjny i nie zastępuje porady medycznej.
+            </p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

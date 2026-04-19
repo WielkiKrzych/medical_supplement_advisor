@@ -1,0 +1,525 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ analysis.patient_name if analysis else 'Medical Supplement Advisor' }}{% endblock %}
+
+{% block content %}
+{% if analysis is none %}
+<!-- No Data State -->
+<div class="flex flex-col items-center justify-center min-h-[60vh]">
+    <div class="text-center">
+        <span class="text-6xl mb-6 block">📋</span>
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">Brak danych do wyświetlenia</h2>
+        <p class="text-gray-500 text-lg">Wprowadź dane badań krwi aby zobaczyć analizę</p>
+        <p class="text-gray-400 mt-2">Uruchom aplikację z flagą <code class="bg-gray-100 px-2 py-1 rounded">--json</code> lub <code class="bg-gray-100 px-2 py-1 rounded">--web</code></p>
+    </div>
+</div>
+{% else %}
+
+<!-- Patient Header -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900">{{ analysis.patient_name }} {{ analysis.patient_surname }}</h2>
+            {% if analysis.test_date %}
+            <p class="text-gray-500 mt-1">Data badania: {{ analysis.test_date }}</p>
+            {% endif %}
+        </div>
+        <div class="text-right">
+            <span class="text-3xl">🩺</span>
+        </div>
+    </div>
+</div>
+
+<!-- Critical Alerts -->
+{% if analysis.critical_issues %}
+<div class="mb-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+        <span class="mr-2">⚠️</span> Alerty krytyczne
+    </h3>
+    <div class="space-y-3">
+        {% for issue in analysis.critical_issues %}
+        <div class="bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4">
+            <div class="flex items-center">
+                <span class="text-red-500 font-bold mr-3">!</span>
+                <span class="text-red-800 font-medium">{{ issue }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="mb-6">
+    <div class="bg-green-50 border-l-4 border-green-500 rounded-r-lg p-4">
+        <div class="flex items-center">
+            <span class="text-green-500 mr-3">✓</span>
+            <span class="text-green-800 font-medium">Brak krytycznych problemów</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Test Results Charts -->
+{% set test_categories = [
+    ("inflammatory_markers", "Markery zapalne", "🔥"),
+    ("minerals_vitamins", "Składniki mineralne i witaminy", "💊"),
+    ("electrolytes", "Elektrolity", "⚡")
+] %}
+{% for cat_key, cat_title, cat_icon in test_categories %}
+{% set cat_data = namespace(tests=[]) %}
+{% if cat_key == "inflammatory_markers" %}{% set cat_data.tests = analysis.inflammatory_markers %}
+{% elif cat_key == "minerals_vitamins" %}{% set cat_data.tests = analysis.minerals_vitamins %}
+{% elif cat_key == "electrolytes" %}{% set cat_data.tests = analysis.electrolytes %}
+{% endif %}
+{% if cat_data.tests %}
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <span class="mr-2">{{ cat_icon }}</span> {{ cat_title }}
+    </h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Badanie</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Wartość</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jednostka</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Norma laboratoryjna</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Zakres optymalny</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-100">
+                {% for test in cat_data.tests %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ test.name }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ test.value }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-500">{{ test.unit }}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full status-{{ test.status }}">
+                            {% if test.status == 'normal' %}Normalny{% elif test.status == 'low' %}Niski{% elif test.status == 'high' %}Wysoki{% else %}{{ test.status }}{% endif %}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-500">
+                        {% if test.lab_reference %}
+                            {% if test.lab_reference.min is not none and test.lab_reference.max is not none %}
+                                {{ test.lab_reference.min }} – {{ test.lab_reference.max }}
+                            {% elif test.lab_reference.min is not none %}
+                                ≥ {{ test.lab_reference.min }}
+                            {% elif test.lab_reference.max is not none %}
+                                ≤ {{ test.lab_reference.max }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-500">
+                        {% if test.optimal_range %}
+                            {% if test.optimal_range.min is not none and test.optimal_range.max is not none %}
+                                {{ test.optimal_range.min }} – {{ test.optimal_range.max }}
+                            {% elif test.optimal_range.min is not none %}
+                                ≥ {{ test.optimal_range.min }}
+                            {% elif test.optimal_range.max is not none %}
+                                ≤ {{ test.optimal_range.max }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4" style="height: 300px;">
+        <canvas id="chart-{{ cat_key }}"></canvas>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+<!-- Domain Panels -->
+<div class="space-y-4 mb-6">
+
+<!-- Thyroid Panel -->
+{% if analysis.thyroid %}
+<div class="panel-collapsible bg-white rounded-xl shadow-sm border border-gray-200">
+    <button onclick="this.parentElement.classList.toggle('open')" class="w-full p-6 flex items-center justify-between text-left">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <span class="mr-2">🦋</span> Tarczyca
+            <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full status-{{ 'normal' if analysis.thyroid.overall_status == 'normal' else 'high' }}">
+                {{ analysis.thyroid.overall_status }}
+            </span>
+        </h3>
+        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="panel-content">
+        <div class="px-6 pb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                {% if analysis.thyroid.tsh_status is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Status TSH</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.thyroid.tsh_status }}</p>
+                </div>
+                {% endif %}
+                {% if analysis.thyroid.ft3_percentage is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">FT3 %</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.thyroid.ft3_percentage }}%</p>
+                </div>
+                {% endif %}
+                {% if analysis.thyroid.ft4_percentage is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">FT4 %</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.thyroid.ft4_percentage }}%</p>
+                </div>
+                {% endif %}
+            </div>
+            {% if analysis.thyroid.autoimmune_markers %}
+            <div class="mb-4">
+                <p class="text-sm font-medium text-gray-700 mb-2">Markery autoimmunologiczne:</p>
+                <div class="flex flex-wrap gap-2">
+                    {% for marker in analysis.thyroid.autoimmune_markers %}
+                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">{{ marker }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if analysis.thyroid.recommendations %}
+            <div>
+                <p class="text-sm font-medium text-gray-700 mb-2">Rekomendacje:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    {% for rec in analysis.thyroid.recommendations %}
+                    <li class="text-sm text-gray-600">{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Lipids Panel -->
+{% if analysis.lipids %}
+<div class="panel-collapsible bg-white rounded-xl shadow-sm border border-gray-200">
+    <button onclick="this.parentElement.classList.toggle('open')" class="w-full p-6 flex items-center justify-between text-left">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <span class="mr-2">❤️</span> Lipidogram
+            <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full status-{{ 'normal' if analysis.lipids.overall_status == 'normal' else 'high' }}">
+                {{ analysis.lipids.overall_status }}
+            </span>
+        </h3>
+        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="panel-content">
+        <div class="px-6 pb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                {% if analysis.lipids.total_cholesterol_hdl_ratio is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Stosunek Chol/HDL</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.lipids.total_cholesterol_hdl_ratio }}</p>
+                </div>
+                {% endif %}
+                {% if analysis.lipids.ldl_hdl_ratio is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Stosunek LDL/HDL</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.lipids.ldl_hdl_ratio }}</p>
+                </div>
+                {% endif %}
+                {% if analysis.lipids.cardiovascular_risk is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Ryzyko sercowo-naczyniowe</p>
+                    <span class="inline-block mt-1 px-2 py-1 text-xs font-semibold rounded-full priority-{{ analysis.lipids.cardiovascular_risk }}">{{ analysis.lipids.cardiovascular_risk }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% if analysis.lipids.recommendations %}
+            <div>
+                <p class="text-sm font-medium text-gray-700 mb-2">Rekomendacje:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    {% for rec in analysis.lipids.recommendations %}
+                    <li class="text-sm text-gray-600">{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Liver Panel -->
+{% if analysis.liver %}
+<div class="panel-collapsible bg-white rounded-xl shadow-sm border border-gray-200">
+    <button onclick="this.parentElement.classList.toggle('open')" class="w-full p-6 flex items-center justify-between text-left">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <span class="mr-2">🫀</span> Wątroba
+            <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full status-{{ 'normal' if analysis.liver.overall_status == 'normal' else 'high' }}">
+                {{ analysis.liver.overall_status }}
+            </span>
+        </h3>
+        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="panel-content">
+        <div class="px-6 pb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {% if analysis.liver.ast_alt_ratio is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Stosunek AST/ALT</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.liver.ast_alt_ratio }}</p>
+                </div>
+                {% endif %}
+                {% if analysis.liver.pattern is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Wzorzec</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.liver.pattern }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% if analysis.liver.recommendations %}
+            <div>
+                <p class="text-sm font-medium text-gray-700 mb-2">Rekomendacje:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    {% for rec in analysis.liver.recommendations %}
+                    <li class="text-sm text-gray-600">{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Hormones Panel -->
+{% if analysis.hormones %}
+<div class="panel-collapsible bg-white rounded-xl shadow-sm border border-gray-200">
+    <button onclick="this.parentElement.classList.toggle('open')" class="w-full p-6 flex items-center justify-between text-left">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <span class="mr-2">🧬</span> Hormony
+            <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full status-{{ 'normal' if analysis.hormones.overall_status == 'normal' else 'high' }}">
+                {{ analysis.hormones.overall_status }}
+            </span>
+        </h3>
+        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="panel-content">
+        <div class="px-6 pb-6">
+            {% if analysis.hormones.cycle_phase is not none %}
+            <div class="mb-4 bg-gray-50 rounded-lg p-4 inline-block">
+                <p class="text-sm text-gray-500">Faza cyklu</p>
+                <p class="text-lg font-semibold text-gray-900">{{ analysis.hormones.cycle_phase }}</p>
+            </div>
+            {% endif %}
+            {% if analysis.hormones.ratios %}
+            <div class="mb-4">
+                <p class="text-sm font-medium text-gray-700 mb-2">Proporcje hormonów:</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {% for ratio_name, ratio_val in analysis.hormones.ratios.items() %}
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <p class="text-xs text-gray-500">{{ ratio_name }}</p>
+                        <p class="text-sm font-semibold text-gray-900">{{ ratio_val }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if analysis.hormones.recommendations %}
+            <div>
+                <p class="text-sm font-medium text-gray-700 mb-2">Rekomendacje:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    {% for rec in analysis.hormones.recommendations %}
+                    <li class="text-sm text-gray-600">{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Glucose/Insulin Panel -->
+{% if analysis.glucose_insulin %}
+<div class="panel-collapsible bg-white rounded-xl shadow-sm border border-gray-200">
+    <button onclick="this.parentElement.classList.toggle('open')" class="w-full p-6 flex items-center justify-between text-left">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <span class="mr-2">🍬</span> Gospodarka cukrowo-insulinowa
+            <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full status-{{ 'normal' if analysis.glucose_insulin.overall_status == 'normal' else 'high' }}">
+                {{ analysis.glucose_insulin.overall_status }}
+            </span>
+        </h3>
+        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="panel-content">
+        <div class="px-6 pb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                {% if analysis.glucose_insulin.insulin_resistance is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Insulinooporność</p>
+                    <span class="inline-block mt-1 px-2 py-1 text-xs font-semibold rounded-full {% if analysis.glucose_insulin.insulin_resistance %}status-high{% else %}status-normal{% endif %}">
+                        {% if analysis.glucose_insulin.insulin_resistance %}Tak{% else %}Nie{% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                {% if analysis.glucose_insulin.homa_ir is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">HOMA-IR</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.glucose_insulin.homa_ir }}</p>
+                </div>
+                {% endif %}
+                {% if analysis.glucose_insulin.hba1c_status is not none %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-sm text-gray-500">Status HbA1c</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ analysis.glucose_insulin.hba1c_status }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% if analysis.glucose_insulin.recommendations %}
+            <div>
+                <p class="text-sm font-medium text-gray-700 mb-2">Rekomendacje:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    {% for rec in analysis.glucose_insulin.recommendations %}
+                    <li class="text-sm text-gray-600">{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Morphology Panel -->
+{% if analysis.morphology %}
+<div class="panel-collapsible bg-white rounded-xl shadow-sm border border-gray-200">
+    <button onclick="this.parentElement.classList.toggle('open')" class="w-full p-6 flex items-center justify-between text-left">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <span class="mr-2">🔬</span> Morfologia
+            <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full status-{{ 'normal' if analysis.morphology.overall_status == 'normal' else 'high' }}">
+                {{ analysis.morphology.overall_status }}
+            </span>
+        </h3>
+        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="panel-content">
+        <div class="px-6 pb-6">
+            {% if analysis.morphology.patterns %}
+            <div class="mb-4">
+                <p class="text-sm font-medium text-gray-700 mb-2">Wzorce:</p>
+                <div class="flex flex-wrap gap-2">
+                    {% for pattern in analysis.morphology.patterns %}
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">{{ pattern }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if analysis.morphology.deficiencies %}
+            <div class="mb-4">
+                <p class="text-sm font-medium text-gray-700 mb-2">Niedobory:</p>
+                <div class="flex flex-wrap gap-2">
+                    {% for deficiency in analysis.morphology.deficiencies %}
+                    <span class="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">{{ deficiency }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if analysis.morphology.recommendations %}
+            <div>
+                <p class="text-sm font-medium text-gray-700 mb-2">Rekomendacje:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    {% for rec in analysis.morphology.recommendations %}
+                    <li class="text-sm text-gray-600">{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+</div>
+
+<!-- Supplement Recommendations -->
+{% if analysis.all_supplements %}
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <span class="mr-2">💊</span> Rekomendowane suplementy
+    </h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nazwa</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dawkowanie</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Priorytet</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Przyczyna</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Przeciwwskazania</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Interakcje</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-100">
+                {% for supp in analysis.all_supplements %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ supp.name }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ supp.dosage }}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full priority-{{ supp.priority }}">
+                            {{ supp.priority }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-600">{{ supp.reason }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-500">
+                        {% if supp.contraindications %}
+                            {{ supp.contraindications | join(', ') }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-500">
+                        {% if supp.interactions %}
+                            {{ supp.interactions | join(', ') }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<!-- Recommendations Summary -->
+{% if analysis.recommendations_summary %}
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <span class="mr-2">📝</span> Podsumowanie rekomendacji
+    </h3>
+    <ul class="space-y-2">
+        {% for rec in analysis.recommendations_summary %}
+        <li class="flex items-start">
+            <span class="text-blue-500 mr-2 mt-0.5">•</span>
+            <span class="text-sm text-gray-700">{{ rec }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if analysis is not none %}
+<script>
+window.analysisData = {{ analysis_json | safe }};
+</script>
+<script src="/static/js/charts.js"></script>
+{% endif %}
+{% endblock %}
