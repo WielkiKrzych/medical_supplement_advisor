@@ -5,7 +5,7 @@
 
 set -e
 
-PROJECT_DIR="/Users/wielkikrzych/medical-supplement-advisor"
+PROJECT_DIR="/Users/wielkikrzychmbp/Documents/medical-supplement-advisor"
 APP_PATH="$PROJECT_DIR/AutomatorApp.app"
 LAUNCHER="$APP_PATH/Contents/MacOS/launcher"
 RESOURCES="$APP_PATH/Contents/Resources"
