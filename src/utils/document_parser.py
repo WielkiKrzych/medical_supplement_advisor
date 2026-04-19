@@ -559,10 +559,6 @@ class DocumentParser:
         if birth_date_match:
             birth_year = int(birth_date_match.group(1))
             age = datetime.now().year - birth_year
-            from datetime import datetime
-
-            birth_year = int(birth_date_match.group(1))
-            age = datetime.now().year - birth_year
         else:
             age_match = re.search(r"[Ww]iek[:\s]+(\d+)", text)
             age = int(age_match.group(1)) if age_match else 0

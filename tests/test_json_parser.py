@@ -76,7 +76,7 @@ class TestParseDocument:
         filepath = tmp_path / "bad.json"
         filepath.write_text("{invalid json}", encoding="utf-8")
 
-        with pytest.raises(json.JSONDecodeError):
+        with pytest.raises(ValueError, match="Nieprawidłowy format JSON"):
             parser.parse_document(filepath)
 
 

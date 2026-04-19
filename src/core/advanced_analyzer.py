@@ -9,10 +9,6 @@ from src.models.test_analysis import (
     SupplementRecommendation,
     GlucoseInsulinInterpretation,
 )
-    TestAnalysis,
-    ComprehensiveAnalysis,
-    SupplementRecommendation,
-)
 from src.core.interpretation_engine import InterpretationEngine
 from src.utils.data_loader import DataLoader
 from src.utils.i18n import t
@@ -42,41 +38,62 @@ class AdvancedAnalyzer:
         except (FileNotFoundError, KeyError, TypeError) as e:
             # Fallback to hardcoded lists if config fails to load
             logger.error(f"Failed to load test_categories.json: {e}")
-        """Load test categories from JSON config file."""
-        try:
-            data = self.data_loader.load_json("test_categories.json")
-            categories = data.get("categories", {})
-            # Flatten categories into lookup dict: category -> list of test names (uppercase)
-            return {
-                cat_name: [name.upper() for name in cat_data.get("tests", [])]
-                for cat_name, cat_data in categories.items()
-            }
-        except Exception as e:
-            # Fallback to hardcoded lists if config fails to load
-            logger.error(f"Failed to load test_categories.json: {e}")
             return {
                 "morphology": [
-                    "EOZYNOFILE", "LEUKOCYTY", "LIMFOCYTY", "NEUTROFILE",
-                    "BAZOFILE", "MONOCYTY", "WBC", "HEMOGLOBINA",
-                    "ERYTROCYTY", "HEMATOKRYT", "MCV", "MCH", "MCHC",
-                    "RDW", "PDW", "PCT", "MPV"
+                    "EOZYNOFILE",
+                    "LEUKOCYTY",
+                    "LIMFOCYTY",
+                    "NEUTROFILE",
+                    "BAZOFILE",
+                    "MONOCYTY",
+                    "WBC",
+                    "HEMOGLOBINA",
+                    "ERYTROCYTY",
+                    "HEMATOKRYT",
+                    "MCV",
+                    "MCH",
+                    "MCHC",
+                    "RDW",
+                    "PDW",
+                    "PCT",
+                    "MPV",
                 ],
                 "inflammatory": ["CRP", "OB"],
                 "minerals_vitamins": [
-                    "ŻELAZO", "FERRYTYNA", "TRANSFERYNA", "WITAMINA B12",
-                    "MMA", "WITAMINA B9", "WITAMINA D3", "HOMOCYSTEINA",
-                    "CYNK", "SELEN", "FOSFATAZA ALKALICZNA", "CERULOPLAZMINA",
-                    "PEROKSYDAZA GLUTATIONOWA", "JOD W MOCZU", "ENZYM DAO"
+                    "ŻELAZO",
+                    "FERRYTYNA",
+                    "TRANSFERYNA",
+                    "WITAMINA B12",
+                    "MMA",
+                    "WITAMINA B9",
+                    "WITAMINA D3",
+                    "HOMOCYSTEINA",
+                    "CYNK",
+                    "SELEN",
+                    "FOSFATAZA ALKALICZNA",
+                    "CERULOPLAZMINA",
+                    "PEROKSYDAZA GLUTATIONOWA",
+                    "JOD W MOCZU",
+                    "ENZYM DAO",
                 ],
                 "electrolytes": ["SÓD", "POTAS", "MAGNEZ", "FOSFOR"],
                 "thyroid": ["TSH", "FT3", "FT4", "ANTY-TG", "ANTY-TPO", "TRAB"],
                 "lipids": ["CHOLESTEROL", "HDL", "LDL", "TG", "TRÓGLICERYDY"],
                 "liver": ["AST", "ALT", "GGTP"],
                 "hormones": [
-                    "TESTOSTERON", "DHT", "DHEAS", "ANDROSTENDION", "SHBG",
-                    "PROGESTERON", "ESTRADIOL", "LH", "FSH", "PROLAKTYNA", "KORTYZOL"
+                    "TESTOSTERON",
+                    "DHT",
+                    "DHEAS",
+                    "ANDROSTENDION",
+                    "SHBG",
+                    "PROGESTERON",
+                    "ESTRADIOL",
+                    "LH",
+                    "FSH",
+                    "PROLAKTYNA",
+                    "KORTYZOL",
                 ],
-                "glucose_insulin": ["GLUKOZA", "INSULINA", "HBA1C", "HOMA-IR"]
+                "glucose_insulin": ["GLUKOZA", "INSULINA", "HBA1C", "HOMA-IR"],
             }
 
     def _load_supplements(self) -> Dict[str, Any]:
@@ -89,15 +106,6 @@ class AdvancedAnalyzer:
             return supplements
         except (FileNotFoundError, KeyError, TypeError) as e:
             logger.error(f"Failed to load supplements_v2.json: {e}")
-        try:
-            data = self.data_loader.load_json("supplements_v2.json")
-            supplements = {}
-            for supp in data.get("supplements", []):
-                supplements[supp["id"]] = supp
-            logger.info(f"Loaded {len(supplements)} supplements from database")
-            return supplements
-        except Exception as e:
-            logger.error(f"Failed to load supplements_v2.json: {e}")
             return {}
 
     def analyze_blood_tests(
@@ -108,7 +116,9 @@ class AdvancedAnalyzer:
             analysis = self.interpretation_engine.interpret_single_test(test)
             analyzed_tests.append(analysis)
 
-        morphology_tests = [test for test in tests if self._is_morphology_test(test.name)]
+        morphology_tests = [
+            test for test in tests if self._is_morphology_test(test.name)
+        ]
         morphology = self.interpretation_engine.interpret_morphology(morphology_tests)
 
         inflammatory = [
@@ -213,17 +223,9 @@ class AdvancedAnalyzer:
             glucose_curve = self.interpretation_engine.analyze_glucose_curve(
                 glucose_readings
             )
-            glucose_readings.sort(key=lambda x: x["time"])
-            glucose_curve = self.interpretation_engine.analyze_glucose_curve(
-                glucose_readings
-            )
 
         if insulin_readings:
             insulin_readings = sorted(insulin_readings, key=lambda x: x["time"])
-            insulin_curve = self.interpretation_engine.analyze_insulin_curve(
-                insulin_readings
-            )
-            insulin_readings.sort(key=lambda x: x["time"])
             insulin_curve = self.interpretation_engine.analyze_insulin_curve(
                 insulin_readings
             )
@@ -255,12 +257,6 @@ class AdvancedAnalyzer:
         recommendations = []
         if insulin_resistance:
             recommendations.extend(["NAC", "Inozytol", "Berberyna", "Lactibiane CND"])
-
-        return GlucoseInsulinInterpretation(
-        if insulin_resistance:
-            recommendations.extend(["NAC", "Inozytol", "Berberyna", "Lactibiane CND"])
-
-        from src.models.test_analysis import GlucoseInsulinInterpretation
 
         return GlucoseInsulinInterpretation(
             overall_status="abnormal" if insulin_resistance else "normal",
