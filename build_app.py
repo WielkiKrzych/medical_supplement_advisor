@@ -36,7 +36,7 @@ def main():
     print()
 
     print("Step 2: Building .app with PyInstaller...")
-    run_command(["pyinstaller", "--clean", str(spec_file)], cwd=str(root_dir))
+    run_command([sys.executable, "-m", "PyInstaller", "--clean", str(spec_file)], cwd=str(root_dir))
     print("✓ Build complete")
     print()
 

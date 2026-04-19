@@ -46,10 +46,21 @@ a = Analysis(
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
-# For macOS .app, use COLLECT + BUNDLE (not EXE)
-coll = COLLECT(
+exe = EXE(
     pyz,
     a.scripts,
+    [],
+    exclude_binaries=True,
+    name='MedicalSupplementAdvisor',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=False,
+)
+
+coll = COLLECT(
+    exe,
     a.binaries,
     a.zipfiles,
     a.datas,
