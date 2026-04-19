@@ -1,7 +1,7 @@
 from docx import Document
 import os
 
-file_path = "/Users/wielkikrzych/medical-supplement-advisor/examples/sample_blood_tests.docx"
+file_path = "/Users/wielkikrzychmbp/Documents/medical-supplement-advisor/examples/sample_blood_tests.docx"
 doc = Document(file_path)
 
 print(f"--- Full Analysis of {file_path} ---")
