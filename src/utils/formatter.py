@@ -78,13 +78,11 @@ class PDFFormatter:
         if filepath.exists():
             # Use MD5 hash to generate unique suffix - not for security, only to avoid filename collisions
             import hashlib
+
             hash_suffix = hashlib.md5(str(filepath).encode()).hexdigest()[:6]
-            filename = f"{safe_name}_{safe_surname}_{timestamp}_{hash_suffix}_supplements.pdf"
-            filepath = self.output_dir / filename
-        if filepath.exists():
-            import hashlib
-            hash_suffix = hashlib.md5(str(filepath).encode()).hexdigest()[:6]
-            filename = f"{safe_name}_{safe_surname}_{timestamp}_{hash_suffix}_supplements.pdf"
+            filename = (
+                f"{safe_name}_{safe_surname}_{timestamp}_{hash_suffix}_supplements.pdf"
+            )
             filepath = self.output_dir / filename
 
         doc = SimpleDocTemplate(
@@ -117,14 +115,14 @@ class PDFFormatter:
         elements.append(Spacer(1, 1 * cm))
 
         patient_info = f"<b>{t('pdf.patient')}:</b> {recommendation.patient_name} {recommendation.patient_surname}<br/>"
-        patient_info += f"<b>{t('pdf.date')}:</b> {recommendation.date.strftime('%Y-%m-%d %H:%M')}"
+        patient_info += (
+            f"<b>{t('pdf.date')}:</b> {recommendation.date.strftime('%Y-%m-%d %H:%M')}"
+        )
         elements.append(Paragraph(patient_info, self.styles["Normal"]))
         elements.append(Spacer(1, 1 * cm))
 
         if not recommendation.supplements:
-            elements.append(
-                Paragraph(t("pdf.no_supplements"), self.styles["Normal"])
-            )
+            elements.append(Paragraph(t("pdf.no_supplements"), self.styles["Normal"]))
         else:
             elements.append(
                 Paragraph(t("pdf.recommended_supplements"), self.styles["Heading2"])
@@ -242,9 +240,4 @@ class PDFFormatter:
             # Return raw priority if translation key doesn't exist
             translated = t("pdf.priority_unknown")
             return translated if translated != "pdf.priority_unknown" else priority
-        return t(f"pdf.priority_{priority}")
-        """Get translated priority display with validation."""
-        valid_priorities = ["critical", "high", "medium", "low"]
-        if priority not in valid_priorities:
-            return t("pdf.priority_unknown") if "priority_unknown" in t("pdf.priority_unknown") else priority
         return t(f"pdf.priority_{priority}")

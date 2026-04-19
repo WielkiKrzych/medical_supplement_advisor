@@ -16,17 +16,6 @@ class RuleEngine:
         self.supplements = {s["id"]: s for s in supplements["supplements"]}
         self.timing_rules = timing_rules["timing_rules"]
         self.timing_display = timing_rules["timing_display"]
-    """Engine for applying dosage and timing rules to blood test results.
-
-    Matches blood tests and patient conditions against configured rules
-    to determine appropriate supplements, dosages, and timing.
-    """
-
-    def __init__(self, dosage_rules: Dict, supplements: Dict, timing_rules: Dict):
-        self.dosage_rules = dosage_rules["dosage_rules"]
-        self.supplements = {s["id"]: s for s in supplements["supplements"]}
-        self.timing_rules = timing_rules["timing_rules"]
-        self.timing_display = timing_rules["timing_display"]
 
     def apply_rules(self, blood_tests: List[BloodTest], patient: Patient) -> List[Dict]:
         # Build lookup dict for O(1) access by test name
@@ -35,10 +24,6 @@ class RuleEngine:
 
         for rule in self.dosage_rules:
             if self._matches_rule(rule, test_lookup, patient):
-        matched_supplements = {}
-
-        for rule in self.dosage_rules:
-            if self._matches_rule(rule, blood_tests, patient):
                 for supplement_rule in rule["supplements"]:
                     supplement_id = supplement_rule["supplement_id"]
 
@@ -83,43 +68,12 @@ class RuleEngine:
             return self._matches_patient_condition_rule(rule, patient)
 
         return False
-        self, rule: Dict, blood_tests: List[BloodTest], patient: Patient
-    ) -> bool:
-        condition_type = rule["condition_type"]
-
-        if condition_type == "single_test":
-            return self._matches_single_test_rule(rule, blood_tests)
-        elif condition_type == "combination":
-            return self._matches_combination_rule(rule, blood_tests)
-        elif condition_type == "patient_condition":
-            return self._matches_patient_condition_rule(rule, patient)
-
-        return False
 
     def _matches_single_test_rule(
         self, rule: Dict, test_lookup: Dict[str, BloodTest]
     ) -> bool:
         test_name = rule["test_name"]
         test = test_lookup.get(test_name)
-
-        if not test or not test.status:
-            return False
-
-        if rule.get("test_status") and test.status != rule["test_status"]:
-            return False
-
-        if "test_value_range" in rule:
-            value_range = rule["test_value_range"]
-            if "min" in value_range and test.value < value_range["min"]:
-                return False
-            if "max" in value_range and test.value > value_range["max"]:
-                return False
-
-        return True
-        self, rule: Dict, blood_tests: List[BloodTest]
-    ) -> bool:
-        test_name = rule["test_name"]
-        test = self._find_blood_test_by_name(blood_tests, test_name)
 
         if not test or not test.status:
             return False
@@ -149,30 +103,10 @@ class RuleEngine:
                 return False
 
         return True
-        self, rule: Dict, blood_tests: List[BloodTest]
-    ) -> bool:
-        required_tests = rule.get("tests", [])
-
-        for required_test in required_tests:
-            test = self._find_blood_test_by_name(blood_tests, required_test["name"])
-            if not test:
-                return False
-            if not test.status or test.status != required_test["status"]:
-                return False
-
-        return True
 
     def _matches_patient_condition_rule(self, rule: Dict, patient: Patient) -> bool:
         required_condition = rule["condition"]
         return required_condition in patient.conditions
-
-    def _should_replace(self, existing: Dict, new: Dict) -> bool:
-        self, blood_tests: List[BloodTest], name: str
-    ) -> BloodTest | None:
-        for test in blood_tests:
-            if test.name == name:
-                return test
-        return None
 
     def _should_replace(self, existing: Dict, new: Dict) -> bool:
         return PRIORITY_ORDER.get(new["priority"], 4) < PRIORITY_ORDER.get(

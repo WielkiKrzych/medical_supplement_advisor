@@ -10,10 +10,7 @@ import io
 import json
 from datetime import datetime
 from pathlib import Path
-import io
-import json
-from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass
 
 try:
@@ -46,7 +43,13 @@ except ImportError:
     OCR_AVAILABLE = False
 from src.utils.exceptions import DataLoaderError
 from src.utils.logger import get_logger
-from config import DEFAULT_PATIENT_NAME, DEFAULT_PATIENT_SURNAME, DEFAULT_PATIENT_AGE, DATA_DIR, REGEX_PATTERNS_FILE
+from config import (
+    DEFAULT_PATIENT_NAME,
+    DEFAULT_PATIENT_SURNAME,
+    DEFAULT_PATIENT_AGE,
+    DATA_DIR,
+    REGEX_PATTERNS_FILE,
+)
 
 MAX_FILE_SIZE = 50 * 1024 * 1024
 
@@ -102,20 +105,22 @@ class DocumentParser:
             )
         self.regex_patterns = self._load_regex_patterns()
 
-    def _load_regex_patterns(self) -> Dict[str, any]:
+    def _load_regex_patterns(self) -> Dict[str, Any]:
         """Load regex patterns from configuration file."""
         try:
             with open(REGEX_PATTERNS_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 return data.get("patterns", {})
         except FileNotFoundError:
-            logger.warning(f"Regex patterns file not found: {REGEX_PATTERNS_FILE}, using defaults")
+            logger.warning(
+                f"Regex patterns file not found: {REGEX_PATTERNS_FILE}, using defaults"
+            )
             return self._get_default_patterns()
         except (json.JSONDecodeError, Exception) as e:
             logger.error(f"Failed to load regex patterns: {e}, using defaults")
             return self._get_default_patterns()
 
-    def _get_default_patterns(self) -> Dict[str, any]:
+    def _get_default_patterns(self) -> Dict[str, Any]:
         """Get default regex patterns when config file is not available."""
         return {
             "test_name_variations": {
@@ -641,7 +646,10 @@ class DocumentParser:
         return patient_data, blood_tests
 
     def _add_blood_test_from_match(
-        self, match, blood_tests: List[BloodTest], valid_keywords: list[str] | None = None
+        self,
+        match,
+        blood_tests: List[BloodTest],
+        valid_keywords: list[str] | None = None,
     ) -> bool:
         """
         Add a blood test from regex match to the list.

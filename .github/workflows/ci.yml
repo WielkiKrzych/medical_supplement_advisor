@@ -36,22 +36,23 @@ jobs:
 
       - name: Run linting with pylint
         run: |
-          pylint src/ --rcfile=.pylintrc --output-format=colorized --fail-under=9.0 || true
+          pylint src/ --rcfile=.pylintrc --output-format=colorized --fail-under=9.0
 
       - name: Check code formatting with black
         run: |
-          black --check src/ || true
+          black --check src/
 
       - name: Check import ordering with isort
         run: |
-          isort --check-only src/ || true
+          isort --check-only src/
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           flags: unittests
-          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
         if: github.event_name != 'pull_request'
 
       - name: Upload coverage as artifact

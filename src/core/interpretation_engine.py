@@ -35,70 +35,98 @@ class InterpretationEngine:
 
     def _load_reference_data(self) -> Dict[str, Any]:
         try:
-            return self.data_loader.load_json("reference_ranges_v2.json")
+            return self.data_loader._load_cached("reference_ranges_v2.json")
         except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
             logger.error(f"Failed to load reference_ranges_v2.json: {e}")
             return {}
 
     def _load_interpretation_rules(self) -> Dict[str, Any]:
         try:
-            return self.data_loader.load_json("interpretation_rules.json")
+            return self.data_loader._load_cached("interpretation_rules.json")
         except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
             logger.error(f"Failed to load interpretation_rules.json: {e}")
             return {}
 
     def _load_clinical_thresholds(self) -> Dict[str, Dict[str, Any]]:
         try:
-            data = self.data_loader.load_json("clinical_thresholds.json")
+            data = self.data_loader._load_cached("clinical_thresholds.json")
             thresholds = data.get("thresholds", {})
             if thresholds:
                 return thresholds
         except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
             logger.error(f"Failed to load clinical_thresholds.json: {e}")
-        
-        # Return fallback thresholds when JSON fails to load
-        return self._get_fallback_thresholds()
-        try:
-            return self.data_loader.load_json("reference_ranges_v2.json")
-        except Exception as e:
-            logger.error(f"Failed to load reference_ranges_v2.json: {e}")
-            return {}
 
-    def _load_interpretation_rules(self) -> Dict[str, Any]:
-        try:
-            return self.data_loader.load_json("interpretation_rules.json")
-        except Exception as e:
-            logger.error(f"Failed to load interpretation_rules.json: {e}")
-            return {}
-
-    def _load_clinical_thresholds(self) -> Dict[str, Dict[str, Any]]:
-        try:
-            data = self.data_loader.load_json("clinical_thresholds.json")
-            thresholds = data.get("thresholds", {})
-            if thresholds:
-                return thresholds
-        except Exception as e:
-            logger.error(f"Failed to load clinical_thresholds.json: {e}")
-        
         # Return fallback thresholds when JSON fails to load
         return self._get_fallback_thresholds()
 
     def _get_fallback_thresholds(self) -> Dict[str, Dict[str, Any]]:
         """Fallback thresholds when clinical_thresholds.json fails to load."""
         return {
-            "TSH": {"functional_min": 0.5, "functional_max": 2.5, "lab_min": 0.27, "lab_max": 4.2},
-            "FERRYTYNA": {"functional_min": 50, "functional_max": 90, "lab_min": 10, "lab_max": 150},
-            "WITAMINA D3": {"functional_min": 40, "functional_max": 60, "lab_min": 30, "lab_max": 100},
-            "WITAMINA B12": {"functional_min": 400, "functional_max": 800, "lab_min": 200, "lab_max": 900},
-            "HOMOCYSTEINA": {"functional_min": 5, "functional_max": 8, "lab_min": 5, "lab_max": 15},
-            "INSULINA": {"functional_min": 3, "functional_max": 6, "lab_min": 2, "lab_max": 25},
-            "GLUKOZA": {"functional_min": 70, "functional_max": 87, "lab_min": 70, "lab_max": 99},
-            "HBA1C": {"functional_min": 4.8, "functional_max": 5.2, "lab_min": 4.0, "lab_max": 6.0},
-            "CYNK": {"functional_min": 80, "functional_max": 120, "lab_min": 70, "lab_max": 150},
-            "SELEN": {"functional_min": 100, "functional_max": 150, "lab_min": 70, "lab_max": 150},
+            "TSH": {
+                "functional_min": 0.5,
+                "functional_max": 2.5,
+                "lab_min": 0.27,
+                "lab_max": 4.2,
+            },
+            "FERRYTYNA": {
+                "functional_min": 50,
+                "functional_max": 90,
+                "lab_min": 10,
+                "lab_max": 150,
+            },
+            "WITAMINA D3": {
+                "functional_min": 40,
+                "functional_max": 60,
+                "lab_min": 30,
+                "lab_max": 100,
+            },
+            "WITAMINA B12": {
+                "functional_min": 400,
+                "functional_max": 800,
+                "lab_min": 200,
+                "lab_max": 900,
+            },
+            "HOMOCYSTEINA": {
+                "functional_min": 5,
+                "functional_max": 8,
+                "lab_min": 5,
+                "lab_max": 15,
+            },
+            "INSULINA": {
+                "functional_min": 3,
+                "functional_max": 6,
+                "lab_min": 2,
+                "lab_max": 25,
+            },
+            "GLUKOZA": {
+                "functional_min": 70,
+                "functional_max": 87,
+                "lab_min": 70,
+                "lab_max": 99,
+            },
+            "HBA1C": {
+                "functional_min": 4.8,
+                "functional_max": 5.2,
+                "lab_min": 4.0,
+                "lab_max": 6.0,
+            },
+            "CYNK": {
+                "functional_min": 80,
+                "functional_max": 120,
+                "lab_min": 70,
+                "lab_max": 150,
+            },
+            "SELEN": {
+                "functional_min": 100,
+                "functional_max": 150,
+                "lab_min": 70,
+                "lab_max": 150,
+            },
         }
 
-    def interpret_single_test(self, test: BloodTest, threshold_type: str = "functional") -> TestAnalysis:
+    def interpret_single_test(
+        self, test: BloodTest, threshold_type: str = "functional"
+    ) -> TestAnalysis:
         test_config = self._find_test_config(test.name)
 
         status = self._determine_status(test, test_config, threshold_type)
@@ -130,7 +158,12 @@ class InterpretationEngine:
                     return test
         return None
 
-    def _determine_status(self, test: BloodTest, config: Optional[Dict], threshold_type: str = "functional") -> str:
+    def _determine_status(
+        self,
+        test: BloodTest,
+        config: Optional[Dict],
+        threshold_type: str = "functional",
+    ) -> str:
         if not config:
             return "unknown"
 
@@ -294,7 +327,9 @@ class InterpretationEngine:
                 value=ratio,
                 optimal_range="1:2",
                 status="low" if ratio < 0.5 else "normal",
-                interpretation=t("ratios.hdl_ldl_low") if ratio < 0.5 else t("ratios.normal"),
+                interpretation=t("ratios.hdl_ldl_low")
+                if ratio < 0.5
+                else t("ratios.normal"),
                 supplements=["Omega 3", "Omega 6", "Cholina"] if ratio < 0.5 else [],
             )
             ratios.append(ratio_analysis)
@@ -311,7 +346,9 @@ class InterpretationEngine:
                     value=ratio,
                     optimal_range="1:1",
                     status=status,
-                    interpretation=t("ratios.optimal") if status == "optimal" else t("ratios.needs_improvement"),
+                    interpretation=t("ratios.optimal")
+                    if status == "optimal"
+                    else t("ratios.needs_improvement"),
                     supplements=[] if status == "optimal" else ["Omega 3"],
                 )
             )

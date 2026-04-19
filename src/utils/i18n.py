@@ -28,20 +28,6 @@ class I18n:
     def __init__(self):
         self._load_translations()
         self._load_saved_language()
-    """Internationalization utility for managing translations."""
-
-    _instance = None
-    _current_language = "pl"
-    _translations: Dict[str, Dict] = {}
-
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(I18n, cls).__new__(cls)
-        return cls._instance
-
-    def __init__(self):
-        self._load_translations()
-        self._load_saved_language()
 
     def _load_translations(self):
         """Load all available translations."""
@@ -87,7 +73,7 @@ class I18n:
 
     def set_language(self, language: str, persist: bool = True):
         """Set the current language.
-        
+
         Args:
             language: Language code to set
             persist: If True, save preference to config file
@@ -97,7 +83,9 @@ class I18n:
             if persist:
                 self._save_language(language)
         else:
-            logger.warning(f"Language '{language}' not available, using '{self._current_language}'")
+            logger.warning(
+                f"Language '{language}' not available, using '{self._current_language}'"
+            )
 
     def get_language(self) -> str:
         """Get the current language."""
@@ -137,7 +125,7 @@ _i18n = I18n()
 
 def set_language(language: str, persist: bool = True):
     """Set the application language.
-    
+
     Args:
         language: Language code to set
         persist: If True, save preference to config file

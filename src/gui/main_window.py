@@ -20,11 +20,11 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.utils.json_parser import JSONParser
 from src.utils.validator import Validator
@@ -34,7 +34,6 @@ from src.utils.data_loader import DataLoader
 from src.utils.document_parser import DocumentParser
 from src.utils.i18n import t
 from config import DATA_DIR, OUTPUT_DIR
-
 
 class MainWindow(QMainWindow):
     def __init__(self):

@@ -33,8 +33,13 @@ class JSONParser:
         if not filepath.exists():
             raise FileNotFoundError(f"Plik nie istnieje: {filepath}")
 
-        with open(filepath, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Nieprawidłowy format JSON: {e}") from e
+        except UnicodeDecodeError as e:
+            raise ValueError(f"Błąd kodowania pliku: {e}") from e
 
         # Walidacja podstawowej struktury
         if "patient" not in data:
@@ -63,8 +68,13 @@ class JSONParser:
         if not filepath.exists():
             raise FileNotFoundError(f"Plik nie istnieje: {filepath}")
 
-        with open(filepath, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Nieprawidłowy format JSON: {e}") from e
+        except UnicodeDecodeError as e:
+            raise ValueError(f"Błąd kodowania pliku: {e}") from e
 
         return {"patient": data}
 
@@ -84,8 +94,13 @@ class JSONParser:
         if not filepath.exists():
             raise FileNotFoundError(f"Plik nie istnieje: {filepath}")
 
-        with open(filepath, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Nieprawidłowy format JSON: {e}") from e
+        except UnicodeDecodeError as e:
+            raise ValueError(f"Błąd kodowania pliku: {e}") from e
 
         if not isinstance(data, list):
             raise ValueError("Badania krwi muszą być listą")

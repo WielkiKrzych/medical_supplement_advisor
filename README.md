@@ -113,6 +113,36 @@ medical-supplement-advisor/
 
 ---
 
+## 📋 Changelog (v2.1.2)
+
+### 🔴 Bug Fixes — Dead Code Removal
+| File | Change |
+|:-----|:-------|
+| `interpretation_engine.py` | Removed 24 lines of dead duplicated loader methods; switched to `_load_cached()` for caching |
+| `analyzer.py` | Removed duplicate `__init__` and dead `for` loop; added `ValueError` guard for missing key |
+| `rule_engine.py` | Removed 66 lines of dead duplicated class body, `apply_rules`, and helper methods |
+| `recommendation_engine.py` | Removed duplicate `return Recommendation()` |
+| `data_loader.py` | Removed duplicate `from pathlib import Path` and 7 lines of dead code in `_load_cached` |
+| `document_parser.py` | Removed duplicate `import io`, `import json`, `from pathlib import Path`; fixed `any` → `Any` type hint |
+| `i18n.py` | Removed duplicate `I18n` class body with class-level mutable state |
+| `formatter.py` | Removed duplicate collision block and duplicate `_get_priority_display` method |
+
+### 🟡 Risk Mitigations
+| File | Change |
+|:-----|:-------|
+| `main_window.py` | Moved `sys.path.insert` before all `src.*` imports to prevent ImportError |
+| `json_parser.py` | Added `JSONDecodeError` and `UnicodeDecodeError` handling to all 3 parse methods |
+
+### 🔵 CI/CD Improvements
+| File | Change |
+|:-----|:-------|
+| `ci.yml` | Removed `|| true` from pylint/black/isort — linter failures now block builds |
+| `ci.yml` | Added `token: ${{ secrets.CODECOV_TOKEN }}` to Codecov action; set `fail_ci_if_error: false` |
+
+**11 files changed, 143 insertions(+), 198 deletions(-)**
+
+---
+
 ## 📋 Changelog (v2.1.1)
 
 ### 🔴 Critical Security Fixes

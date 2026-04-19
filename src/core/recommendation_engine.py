@@ -47,8 +47,6 @@ class RecommendationEngine:
         )
 
         return Recommendation(
-
-        return Recommendation(
             patient_name=patient.name,
             patient_surname=patient.surname,
             date=datetime.now(),
