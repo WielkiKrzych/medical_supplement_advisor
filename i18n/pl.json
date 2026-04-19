@@ -119,5 +119,53 @@
     "liver": "Wątroba",
     "hormones": "Hormony",
     "glucose_insulin": "Gospodarka Cukrowo-Insulinowa"
+  },
+
+  "dashboard": {
+    "title": "Medical Supplement Advisor",
+    "subtitle": "Interaktywny raport analizy badań krwi",
+    "patient_info": "Dane pacjenta",
+    "critical_alerts": "⚠️ Alerty krytyczne",
+    "critical_alert_title": "Krytyczne problemy",
+    "no_critical_issues": "Brak krytycznych problemów",
+    "test_results": "Wyniki badań",
+    "supplement_recommendations": "Rekomendacje suplementów",
+    "supplement": "Suplement",
+    "dosage": "Dawkowanie",
+    "priority": "Priorytet",
+    "reason": "Powód",
+    "contraindications": "Przeciwwskazania",
+    "interactions": "Interakcje",
+    "no_contraindications": "Brak przeciwwskazań",
+    "status_low": "Niski",
+    "status_normal": "Norma",
+    "status_high": "Wysoki",
+    "reference_range": "Zakres referencyjny",
+    "optimal_range": "Zakres optymalny",
+    "value": "Wartość",
+    "unit": "Jednostka",
+    "recommendations_summary": "Podsumowanie rekomendacji",
+    "domain_panels": "Panele specjalistyczne",
+    "thyroid_panel": "Panel tarczycowy",
+    "lipid_panel": "Panel lipidowy",
+    "liver_panel": "Panel wątrobowy",
+    "hormone_panel": "Panel hormonalny",
+    "glucose_panel": "Panel glukozowo-insulinowy",
+    "morphology_panel": "Panel morfologiczny",
+    "close": "Zwiń",
+    "expand": "Rozwiń",
+    "no_data": "Brak danych do wyświetlenia",
+    "load_data": "Wprowadź dane badań krwi aby zobaczyć analizę",
+    "cardiovascular_risk": "Ryzyko sercowo-naczyniowe",
+    "insulin_resistance": "Insulinooporność",
+    "server_started": "Serwer uruchomiony",
+    "open_browser": "Otwórz przeglądarkę"
+  },
+
+  "web": {
+    "web_flag_help": "Uruchom interaktywny dashboard webowy",
+    "port_flag_help": "Port serwera webowego",
+    "host_flag_help": "Host serwera webowego",
+    "no_browser_flag_help": "Nie otwieraj automatycznie przeglądarki"
   }
 }
