@@ -59,21 +59,21 @@
 {% endif %}
 
 <!-- Test Results Charts -->
-{% set test_categories = [
-    ("inflammatory_markers", "Markery zapalne", "🔥"),
-    ("minerals_vitamins", "Składniki mineralne i witaminy", "💊"),
-    ("electrolytes", "Elektrolity", "⚡")
+{% set categories = [
+    {"key": "inflammatory_markers", "title": "Markery zapalne", "icon": "🔥"},
+    {"key": "minerals_vitamins", "title": "Składniki mineralne i witaminy", "icon": "💊"},
+    {"key": "electrolytes", "title": "Elektrolity", "icon": "⚡"}
 ] %}
-{% for cat_key, cat_title, cat_icon in test_categories %}
-{% set cat_data = namespace(tests=[]) %}
-{% if cat_key == "inflammatory_markers" %}{% set cat_data.tests = analysis.inflammatory_markers %}
-{% elif cat_key == "minerals_vitamins" %}{% set cat_data.tests = analysis.minerals_vitamins %}
-{% elif cat_key == "electrolytes" %}{% set cat_data.tests = analysis.electrolytes %}
+{% for cat in categories %}
+{% set cat_tests = [] %}
+{% if cat.key == "inflammatory_markers" %}{% set cat_tests = analysis.inflammatory_markers %}
+{% elif cat.key == "minerals_vitamins" %}{% set cat_tests = analysis.minerals_vitamins %}
+{% elif cat.key == "electrolytes" %}{% set cat_tests = analysis.electrolytes %}
 {% endif %}
-{% if cat_data.tests %}
+{% if cat_tests %}
 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
     <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-        <span class="mr-2">{{ cat_icon }}</span> {{ cat_title }}
+        <span class="mr-2">{{ cat.icon }}</span> {{ cat.title }}
     </h3>
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
@@ -88,7 +88,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-100">
-                {% for test in cat_data.tests %}
+                {% for test in cat_tests %}
                 <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ test.name }}</td>
                     <td class="px-4 py-3 text-sm text-gray-700">{{ test.value }}</td>
@@ -134,7 +134,7 @@
         </table>
     </div>
     <div class="mt-4" style="height: 300px;">
-        <canvas id="chart-{{ cat_key }}"></canvas>
+        <canvas id="chart-{{ cat.key }}"></canvas>
     </div>
 </div>
 {% endif %}
