@@ -33,7 +33,7 @@
 ### Test CLI (wiersz poleceń)
 ```bash
 # Z folderu projektu
-cd /Users/wielkikrzych/medical-supplement-advisor
+cd /Users/wielkikrzychmbp/Documents/medical-supplement-advisor
 
 # Uruchom z przykładowym plikiem JSON
 python3 -m src.main --json examples/sample_blood_tests.json

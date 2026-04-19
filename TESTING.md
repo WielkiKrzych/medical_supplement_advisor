@@ -9,7 +9,7 @@ The macOS .app bundle has been successfully created and is ready for testing.
 ### Method 1: Double-Click from Finder (RECOMMENDED)
 
 1. Open Finder
-2. Navigate to: `/Users/wielkikrzych/medical-supplement-advisor/`
+2. Navigate to: `/Users/wielkikrzychmbp/Documents/medical-supplement-advisor/`
 3. Double-click on `AutomatorApp.app`
 4. **Expected Result**: GUI window should appear
 
@@ -21,7 +21,7 @@ The macOS .app bundle has been successfully created and is ready for testing.
 ### Method 2: Using Terminal
 
 ```bash
-cd /Users/wielkikrzych/medical-supplement-advisor
+cd /Users/wielkikrzychmbp/Documents/medical-supplement-advisor
 open AutomatorApp.app
 ```
 
@@ -42,7 +42,7 @@ open AutomatorApp.app
 
 3. **Test the launcher manually:**
    ```bash
-   cd /Users/wielkikrzych/medical-supplement-advisor
+   cd /Users/wielkikrzychmbp/Documents/medical-supplement-advisor
    ./AutomatorApp.app/Contents/MacOS/launcher
    ```
    (Press Ctrl+C to exit if it hangs)
@@ -87,7 +87,7 @@ You should see a PDF file with timestamp in the name.
 You can move the .app to your Applications folder:
 
 ```bash
-mv /Users/wielkikrzych/medical-supplement-advisor/AutomatorApp.app /Applications/MedicalSupplementAdvisor.app
+mv /Users/wielkikrzychmbp/Documents/medical-supplement-advisor/AutomatorApp.app /Applications/MedicalSupplementAdvisor.app
 ```
 
 Then launch from Applications or Spotlight (Cmd+Space, type "Medical Supplement Advisor").
