@@ -1,24 +1,23 @@
 #!/bin/bash
 # Medical Supplement Dashboard Launcher
-# Opens file picker, starts web dashboard
-
-DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-VENV_PYTHON="$DIR/.venv/bin/python"
+PROJ_DIR="/Users/wielkikrzychmbp/Documents/medical-supplement-advisor"
+VENV_PYTHON="$PROJ_DIR/.venv/bin/python"
 
 # Check venv exists
 if [ ! -f "$VENV_PYTHON" ]; then
-    osascript -e 'display dialog "Błąd: Nie znaleziono .venv. Uruchom pip install -r requirements.txt" with title "Medical Supplement Dashboard" buttons {"OK"} default button 1 with icon stop'
+    osascript -e 'display dialog "Błąd: Nie znaleziono .venv\n\nŚcieżka: '"$VENV_PYTHON"'\n\nUruchom w Terminalu:\ncd '"$PROJ_DIR"'\npip install -r requirements.txt" with title "Medical Supplement Dashboard" buttons {"OK"} default button 1 with icon stop'
     exit 1
 fi
 
 # Show file picker via AppleScript
-FILE=$(osascript -e '
+FILE=$(osascript << 'APPLESCRIPT_EOF'
 tell application "System Events"
     activate
 end tell
 set theFile to choose file with prompt "Wybierz plik z wynikami badań krwi:" of type {"json", "pdf", "docx"} default location (path to documents folder)
 return POSIX path of theFile
-' 2>/dev/null)
+APPLESCRIPT_EOF
+)
 
 # User cancelled
 if [ -z "$FILE" ]; then
@@ -27,15 +26,19 @@ fi
 
 # Determine file type and run
 EXT="${FILE##*.}"
+
+# Kill any existing server on port 8000
+lsof -ti:8000 | xargs kill 2>/dev/null
+
 case "$EXT" in
     json)
-        "$VENV_PYTHON" "$DIR/run.py" --json "$FILE" --web --no-browser --port 8000 &
+        "$VENV_PYTHON" "$PROJ_DIR/run.py" --json "$FILE" --web --no-browser --port 8000 &
         ;;
-    pdf|docx)
-        "$VENV_PYTHON" "$DIR/run.py" --document "$FILE" --web --no-browser --port 8000 &
+    pdf|docx|doc)
+        "$VENV_PYTHON" "$PROJ_DIR/run.py" --document "$FILE" --web --no-browser --port 8000 &
         ;;
     *)
-        osascript -e "display dialog \"Nieobsługiwany format: .$EXT\\nObsługiwane: JSON, PDF, DOCX\"" 
+        osascript -e "display dialog \"Nieobsługiwany format: .$EXT\nObsługiwane: JSON, PDF, DOCX\" with title \"Medical Supplement Dashboard\" buttons {\"OK\"} default button 1 with icon caution"
         exit 1
         ;;
 esac
@@ -43,7 +46,7 @@ esac
 SERVER_PID=$!
 
 # Wait for server to start, then open browser
-for i in {1..20}; do
+for i in $(seq 1 30); do
     if curl -s http://127.0.0.1:8000/health > /dev/null 2>&1; then
         open "http://127.0.0.1:8000"
         break
@@ -51,15 +54,8 @@ for i in {1..20}; do
     sleep 0.5
 done
 
-# Keep Terminal open to show server status
-echo ""
-echo "🧪 Medical Supplement Dashboard"
-echo "================================"
-echo "📡 Serwer: http://127.0.0.1:8000"
-echo "📄 Plik: $FILE"
-echo ""
-echo "Naciśnij Ctrl+C aby zatrzymać serwer"
-echo ""
+# Show notification
+osascript -e "display notification \"Dashboard gotowy\" with title \"Medical Supplement Dashboard\""
 
 # Wait for server
 wait $SERVER_PID
